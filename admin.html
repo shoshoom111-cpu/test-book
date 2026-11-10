@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>وَرَق | لوحة التحكم</title>
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Readex+Pro:wght@300..700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--teal:#1A7A7A;--td:#0f5555;--tl:#E8F5F2;--orange:#C94B1E;--ol:#FDF0EC;--gold:#D4A843;--gd:#3D2800;--ink:#0E0E0E;--paper:#FAF9F7;--cream:#F4F2EE;--mid:#6B6860;--light:#C8C5BC;--border:#E2DFD8;--bg:#F0EFEB;}
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--ink);direction:rtl;min-height:100vh;}
+body{font-family:Readex Pro,sans-serif;background:var(--bg);color:var(--ink);direction:rtl;min-height:100vh;}
 
 /* TOP BAR */
 .topbar{background:var(--ink);height:52px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
 .tb-left{display:flex;align-items:center;gap:14px;}
-.tb-logo{font-family:'Amiri',serif;font-size:26px;color:#fff;cursor:pointer;text-decoration:none;}
+.tb-logo{font-family:Aref Ruqaa,serif;font-size:26px;color:#fff;cursor:pointer;text-decoration:none;}
 .tb-logo:hover{color:var(--gold);}
 .tb-badge{font-size:10px;padding:2px 9px;border-radius:20px;background:var(--gold);color:var(--gd);font-weight:600;letter-spacing:.04em;}
 .tb-right{display:flex;align-items:center;gap:8px;}
 .tb-name{font-size:12px;color:#666;}
-.tb-link{font-size:12px;color:#666;cursor:pointer;border:none;background:none;font-family:'Cairo',sans-serif;padding:5px 10px;border-radius:5px;transition:all .2s;}
+.tb-link{font-size:12px;color:#666;cursor:pointer;border:none;background:none;font-family:Readex Pro,sans-serif;padding:5px 10px;border-radius:5px;transition:all .2s;}
 .tb-link:hover{background:#1a1a1a;color:#fff;}
 .tb-link.accent{color:var(--teal);}
 .tb-link.accent:hover{background:var(--tl);color:var(--teal);}
@@ -53,7 +53,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--ink);direct
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
 .stat{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;}
 .stat-label{font-size:11px;color:var(--mid);margin-bottom:6px;font-weight:500;}
-.stat-val{font-family:'Noto Naskh Arabic',serif;font-size:28px;color:var(--ink);}
+.stat-val{font-family:Aref Ruqaa,serif;font-size:28px;color:var(--ink);}
 .stat-note{font-size:10px;margin-top:3px;}
 
 /* LIVE PREVIEW */
@@ -64,13 +64,13 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--ink);direct
 .lp-label{font-size:10px;color:#444;letter-spacing:.06em;}
 .lp-body{padding:16px;}
 .lp-masthead{border-bottom:2px solid var(--orange);padding-bottom:10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
-.lp-logo{font-family:'Amiri',serif;font-size:28px;color:#fff;text-align:center;}
+.lp-logo{font-family:Aref Ruqaa,serif;font-size:28px;color:#fff;text-align:center;}
 .lp-meta{font-size:9px;color:#444;line-height:2;}
 .lp-meta.right{text-align:left;}
 .lp-tag{font-size:9px;color:var(--teal);text-align:center;letter-spacing:.1em;margin-top:3px;}
 .lp-ticker{background:var(--teal);padding:4px 0;font-size:10px;color:rgba(255,255,255,.7);margin:8px -16px;padding:5px 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lp-hero-badge{display:inline-block;font-size:8px;padding:2px 8px;border-radius:2px;color:#fff;margin-bottom:6px;}
-.lp-hero-title{font-family:'Noto Naskh Arabic',serif;font-size:14px;color:#fff;line-height:1.5;margin-bottom:5px;}
+.lp-hero-title{font-family:Aref Ruqaa,serif;font-size:14px;color:#fff;line-height:1.5;margin-bottom:5px;}
 .lp-hero-body{font-size:10px;color:#666;line-height:1.7;}
 
 /* CARDS */
@@ -82,12 +82,12 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--ink);direct
 /* FORMS */
 .fg{display:flex;flex-direction:column;gap:4px;margin-bottom:13px;}
 label{font-size:11px;color:var(--mid);font-weight:600;letter-spacing:.02em;}
-input[type=text],input[type=url],input[type=email],input[type=password],select,textarea{font-family:'Cairo',sans-serif;font-size:13px;padding:9px 13px;border:1px solid var(--border);border-radius:7px;background:var(--paper);color:var(--ink);direction:rtl;width:100%;transition:border-color .2s;}
+input[type=text],input[type=url],input[type=email],input[type=password],select,textarea{font-family:Readex Pro,sans-serif;font-size:13px;padding:9px 13px;border:1px solid var(--border);border-radius:7px;background:var(--paper);color:var(--ink);direction:rtl;width:100%;transition:border-color .2s;}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,122,.08);}
 textarea{resize:vertical;min-height:90px;line-height:1.7;}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
 .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;}
-.btn{font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;padding:9px 20px;border-radius:7px;cursor:pointer;border:none;transition:all .2s;}
+.btn{font-family:Readex Pro,sans-serif;font-size:13px;font-weight:600;padding:9px 20px;border-radius:7px;cursor:pointer;border:none;transition:all .2s;}
 .btn.p{background:var(--teal);color:#fff;}
 .btn.p:hover{background:var(--td);}
 .btn.danger{background:transparent;color:var(--orange);border:1px solid var(--orange);}
@@ -105,7 +105,7 @@ textarea{resize:vertical;min-height:90px;line-height:1.7;}
 .art-editor{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px;}
 .ae-title{font-size:13px;font-weight:600;margin-bottom:16px;color:var(--ink);}
 .editor-toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:8px;background:var(--cream);border:1px solid var(--border);border-bottom:none;border-radius:7px 7px 0 0;}
-.tool{font-size:11px;padding:4px 10px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer;transition:all .2s;font-family:'Cairo',sans-serif;}
+.tool{font-size:11px;padding:4px 10px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer;transition:all .2s;font-family:Readex Pro,sans-serif;}
 .tool:hover{background:var(--tl);border-color:var(--teal);color:var(--teal);}
 .editor-area{border-radius:0 0 7px 7px !important;border-top:none !important;}
 
@@ -116,7 +116,7 @@ textarea{resize:vertical;min-height:90px;line-height:1.7;}
 .ititle{font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .imeta{font-size:11px;color:var(--mid);margin-top:2px;}
 .iacts{display:flex;gap:5px;flex-shrink:0;}
-.bsm{font-size:11px;padding:5px 12px;border-radius:5px;cursor:pointer;font-family:'Cairo',sans-serif;border:1px solid var(--border);background:transparent;transition:all .2s;}
+.bsm{font-size:11px;padding:5px 12px;border-radius:5px;cursor:pointer;font-family:Readex Pro,sans-serif;border:1px solid var(--border);background:transparent;transition:all .2s;}
 .bsm.t{border-color:var(--teal);color:var(--teal);}
 .bsm.t:hover{background:var(--tl);}
 .bsm.r{border-color:var(--orange);color:var(--orange);}
@@ -158,7 +158,7 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
 .modal-body{padding:22px;}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--teal);color:#fff;font-size:13px;padding:11px 22px;border-radius:8px;transition:transform .3s;z-index:9999;font-family:'Cairo',sans-serif;font-weight:500;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--teal);color:#fff;font-size:13px;padding:11px 22px;border-radius:8px;transition:transform .3s;z-index:9999;font-family:Readex Pro,sans-serif;font-weight:500;}
 .toast.on{transform:translateX(-50%) translateY(0);}
 
 .empty{text-align:center;padding:40px;color:var(--mid);font-size:13px;}
@@ -172,6 +172,112 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:13px;color:var(--mid);}
 .btn:disabled{opacity:.6;cursor:not-allowed;}
+
+/* ═══ وَرَق — لوحة التحكم بهوية التجليد ═══ */
+:root{--teal:#22305E;--td:#17213F;--tl:#E7E9F1;--orange:#7A1F2B;--ol:#F5E6E7;--gold:#B8893B;--gd:#2A1E00;--ink:#1F1A17;--paper:#FDFCFA;--cream:#F1EEE8;--mid:#625A54;--light:#A39A92;--border:#E3DDD4;--bg:#F1EEE8;--leather:#4E151C;--gilt:#D8B06A;}
+body{font-family:Readex Pro,sans-serif;background:var(--bg);}
+.topbar{background:var(--leather);height:60px;border-bottom:3px solid var(--gold);}
+.tb-logo{font-family:Aref Ruqaa,serif;font-size:34px;font-weight:700;color:var(--gilt);line-height:1;}
+.tb-logo:hover{color:#E9C98C;}
+.tb-badge{background:var(--gold);color:var(--gd);border-radius:2px;font-size:11px;letter-spacing:0;}
+.tb-name{color:rgba(240,226,200,.6);font-size:13px;}
+.tb-link{color:rgba(240,226,200,.8);font-size:13px;border-radius:2px;}
+.tb-link:hover{background:rgba(255,255,255,.08);color:#fff;}
+.tb-link.accent{color:var(--gilt);}
+.tb-link.accent:hover{background:rgba(216,176,106,.12);color:var(--gilt);}
+.nav-tabs{background:var(--paper);}
+.ntab{font-size:14px;padding:14px 18px;}
+.ntab.on{color:var(--orange);border-bottom-color:var(--orange);}
+.ntab .badge{border-radius:2px;}
+.layout{grid-template-columns:230px 1fr;min-height:calc(100vh - 110px);}
+.sidebar{background:var(--paper);}
+.sb-item{font-size:14px;padding:11px 18px;}
+.sb-item:hover{background:var(--cream);}
+.sb-item.on{color:var(--orange);border-right-color:var(--orange);background:var(--ol);}
+.sb-sep{font-family:Aref Ruqaa,serif;font-size:19px;font-weight:700;letter-spacing:0;color:var(--gold);padding:16px 18px 4px;}
+.content{padding:32px;max-height:calc(100vh - 110px);}
+.pg-title{font-family:Aref Ruqaa,serif;font-size:40px;font-weight:700;line-height:1.3;margin-bottom:22px;}
+.stat{border-radius:2px;padding:18px;border-top:3px solid var(--gold);}
+.stat-label{font-size:13px;}
+.stat-val{font-family:Aref Ruqaa,serif;font-size:44px;font-weight:700;line-height:1.2;}
+.stat-note{font-size:12px;}
+.card{border-radius:2px;margin-bottom:18px;}
+.card-hd{background:#FBF9F5;padding:15px 20px;}
+.card-title{font-size:16px;font-weight:700;}
+.card-body{padding:20px;}
+label{font-size:13px;letter-spacing:0;}
+input[type=text],input[type=url],input[type=email],input[type=password],input[type=number],select,textarea{font-family:Readex Pro,sans-serif;font-size:14px;border-radius:2px;background:#fff;}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--tl);}
+.btn{font-family:Readex Pro,sans-serif;font-size:14px;border-radius:2px;}
+.btn.sm{font-size:12px;}
+.btn.p{background:var(--teal);}
+.iform{border-radius:2px;background:#FBF9F5;border-color:var(--gold);}
+.iform-title{color:var(--orange);font-size:14px;}
+.art-editor{border-radius:2px;}
+.irow{border-radius:2px;}
+.icolor{border-radius:2px;font-family:Aref Ruqaa,serif;font-size:13px;}
+.ititle{font-size:14px;}
+.imeta{font-size:12px;}
+.bsm{font-family:Readex Pro,sans-serif;font-size:12px;border-radius:2px;}
+.spill,.rpill{border-radius:2px;font-size:11px;}
+input[type=color]{border-radius:2px;}
+.preset{border-radius:2px;}
+.urow{border-radius:2px;}
+.modal{border-radius:2px;}
+.modal-hd-title{font-family:Aref Ruqaa,serif;font-size:24px;font-weight:700;}
+.toast{background:var(--leather);border-radius:2px;font-family:Readex Pro,sans-serif;box-shadow:0 0 0 1px var(--gold);}
+.spinner{border-top-color:var(--orange);}
+/* live preview = mini cover */
+.live-preview{background:var(--leather);border-radius:2px;box-shadow:0 20px 40px -24px rgba(0,0,0,.6);}
+.lp-bar{background:rgba(0,0,0,.25);}
+.lp-label{color:rgba(240,226,200,.6);font-size:11px;letter-spacing:0;}
+.lp-masthead{border-bottom:1px solid rgba(216,176,106,.4);}
+.lp-logo{font-family:Aref Ruqaa,serif;font-size:40px;font-weight:700;color:var(--gilt);line-height:1.2;}
+.lp-meta{color:rgba(216,176,106,.7);}
+.lp-tag{color:rgba(240,226,200,.8);letter-spacing:0;font-size:11px;}
+.lp-ticker{background:var(--paper);color:var(--ink);}
+.lp-hero-badge{background:none !important;color:var(--gilt);border-bottom:1px solid var(--gold);border-radius:0;padding:0 0 2px;}
+.lp-hero-title{font-family:Aref Ruqaa,serif;font-size:20px;color:#F3E2BE;}
+.lp-hero-body{color:rgba(240,226,200,.65);}
+/* identity card */
+.hint{font-size:13px;color:var(--mid);margin-bottom:14px;line-height:1.8;}
+.id-preview{--pv-leather:#4E151C;--pv-paper:#FDFCFA;--pv-ink:#1F1A17;--pv-teal:#22305E;--pv-orange:#7A1F2B;--pv-gold:#B8893B;--pv-display:'Aref Ruqaa';--pv-text:'Readex Pro';border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
+.idp-cover{background:var(--pv-leather);padding:18px 20px 14px;text-align:center;border-bottom:4px solid var(--pv-gold);}
+.idp-logo{font-family:var(--pv-display),serif;font-size:48px;font-weight:700;line-height:1.2;color:color-mix(in srgb,var(--pv-gold) 68%,#fff);}
+.idp-tag{font-family:var(--pv-text),sans-serif;font-size:12px;color:rgba(240,226,200,.8);}
+.idp-page{background:var(--pv-paper);color:var(--pv-ink);padding:20px 24px;display:grid;grid-template-columns:1fr 90px;gap:20px;align-items:center;font-family:var(--pv-text),sans-serif;}
+.idp-badge{font-size:12px;color:var(--pv-orange);border-bottom:2px solid var(--pv-gold);display:inline-block;padding-bottom:2px;}
+.idp-title{font-family:var(--pv-display),serif;font-size:30px;font-weight:700;line-height:1.4;margin:6px 0 4px;}
+.idp-body{font-size:13px;line-height:1.9;color:color-mix(in srgb,var(--pv-ink) 70%,var(--pv-paper));}
+.idp-author{font-size:13px;color:var(--pv-orange);font-weight:600;margin-top:4px;}
+.idp-btn{display:inline-block;margin-top:10px;background:var(--pv-teal);color:#fff;font-size:12px;font-weight:600;padding:7px 16px;border-radius:2px;}
+.idp-book{aspect-ratio:2/3;background:var(--pv-leather);box-shadow:inset -6px 0 0 -2px rgba(0,0,0,.35),0 10px 20px -10px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-family:var(--pv-display),serif;font-size:16px;color:#F3E2BE;}
+.theme-row{display:flex;flex-wrap:wrap;gap:10px;}
+.theme-chip{display:flex;align-items:center;gap:8px;padding:7px 12px 7px 10px;border:1px solid var(--border);border-radius:2px;background:#fff;font-family:Readex Pro,sans-serif;font-size:13px;color:var(--ink);cursor:pointer;}
+.theme-chip:hover{border-color:var(--ink);}
+.theme-chip i{display:flex;width:44px;height:18px;border-radius:1px;overflow:hidden;}
+.theme-chip i b{flex:1;}
+.color-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 18px;margin:18px 0 6px;}
+.color-grid .crow input[type=text]{direction:ltr;text-align:left;font-family:monospace;}
+.color-grid .sub{font-size:11px;color:var(--light);font-weight:400;}
+.switch-row{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);font-weight:500;margin:6px 0 18px;cursor:pointer;}
+.switch-row input{width:18px;height:18px;accent-color:var(--orange);}
+.lay-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;background:#fff;border:1px solid var(--border);border-radius:2px;padding:12px 14px;margin-bottom:8px;}
+.lay-row.off{opacity:.55;background:var(--cream);}
+.lay-move{display:flex;flex-direction:column;gap:3px;}
+.lay-move button{width:30px;height:22px;border:1px solid var(--border);background:var(--paper);border-radius:2px;cursor:pointer;font-size:11px;color:var(--mid);line-height:1;}
+.lay-move button:hover:not(:disabled){border-color:var(--ink);color:var(--ink);}
+.lay-move button:disabled{opacity:.35;cursor:default;}
+.lay-name{font-size:15px;font-weight:600;color:var(--ink);}
+.lay-num{display:inline-block;min-width:22px;font-family:Aref Ruqaa,serif;font-size:18px;color:var(--gold);}
+.lay-fields{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;}
+.lay-fields .fg{margin:0;}
+.lay-fields input[type=text]{width:220px;}
+.lay-fields input[type=number]{width:90px;}
+.lay-show{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mid);cursor:pointer;white-space:nowrap;}
+.lay-show input{width:17px;height:17px;accent-color:var(--orange);}
+@media(max-width:900px){.color-grid{grid-template-columns:1fr 1fr;}.idp-page{grid-template-columns:1fr;}.idp-book{display:none;}}
+@media(max-width:600px){.color-grid{grid-template-columns:1fr;}.lay-row{grid-template-columns:auto 1fr;}.lay-show{grid-column:1/-1;}.content{padding:18px;}.pg-title{font-size:32px;}}
 </style>
 </head>
 <body>
@@ -326,30 +432,10 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
           <div style="padding:0 18px 18px;"><button class="btn p" onclick="saveTicker()">حفظ الشريط</button></div>
         </div>
 
-        <!-- DESIGN -->
+        <!-- DESIGN (moved) -->
         <div class="card">
-          <div class="card-hd"><span class="card-title">الألوان والتصميم</span><button class="btn p sm" onclick="saveDesign()">حفظ</button></div>
-          <div class="card-body">
-            <div style="display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-bottom:16px;height:44px;">
-              <div id="cpv-teal" style="flex:1;background:#1A7A7A;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:500;">رئيسي</div>
-              <div id="cpv-orange" style="flex:1;background:#C94B1E;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:500;">تمييز</div>
-              <div id="cpv-gold" style="flex:1;background:#D4A843;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:500;">ذهبي</div>
-            </div>
-            <div class="three">
-              <div class="fg"><label>اللون الرئيسي</label><div class="crow"><input type="color" id="c-teal" value="#1A7A7A" oninput="pvc('teal',this.value);document.getElementById('ct-teal').value=this.value"><input type="text" id="ct-teal" value="#1A7A7A" style="flex:1;" oninput="pvc('teal',this.value);document.getElementById('c-teal').value=this.value"></div></div>
-              <div class="fg"><label>لون التمييز</label><div class="crow"><input type="color" id="c-orange" value="#C94B1E" oninput="pvc('orange',this.value);document.getElementById('ct-orange').value=this.value"><input type="text" id="ct-orange" value="#C94B1E" style="flex:1;" oninput="pvc('orange',this.value);document.getElementById('c-orange').value=this.value"></div></div>
-              <div class="fg"><label>اللون الذهبي</label><div class="crow"><input type="color" id="c-gold" value="#D4A843" oninput="pvc('gold',this.value);document.getElementById('ct-gold').value=this.value"><input type="text" id="ct-gold" value="#D4A843" style="flex:1;" oninput="pvc('gold',this.value);document.getElementById('c-gold').value=this.value"></div></div>
-            </div>
-            <div class="fg"><label>ثيمات جاهزة</label>
-            <div class="presets">
-              <div class="preset" style="background:#1A7A7A;" title="الكلاسيكي" onclick="applyTheme('#1A7A7A','#C94B1E','#D4A843')"></div>
-              <div class="preset" style="background:#26215C;" title="بنفسجي" onclick="applyTheme('#26215C','#7F77DD','#D4A843')"></div>
-              <div class="preset" style="background:#0E0E0E;" title="أسود" onclick="applyTheme('#0E0E0E','#C94B1E','#D4A843')"></div>
-              <div class="preset" style="background:#412402;" title="بني تراثي" onclick="applyTheme('#412402','#C94B1E','#D4A843')"></div>
-              <div class="preset" style="background:#0F6E56;" title="أخضر" onclick="applyTheme('#0F6E56','#C94B1E','#D4A843')"></div>
-              <div class="preset" style="background:#7B2D8B;" title="أرجواني" onclick="applyTheme('#7B2D8B','#C94B1E','#D4A843')"></div>
-            </div></div>
-          </div>
+          <div class="card-hd"><span class="card-title">الألوان والخطوط وأقسام الموقع</span><button class="btn p sm" onclick="goSec('homepage',document.getElementById('nt-homepage'))">فتح الإعدادات</button></div>
+          <div class="card-body"><div class="hint" style="margin:0;">صارت ألوان الموقع وخطوطه وترتيب أقسامه كلها في تبويب «الصفحة الرئيسية»، مع معاينة مباشرة قبل الحفظ.</div></div>
         </div>
 
         <!-- SOCIAL -->
@@ -405,7 +491,7 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
           <div class="fg"><label>رابط صورة المقالة (اختياري — من Imgur)</label><input type="url" id="aa-img" placeholder="https://i.imgur.com/..."></div>
           <div class="fg">
             <label>محتوى المقالة *</label>
-            <div id="aa-quill-editor" style="min-height:320px;font-family:Cairo,sans-serif;font-size:15px;direction:rtl;"></div>
+            <div id="aa-quill-editor" style="min-height:320px;font-family:Readex Pro,sans-serif;font-size:15px;direction:rtl;"></div>
             <textarea id="aa-body" style="display:none;"></textarea>
           </div>
           <div style="display:flex;gap:8px;margin-top:8px;">
@@ -460,7 +546,7 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
             </div>
             <div class="fg"><label>التقييم</label><select id="nb-s"><option value="★★★★★">★★★★★</option><option value="★★★★☆">★★★★☆</option><option value="★★★☆☆">★★★☆☆</option><option value="★★☆☆☆">★★☆☆☆</option></select></div>
             <div class="fg"><label>رابط الشراء</label><input type="url" id="nb-u" value="https://adab-book.com/"></div>
-            <div class="fg"><label>لون البطاقة</label><select id="nb-c"><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي داكن</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option><option value="#7B2D8B">أرجواني</option></select></div>
+            <div class="fg"><label>لون البطاقة</label><select id="nb-c"><option value="#4E151C">عنابي جلدي</option><option value="#22305E">كحلي</option><option value="#2E6B64">زمردي</option><option value="#6B4A2B">بني جلدي</option><option value="#B8893B">ذهبي مذهّب</option><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي داكن</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option><option value="#7B2D8B">أرجواني</option></select></div>
             <div class="fg" style="grid-column:1/-1;"><label>رابط صورة الغلاف (من Imgur أو Google Drive)</label><input type="url" id="nb-img" placeholder="https://i.imgur.com/..."></div>
           </div>
           <div class="fg"><label>وصف مختصر</label><textarea id="nb-d" rows="2"></textarea></div>
@@ -475,14 +561,14 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
         <div class="pg-title">أرشيف الأعداد</div>
         <button class="btn p" style="margin-bottom:14px;" onclick="toggleIF('add-arch')">إضافة عدد جديد +</button>
         <div class="iform" id="add-arch">
-          <div class="iform-title">📰 عدد جديد</div>
+          <div class="iform-title">عدد جديد</div>
           <div class="two">
             <div class="fg"><label>رقم العدد</label><input type="text" id="ar-num" placeholder="الخامس"></div>
             <div class="fg"><label>الشهر والسنة</label><input type="text" id="ar-date" placeholder="أغسطس ٢٠٢٥"></div>
             <div class="fg"><label>رابط PDF (من Google Drive)</label><input type="url" id="ar-pdf" placeholder="https://drive.google.com/..."></div>
-            <div class="fg"><label>لون الغلاف</label><select id="ar-color"><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option></select></div>
+            <div class="fg"><label>لون الغلاف</label><select id="ar-color"><option value="#4E151C">عنابي جلدي</option><option value="#22305E">كحلي</option><option value="#2E6B64">زمردي</option><option value="#6B4A2B">بني جلدي</option><option value="#B8893B">ذهبي مذهّب</option><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option></select></div>
           </div>
-          <div style="display:flex;gap:8px;margin-top:8px;"><button class="btn p" onclick="addArchive()">إضافة</button><button class="btn o" onclick="toggleIF('add-arch')">إلغاء</button></div>
+          <div style="display:flex;gap:8px;margin-top:8px;"><button class="btn p" onclick="addArchive()">إضافة</button><button class="btn o" onclick="archFormReset();toggleIF('add-arch')">إلغاء</button></div>
         </div>
         <div id="arch-list"><div class="empty">جاري التحميل...</div></div>
       </div>
@@ -540,7 +626,7 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
             <div style="font-size:11px;color:var(--mid);margin-bottom:8px;">يظهر في الزاوية العلوية — صورة صغيرة للشعار</div>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;padding:12px;background:var(--bg);border-radius:8px;">
               <div id="logo-preview" style="width:80px;height:50px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-                <span style="font-family:Amiri,serif;font-size:22px;color:#fff;">وَرَق</span>
+                <span style="font-family:Aref Ruqaa,serif;font-size:22px;color:#fff;">وَرَق</span>
               </div>
               <div style="font-size:11px;color:var(--mid);">معاينة</div>
             </div>
@@ -598,12 +684,12 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
           <div class="card-body">
             <div style="background:var(--ink);border-radius:8px;padding:14px;margin-bottom:16px;display:flex;align-items:center;gap:14px;">
               <div id="mp-prev-cover" style="width:60px;height:90px;border-radius:5px;background:#412402;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:10px;color:#fff;text-align:center;" id="mp-prev-title">الكتاب</span></div>
-              <div><div style="font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px;">توصية الشهر</div><div style="font-size:14px;color:#fff;font-family:Noto Naskh Arabic,serif;" id="mp-prev-t">جحيم العابرين</div><div style="font-size:11px;color:#666;" id="mp-prev-a">مركز الأدب العربي</div></div>
+              <div><div style="font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px;">توصية الشهر</div><div style="font-size:14px;color:#fff;font-family:Aref Ruqaa,serif;" id="mp-prev-t">جحيم العابرين</div><div style="font-size:11px;color:#666;" id="mp-prev-a">مركز الأدب العربي</div></div>
             </div>
             <div class="two">
               <div class="fg"><label>عنوان الكتاب *</label><input type="text" id="mp-title" placeholder="جحيم العابرين" oninput="syncMpPreview()"></div>
               <div class="fg"><label>اسم الكاتب</label><input type="text" id="mp-author" placeholder="مركز الأدب العربي" oninput="syncMpPreview()"></div>
-              <div class="fg"><label>لون غلاف الكتاب</label><select id="mp-color" onchange="syncMpPreview()"><option value="#412402">بني</option><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي</option><option value="#0E0E0E">أسود</option></select></div>
+              <div class="fg"><label>لون غلاف الكتاب</label><select id="mp-color" onchange="syncMpPreview()"><option value="#4E151C">عنابي جلدي</option><option value="#22305E">كحلي</option><option value="#2E6B64">زمردي</option><option value="#6B4A2B">بني جلدي</option><option value="#B8893B">ذهبي مذهّب</option><option value="#412402">بني</option><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي</option><option value="#0E0E0E">أسود</option></select></div>
               <div class="fg"><label>رابط الشراء</label><input type="url" id="mp-url" value="https://adab-book.com/"></div>
             </div>
             <div class="fg"><label>وصف مختصر</label><textarea id="mp-desc" rows="2" placeholder="وصف مختصر للكتاب..."></textarea></div>
@@ -612,48 +698,49 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
           </div>
         </div>
 
-        <!-- SECTIONS ORDER -->
-        <div class="card">
-          <div class="card-hd"><span class="card-title">ترتيب أقسام الصفحة الرئيسية</span><button class="btn p sm" onclick="saveSectionsOrder()">حفظ</button></div>
+        <!-- IDENTITY -->
+        <div class="card" id="identity-card">
+          <div class="card-hd"><span class="card-title">هوية الموقع — الألوان والخطوط والزخارف</span><button class="btn p sm" onclick="saveIdentity()">حفظ الهوية</button></div>
           <div class="card-body">
-            <div style="font-size:12px;color:var(--mid);margin-bottom:14px;">اسحبي الأقسام لإعادة ترتيبها في الصفحة الرئيسية</div>
-            <div id="sections-list" style="display:flex;flex-direction:column;gap:8px;">
-              <div class="irow" draggable="true" data-sec="hero" style="cursor:grab;"><span style="font-size:16px;margin-left:8px;">⋮⋮</span><div class="iinfo"><div class="ititle">الخبر الرئيسي + جديد المركز</div></div><span style="font-size:11px;color:var(--mid);">ثابت دائماً في الأعلى</span></div>
-              <div class="irow sec-order-item" draggable="true" data-sec="books" style="cursor:grab;"><span style="font-size:16px;margin-left:8px;">⋮⋮</span><div class="iinfo"><div class="ititle">إصدارات المركز (الكتب)</div></div></div>
-              <div class="irow sec-order-item" draggable="true" data-sec="articles" style="cursor:grab;"><span style="font-size:16px;margin-left:8px;">⋮⋮</span><div class="iinfo"><div class="ititle">مقالات أدبية</div></div></div>
-              <div class="irow sec-order-item" draggable="true" data-sec="archive" style="cursor:grab;"><span style="font-size:16px;margin-left:8px;">⋮⋮</span><div class="iinfo"><div class="ititle">أرشيف الأعداد</div></div></div>
-              <div class="irow sec-order-item" draggable="true" data-sec="monthpick" style="cursor:grab;"><span style="font-size:16px;margin-left:8px;">⋮⋮</span><div class="iinfo"><div class="ititle">توصية الشهر</div></div></div>
+            <div class="id-preview" id="id-preview">
+              <div class="idp-cover"><div class="idp-logo">وَرَق</div><div class="idp-tag">مجلة مركز الأدب العربي الشهرية</div></div>
+              <div class="idp-page">
+                <div><span class="idp-badge">كتاب الشهر</span><div class="idp-title">عنوان الكتاب المميز</div><div class="idp-body">هكذا تظهر نصوص الموقع بالألوان والخطوط التي تختارينها.</div><div class="idp-author">اسم الكاتب</div><span class="idp-btn">احصل على الكتاب</span></div>
+                <div class="idp-book">وَرَق</div>
+              </div>
             </div>
+            <div class="fg"><label>ثيمات جاهزة</label><div class="theme-row" id="theme-row"></div></div>
+            <div class="color-grid">
+              <div class="fg"><label>لون الغلاف والفوتر <span class="sub">(الجلد)</span></label><div class="crow"><input type="color" id="idc-leather" oninput="idSync()"><input type="text" id="idt-leather" oninput="idSyncText('leather')"></div></div>
+              <div class="fg"><label>لون الأزرار والروابط</label><div class="crow"><input type="color" id="idc-teal" oninput="idSync()"><input type="text" id="idt-teal" oninput="idSyncText('teal')"></div></div>
+              <div class="fg"><label>لون التمييز <span class="sub">(أسماء الكتّاب)</span></label><div class="crow"><input type="color" id="idc-orange" oninput="idSync()"><input type="text" id="idt-orange" oninput="idSyncText('orange')"></div></div>
+              <div class="fg"><label>اللون الذهبي <span class="sub">(الزخارف والشعار)</span></label><div class="crow"><input type="color" id="idc-gold" oninput="idSync()"><input type="text" id="idt-gold" oninput="idSyncText('gold')"></div></div>
+              <div class="fg"><label>لون خلفية الصفحات</label><div class="crow"><input type="color" id="idc-paper" oninput="idSync()"><input type="text" id="idt-paper" oninput="idSyncText('paper')"></div></div>
+              <div class="fg"><label>لون النصوص</label><div class="crow"><input type="color" id="idc-ink" oninput="idSync()"><input type="text" id="idt-ink" oninput="idSyncText('ink')"></div></div>
+            </div>
+            <div class="two">
+              <div class="fg"><label>خط الشعار والعناوين</label><select id="id-font-display" onchange="idSync()">
+                <option value="Aref Ruqaa">رقعة — Aref Ruqaa (الافتراضي)</option><option value="Amiri">نسخ كلاسيكي — Amiri</option><option value="Reem Kufi">كوفي حديث — Reem Kufi</option>
+                <option value="Noto Naskh Arabic">نسخ واضح — Noto Naskh</option><option value="El Messiri">المسيري — El Messiri</option><option value="Lalezar">عريض — Lalezar</option></select></div>
+              <div class="fg"><label>خط النصوص</label><select id="id-font-text" onchange="idSync()">
+                <option value="Readex Pro">Readex Pro (الافتراضي)</option><option value="IBM Plex Sans Arabic">IBM Plex Sans Arabic</option><option value="Cairo">Cairo</option>
+                <option value="Tajawal">Tajawal</option><option value="Almarai">Almarai</option><option value="Noto Sans Arabic">Noto Sans Arabic</option></select></div>
+            </div>
+            <label class="switch-row"><input type="checkbox" id="id-marble" checked onchange="idSync()">زخرفة الورق المجزّع (حواف الغلاف، خلفية الاشتراك، أغلفة الأرشيف)</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn p" onclick="saveIdentity()">حفظ الهوية</button><button class="btn o" onclick="resetIdentity()">استعادة التصميم الأصلي</button></div>
           </div>
         </div>
 
-        <!-- FONTS -->
-        <div class="card">
-          <div class="card-hd"><span class="card-title">الخطوط والألوان</span><button class="btn p sm" onclick="saveDesign()">حفظ</button></div>
+        <!-- LAYOUT -->
+        <div class="card" id="layout-card">
+          <div class="card-hd"><span class="card-title">أقسام الصفحة الرئيسية</span><button class="btn p sm" onclick="saveLayout()">حفظ الأقسام</button></div>
           <div class="card-body">
-            <div class="fg"><label>خط العناوين</label>
-              <select id="s-font-title">
-                <option value="Noto Naskh Arabic">Noto Naskh Arabic (الافتراضي)</option>
-                <option value="Cairo">Cairo</option>
-                <option value="Amiri">Amiri</option>
-              </select>
-            </div>
-            <div class="three">
-              <div class="fg"><label>اللون الرئيسي</label><div style="display:flex;gap:8px;"><input type="color" id="hp-c-teal" value="#1A7A7A" oninput="pvc('teal',this.value);document.getElementById('hp-ct-teal').value=this.value"><input type="text" id="hp-ct-teal" value="#1A7A7A" style="flex:1;" oninput="pvc('teal',this.value);document.getElementById('hp-c-teal').value=this.value"></div></div>
-              <div class="fg"><label>لون التمييز</label><div style="display:flex;gap:8px;"><input type="color" id="hp-c-orange" value="#C94B1E" oninput="pvc('orange',this.value);document.getElementById('hp-ct-orange').value=this.value"><input type="text" id="hp-ct-orange" value="#C94B1E" style="flex:1;" oninput="pvc('orange',this.value);document.getElementById('hp-c-orange').value=this.value"></div></div>
-              <div class="fg"><label>اللون الذهبي</label><div style="display:flex;gap:8px;"><input type="color" id="hp-c-gold" value="#D4A843" oninput="pvc('gold',this.value);document.getElementById('hp-ct-gold').value=this.value"><input type="text" id="hp-ct-gold" value="#D4A843" style="flex:1;" oninput="pvc('gold',this.value);document.getElementById('hp-c-gold').value=this.value"></div></div>
-            </div>
-            <div class="fg"><label>ثيمات جاهزة</label>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
-              <div style="width:26px;height:26px;border-radius:5px;background:#1A7A7A;cursor:pointer;border:2px solid transparent;" onclick="applyTheme('#1A7A7A','#C94B1E','#D4A843')" title="الكلاسيكي"></div>
-              <div style="width:26px;height:26px;border-radius:5px;background:#26215C;cursor:pointer;border:2px solid transparent;" onclick="applyTheme('#26215C','#7F77DD','#D4A843')" title="بنفسجي"></div>
-              <div style="width:26px;height:26px;border-radius:5px;background:#0E0E0E;cursor:pointer;border:2px solid transparent;" onclick="applyTheme('#0E0E0E','#C94B1E','#D4A843')" title="أسود"></div>
-              <div style="width:26px;height:26px;border-radius:5px;background:#412402;cursor:pointer;border:2px solid transparent;" onclick="applyTheme('#412402','#C94B1E','#D4A843')" title="بني"></div>
-              <div style="width:26px;height:26px;border-radius:5px;background:#0F6E56;cursor:pointer;border:2px solid transparent;" onclick="applyTheme('#0F6E56','#C94B1E','#D4A843')" title="أخضر"></div>
-              <div style="width:26px;height:26px;border-radius:5px;background:#7B2D8B;cursor:pointer;border:2px solid transparent;" onclick="applyTheme('#7B2D8B','#C94B1E','#D4A843')" title="أرجواني"></div>
-            </div></div>
+            <div class="hint">رتّبي الأقسام بالأسهم، وأخفي ما لا تحتاجينه، وغيّري عناوين الأقسام وعدد ما يظهر فيها. الهيدر والفوتر ثابتان دائماً.</div>
+            <div id="layout-list"></div>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"><button class="btn p" onclick="saveLayout()">حفظ الأقسام</button><button class="btn o" onclick="resetLayout()">الترتيب الافتراضي</button></div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -683,7 +770,7 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
         <div class="fg"><label>رابط صورة</label><input type="url" id="ea-img"></div>
       </div>
       <div class="fg" style="margin-bottom:10px;"><label>مقتطف</label><input type="text" id="ea-excerpt"></div>
-      <div class="fg" style="margin-bottom:14px;"><label>المحتوى *</label><div id="ea-quill-editor" style="min-height:220px;font-family:Cairo,sans-serif;font-size:15px;direction:rtl;"></div><textarea id="ea-body" style="display:none;"></textarea></div>
+      <div class="fg" style="margin-bottom:14px;"><label>المحتوى *</label><div id="ea-quill-editor" style="min-height:220px;font-family:Readex Pro,sans-serif;font-size:15px;direction:rtl;"></div><textarea id="ea-body" style="display:none;"></textarea></div>
       <div style="display:flex;gap:8px;">
         <button class="btn p" onclick="saveEditArt()">حفظ التعديلات</button>
         <button class="btn o" onclick="closeModal()">إلغاء</button>
@@ -711,11 +798,11 @@ input[type=color]{width:38px;height:34px;padding:2px;border-radius:6px;cursor:po
           <input type="text" id="eb-genre-custom" placeholder="اكتبي التصنيف هنا..." style="display:none;">
           <input type="hidden" id="eb-genre" value="رعب">
         </div>
-        <div class="fg"><label>لون البطاقة</label><select id="eb-color"><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي داكن</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option><option value="#7B2D8B">أرجواني</option></select></div>
+        <div class="fg"><label>لون البطاقة</label><select id="eb-color"><option value="#4E151C">عنابي جلدي</option><option value="#22305E">كحلي</option><option value="#2E6B64">زمردي</option><option value="#6B4A2B">بني جلدي</option><option value="#B8893B">ذهبي مذهّب</option><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي داكن</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option><option value="#7B2D8B">أرجواني</option></select></div>
       </div>
       <div class="fg" style="margin-bottom:10px;"><label>رابط صورة الغلاف</label><input type="url" id="eb-img"></div>
       <div class="fg" style="margin-bottom:10px;"><label>رابط الشراء</label><input type="url" id="eb-url"></div>
-      <div class="fg" style="margin-bottom:10px;"><label>وصف مختصر</label><textarea id="eb-desc" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-family:Cairo,sans-serif;font-size:13px;resize:vertical;direction:rtl;"></textarea></div>
+      <div class="fg" style="margin-bottom:10px;"><label>وصف مختصر</label><textarea id="eb-desc" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-family:Readex Pro,sans-serif;font-size:13px;resize:vertical;direction:rtl;"></textarea></div>
       <div class="fg" style="margin-bottom:14px;"><label>اقتباس</label><input type="text" id="eb-quote"></div>
       <div style="display:flex;gap:8px;">
         <button class="btn p" onclick="saveEditBook()">حفظ التعديلات</button>
@@ -851,9 +938,8 @@ async function loadSettings(){
   _settingsCache = data; // Cache for loadHomepageSettings
   var s={};data.forEach(r=>s[r.key]=r.value);
   if(s.design){
-    if(s.design.teal){pvc('teal',s.design.teal);sv('c-teal',s.design.teal);sv('ct-teal',s.design.teal);}
-    if(s.design.orange){pvc('orange',s.design.orange);sv('c-orange',s.design.orange);sv('ct-orange',s.design.orange);}
-    if(s.design.gold){pvc('gold',s.design.gold);sv('c-gold',s.design.gold);sv('ct-gold',s.design.gold);}
+    var od={teal:'#1A7A7A',orange:'#C94B1E',gold:'#D4A843'};
+    ['teal','orange','gold'].forEach(function(k){ var x=s.design[k]; if(x && String(x).toUpperCase()!==od[k]) pvc(k,x); });
   }
   if(s.issue){sv('s-htitle',s.issue.hero_title);sv('s-hbody',s.issue.hero_body);sv('s-hbadge',s.issue.hero_badge);sv('s-hby',s.issue.hero_by);sv('s-quote',s.issue.quote);sv('s-inum',s.issue.num);sv('s-idate',s.issue.date);syncPv();syncHero();}
   if(s.general){sv('s-name',s.general.name);sv('s-tag',s.general.tagline);sv('s-topbar',s.general.topbar);sv('s-nltitle',s.general.nl_title);sv('s-nldesc',s.general.nl_desc);sv('s-ftag',s.general.footer_tag);sv('s-fcopy',s.general.copyright);syncPv();}
@@ -1055,17 +1141,25 @@ async function loadArchive(){
 function renderArchiveList(items){
   var el=document.getElementById('arch-list');
   if(!items.length){el.innerHTML='<div class="empty">لا توجد أعداد — أضيفي أول عدد</div>';return;}
-  el.innerHTML='';items.forEach(function(i,idx){var d=document.createElement('div');d.className='irow';var safePdf=i.pdf&&i.pdf.toLowerCase().startsWith('http')?escH(i.pdf):'';var pdfBtn=safePdf?'<button class="bsm t" onclick="window.open(&quot;'+safePdf+'&quot;,&quot;_blank&quot;)">فتح PDF</button>':'';d.innerHTML='<div class="icolor" style="background:'+escH(i.color||'#1A7A7A')+'">وَرَق</div><div class="iinfo"><div class="ititle">العدد '+escH(String(i.num||''))+'</div><div class="imeta">'+escH(i.date||'')+' '+(i.pdf?'· PDF متاح ✓':'· لا يوجد PDF')+'</div></div><div class="iacts">'+pdfBtn+'<button class="bsm r" onclick="delArchive('+idx+')">حذف</button></div>';el.appendChild(d);});
+  el.innerHTML='';items.forEach(function(i,idx){var d=document.createElement('div');d.className='irow';var safePdf=i.pdf&&i.pdf.toLowerCase().startsWith('http')?escH(i.pdf):'';var pdfBtn=safePdf?'<button class="bsm t" onclick="window.open(&quot;'+safePdf+'&quot;,&quot;_blank&quot;)">فتح PDF</button>':'';d.innerHTML='<div class="icolor" style="background:'+escH(i.color||'#1A7A7A')+'">وَرَق</div><div class="iinfo"><div class="ititle">العدد '+escH(String(i.num||''))+'</div><div class="imeta">'+escH(i.date||'')+' '+(i.pdf?'· PDF متاح ✓':'· لا يوجد PDF')+'</div></div><div class="iacts">'+pdfBtn+'<button class="bsm g" title="لأعلى" onclick="moveArchive('+idx+',-1)"'+(idx===0?' disabled':'')+'>▲</button><button class="bsm g" title="لأسفل" onclick="moveArchive('+idx+',1)"'+(idx===items.length-1?' disabled':'')+'>▼</button><button class="bsm t" onclick="editArchive('+idx+')">تعديل</button><button class="bsm r" onclick="delArchive('+idx+')">حذف</button></div>';el.appendChild(d);});
 }
 async function addArchive(){
   var num=v('ar-num'),date=v('ar-date');
   if(!num||!date){toast('أدخلي رقم العدد والتاريخ');return;}
   var res=await sb.from('settings').select('value').eq('key','archive').maybeSingle();var data=res.data;
   var items=(data && data.value)||[];
-  if(items.find(function(i){return String(i.num)===String(num);})){toast('هذا العدد موجود بالفعل');return;}
-  items.unshift({num,date,pdf:v('ar-pdf')||null,color:v('ar-color')||null});
-  await sb.from('settings').upsert({key:'archive',value:items});
-  toast('تمت الإضافة!');loadArchive();toggleIF('add-arch');
+  var entry={num,date,pdf:v('ar-pdf')||null,color:v('ar-color')||null};
+  if(_archEditIdx!==null && items[_archEditIdx]){
+    if(items.find(function(i,k){return k!==_archEditIdx && String(i.num)===String(num);})){toast('هذا العدد موجود بالفعل');return;}
+    items[_archEditIdx]=Object.assign({},items[_archEditIdx],entry);
+  } else {
+    if(items.find(function(i){return String(i.num)===String(num);})){toast('هذا العدد موجود بالفعل');return;}
+    items.unshift(entry);
+  }
+  var wasEdit=_archEditIdx!==null;
+  var r=await sb.from('settings').upsert({key:'archive',value:items});
+  if(r.error){toast('خطأ في الحفظ');return;}
+  toast(wasEdit?'تم حفظ التعديل!':'تمت الإضافة!');archFormReset();loadArchive();toggleIF('add-arch');
   ['ar-num','ar-date','ar-pdf'].forEach(id=>{var e=document.getElementById(id);if(e)e.value='';});
 }
 async function delArchive(idx){
@@ -1299,7 +1393,7 @@ function prevLogo() {
     var lpvName = document.getElementById('lpv-name');
     if (lpvName) lpvName.innerHTML = '<img src="'+url+'" alt="لوقو" style="max-height:28px;width:auto;object-fit:contain;">';
   } else {
-    wrap.innerHTML = '<span style="font-family:Amiri,serif;font-size:24px;color:#fff;">وَرَق</span>';
+    wrap.innerHTML = '<span style="font-family:Aref Ruqaa,serif;font-size:24px;color:#fff;">وَرَق</span>';
     var lpvName = document.getElementById('lpv-name');
     if (lpvName) lpvName.textContent = v('s-sitename') || 'وَرَق';
   }
@@ -1396,6 +1490,157 @@ async function saveSectionsOrder() {
 
 // Load homepage settings
 var _settingsCache = null;
+
+// ══ هوية الموقع ══
+var ID_KEYS = ['leather','teal','orange','gold','paper','ink'];
+var ID_DEFAULT = {leather:'#4E151C',teal:'#22305E',orange:'#7A1F2B',gold:'#B8893B',paper:'#FDFCFA',ink:'#1F1A17',font_display:'Aref Ruqaa',font_text:'Readex Pro',marble:true};
+var ID_THEMES = [
+  {name:'عنابي كلاسيكي'},
+  {name:'زمردي', leather:'#163C36',teal:'#1F4E79',orange:'#8C2F39',gold:'#C2A14D',paper:'#FBFBF8',ink:'#18201E'},
+  {name:'كحلي ملكي', leather:'#1B2547',teal:'#7A1F2B',orange:'#9C3D2E',gold:'#C9A44C',paper:'#FCFCFA',ink:'#161A2B'},
+  {name:'بني عتيق', leather:'#4A2E1C',teal:'#2F4A3A',orange:'#8A3B1F',gold:'#B88A3E',paper:'#FCFAF6',ink:'#241A12'},
+  {name:'فحمي', leather:'#222226',teal:'#3B4A8C',orange:'#A33A3A',gold:'#C8A45A',paper:'#FAFAFA',ink:'#151515'},
+  {name:'وردي عثماني', leather:'#6B2140',teal:'#264653',orange:'#9B2C4E',gold:'#C59B4A',paper:'#FDFBFB',ink:'#221A1D'}
+];
+var ID_FONT_URL = {'Aref Ruqaa':'Aref+Ruqaa:wght@400;700','Amiri':'Amiri:wght@400;700','Reem Kufi':'Reem+Kufi:wght@400..700','Noto Naskh Arabic':'Noto+Naskh+Arabic:wght@400;700','El Messiri':'El+Messiri:wght@400..700','Lalezar':'Lalezar','Readex Pro':'Readex+Pro:wght@300..700','IBM Plex Sans Arabic':'IBM+Plex+Sans+Arabic:wght@400;600;700','Cairo':'Cairo:wght@400..700','Tajawal':'Tajawal:wght@400;700','Almarai':'Almarai:wght@400;700','Noto Sans Arabic':'Noto+Sans+Arabic:wght@400..700'};
+var _idFontsLoaded = {};
+function idLoadFont(f){ if(!f||_idFontsLoaded[f]||!ID_FONT_URL[f])return; _idFontsLoaded[f]=1; var l=document.createElement('link'); l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family='+ID_FONT_URL[f]+'&display=swap'; document.head.appendChild(l); }
+function idHex(x){ return /^#[0-9a-fA-F]{6}$/.test(String(x||'').trim()); }
+function idGet(){
+  var d = {};
+  ID_KEYS.forEach(function(k){ var t=v('idt-'+k).trim(); d[k] = idHex(t) ? t.toUpperCase() : ID_DEFAULT[k]; });
+  d.font_display = v('id-font-display') || ID_DEFAULT.font_display;
+  d.font_text = v('id-font-text') || ID_DEFAULT.font_text;
+  var m = document.getElementById('id-marble'); d.marble = m ? m.checked : true;
+  return d;
+}
+function idFill(src){
+  var d = Object.assign({}, ID_DEFAULT);
+  var old = {teal:'#1A7A7A', orange:'#C94B1E', gold:'#D4A843'};
+  if (src) Object.keys(src).forEach(function(k){ if (src[k]===undefined||src[k]===null||src[k]==='') return; if (old[k] && String(src[k]).toUpperCase()===old[k]) return; d[k]=src[k]; });
+  ID_KEYS.forEach(function(k){ sv('idc-'+k, d[k]); sv('idt-'+k, d[k]); });
+  sv('id-font-display', d.font_display); sv('id-font-text', d.font_text);
+  var m = document.getElementById('id-marble'); if (m) m.checked = d.marble !== false;
+  idPreview();
+}
+function idSync(){ ID_KEYS.forEach(function(k){ sv('idt-'+k, v('idc-'+k)); }); idPreview(); }
+function idSyncText(k){ var t=v('idt-'+k).trim(); if (idHex(t)) { sv('idc-'+k, t); idPreview(); } }
+function idPreview(){
+  var p = document.getElementById('id-preview'); if (!p) return;
+  var d = idGet();
+  ID_KEYS.forEach(function(k){ p.style.setProperty('--pv-'+k, d[k]); });
+  idLoadFont(d.font_display); idLoadFont(d.font_text);
+  p.style.setProperty('--pv-display', "'"+d.font_display+"'"); p.style.setProperty('--pv-text', "'"+d.font_text+"'");
+}
+function idRenderThemes(){
+  var row = document.getElementById('theme-row'); if (!row || row.childElementCount) return;
+  ID_THEMES.forEach(function(t, i){
+    var c = Object.assign({}, ID_DEFAULT, t);
+    var b = document.createElement('button'); b.type='button'; b.className='theme-chip';
+    b.innerHTML = '<i><b style="background:'+c.leather+'"></b><b style="background:'+c.gold+'"></b><b style="background:'+c.teal+'"></b><b style="background:'+c.orange+'"></b></i>' + escH(t.name);
+    b.onclick = function(){ var cur = idGet(); idFill(Object.assign({}, c, {font_display:cur.font_display, font_text:cur.font_text, marble:cur.marble})); toast('تم تطبيق ثيم «'+t.name+'» — اضغطي «حفظ الهوية» لنشره'); };
+    row.appendChild(b);
+  });
+}
+async function saveIdentity(){
+  var d = idGet();
+  var res = await sb.from('settings').upsert({key:'design', value:d});
+  if (res.error) { toast('خطأ في الحفظ'); return; }
+  _settingsCache = null;
+  toast('تم حفظ الهوية ✓ — ستظهر على الموقع فوراً');
+}
+function resetIdentity(){ idFill(ID_DEFAULT); toast('تمت استعادة التصميم الأصلي — اضغطي «حفظ الهوية» لنشره'); }
+
+// ══ أقسام الصفحة الرئيسية ══
+var LAY_KEYS = ['hero','ticker','books','articles','news','archive','monthpick','newsletter'];
+var LAY_NAMES = {hero:'الغلاف وكتاب الشهر',ticker:'شريط الأخبار المتحرك',books:'إصدارات المركز (الكتب)',articles:'المقالات',news:'الأخبار',archive:'أرشيف الأعداد',monthpick:'توصية الشهر',newsletter:'الاشتراك والمشاركة'};
+var LAY_TITLES = {books:'إصدارات المركز',articles:'المقالات',news:'الأخبار',archive:'أرشيف الأعداد'};
+var LAY_COUNTS = {books:4,articles:4,news:4,archive:5};
+var _layout = null;
+function layDefault(){ return {order:LAY_KEYS.slice(), hidden:[], titles:Object.assign({},LAY_TITLES), counts:Object.assign({},LAY_COUNTS)}; }
+function layLoad(s){
+  var L = layDefault(), src = s.layout || (Array.isArray(s.sections_order) ? {order:s.sections_order} : null);
+  if (src) {
+    if (Array.isArray(src.order)) { var picked = src.order.filter(function(k,i,a){ return LAY_KEYS.indexOf(k)>-1 && a.indexOf(k)===i; }); var o = LAY_KEYS.slice(), j = 0; for (var i=0;i<o.length;i++){ if (picked.indexOf(o[i])>-1) o[i]=picked[j++]; } L.order = o; }
+    if (Array.isArray(src.hidden)) L.hidden = src.hidden.slice();
+    if (src.titles) Object.keys(src.titles).forEach(function(k){ if (src.titles[k]) L.titles[k]=src.titles[k]; });
+    if (src.counts) Object.keys(src.counts).forEach(function(k){ var n=parseInt(src.counts[k],10); if (n>=1&&n<=12) L.counts[k]=n; });
+  }
+  _layout = L; layRender();
+}
+function layRead(){
+  if (!_layout) return;
+  _layout.hidden = [];
+  document.querySelectorAll('#layout-list .lay-row').forEach(function(r){
+    var k = r.getAttribute('data-k');
+    var show = r.querySelector('.lay-show input'); if (show && !show.checked) _layout.hidden.push(k);
+    var t = r.querySelector('input[data-f=title]'); if (t) _layout.titles[k] = t.value.trim() || LAY_TITLES[k];
+    var c = r.querySelector('input[data-f=count]'); if (c) { var n=parseInt(c.value,10); _layout.counts[k] = (n>=1&&n<=12) ? n : LAY_COUNTS[k]; }
+  });
+}
+function layRender(){
+  var el = document.getElementById('layout-list'); if (!el || !_layout) return;
+  el.innerHTML = '';
+  _layout.order.forEach(function(k, i){
+    var off = _layout.hidden.indexOf(k) > -1;
+    var r = document.createElement('div'); r.className = 'lay-row' + (off ? ' off' : ''); r.setAttribute('data-k', k);
+    var fields = '';
+    if (LAY_TITLES[k]) fields += '<div class="fg"><label>عنوان القسم</label><input type="text" data-f="title" value="'+escH(_layout.titles[k]||LAY_TITLES[k])+'"></div>';
+    if (LAY_COUNTS[k]) fields += '<div class="fg"><label>عدد العناصر</label><input type="number" min="1" max="12" data-f="count" value="'+(_layout.counts[k]||LAY_COUNTS[k])+'"></div>';
+    r.innerHTML = '<div class="lay-move"><button type="button" title="لأعلى" '+(i===0?'disabled':'')+'>▲</button><button type="button" title="لأسفل" '+(i===_layout.order.length-1?'disabled':'')+'>▼</button></div>'
+      + '<div><div class="lay-name"><span class="lay-num">'+(i+1)+'</span> '+LAY_NAMES[k]+'</div>'+(fields?'<div class="lay-fields">'+fields+'</div>':'')+'</div>'
+      + '<label class="lay-show"><input type="checkbox" '+(off?'':'checked')+'> ظاهر</label>';
+    var btns = r.querySelectorAll('.lay-move button');
+    btns[0].onclick = function(){ layMove(i, -1); };
+    btns[1].onclick = function(){ layMove(i, 1); };
+    r.querySelector('.lay-show input').onchange = function(){ r.classList.toggle('off', !this.checked); };
+    el.appendChild(r);
+  });
+}
+function layMove(i, dir){
+  layRead();
+  var j = i + dir; if (j < 0 || j >= _layout.order.length) return;
+  var t = _layout.order[i]; _layout.order[i] = _layout.order[j]; _layout.order[j] = t;
+  layRender();
+}
+async function saveLayout(){
+  if (!_layout) return;
+  layRead();
+  var res = await sb.from('settings').upsert({key:'layout', value:_layout});
+  if (res.error) { toast('خطأ في الحفظ'); return; }
+  _settingsCache = null;
+  toast('تم حفظ الأقسام ✓');
+}
+function resetLayout(){ _layout = layDefault(); layRender(); toast('عادت الأقسام للترتيب الافتراضي — اضغطي «حفظ الأقسام» لنشره'); }
+
+// ══ الأرشيف: تعديل وترتيب ══
+var _archEditIdx = null;
+async function editArchive(idx){
+  var res = await sb.from('settings').select('value').eq('key','archive').maybeSingle();
+  var items = (res.data && res.data.value) || []; var i = items[idx]; if (!i) return;
+  sv('ar-num', i.num||''); sv('ar-date', i.date||''); sv('ar-pdf', i.pdf||'');
+  var sel = document.getElementById('ar-color');
+  if (sel && i.color) { if (![].some.call(sel.options, function(o){ return o.value===i.color; })) { var o=document.createElement('option'); o.value=i.color; o.textContent=i.color; sel.appendChild(o); } sel.value = i.color; }
+  _archEditIdx = idx;
+  var f = document.getElementById('add-arch'); if (f) { f.classList.add('on'); f.scrollIntoView({behavior:'smooth', block:'center'}); }
+  var t = document.querySelector('#add-arch .iform-title'); if (t) t.textContent = 'تعديل العدد ' + (i.num||'');
+  var b = document.querySelector('#add-arch .btn.p'); if (b) b.textContent = 'حفظ التعديل';
+}
+function archFormReset(){
+  _archEditIdx = null;
+  var t = document.querySelector('#add-arch .iform-title'); if (t) t.textContent = 'عدد جديد';
+  var b = document.querySelector('#add-arch .btn.p'); if (b) b.textContent = 'إضافة';
+}
+async function moveArchive(idx, dir){
+  var res = await sb.from('settings').select('value').eq('key','archive').maybeSingle();
+  var items = (res.data && res.data.value) || []; var j = idx + dir;
+  if (j < 0 || j >= items.length) return;
+  var t = items[idx]; items[idx] = items[j]; items[j] = t;
+  var r = await sb.from('settings').upsert({key:'archive', value:items});
+  if (r.error) { toast('خطأ في الحفظ'); return; }
+  toast('تم تحديث ترتيب الأعداد'); renderArchiveList(items);
+}
+
 async function loadHomepageSettings() {
   // Use cached settings if available
   var data = _settingsCache;
@@ -1443,6 +1688,7 @@ async function loadHomepageSettings() {
       });
     }
   }
+  idRenderThemes(); idFill(s.design); layLoad(s);
   if (s.design) {
     if(s.design.teal){sv('hp-c-teal',s.design.teal);sv('hp-ct-teal',s.design.teal);}
     if(s.design.orange){sv('hp-c-orange',s.design.orange);sv('hp-ct-orange',s.design.orange);}
@@ -1466,9 +1712,9 @@ _qlStyle.textContent = `
 .ql-container{border-color:var(--border)!important;border-radius:0 0 7px 7px;font-family:"Cairo",sans-serif;font-size:15px;}
 .ql-editor{direction:rtl;text-align:right;min-height:280px;line-height:2;}
 .ql-editor.ql-blank::before{right:15px;left:unset;font-style:normal;color:var(--light);}
-.ql-font-cairo{font-family:'Cairo',sans-serif;}
-.ql-font-noto-serif{font-family:'Noto Naskh Arabic',serif;}
-.ql-font-amiri{font-family:'Amiri',serif;}
+.ql-font-cairo{font-family:Readex Pro,sans-serif;}
+.ql-font-noto-serif{font-family:Aref Ruqaa,serif;}
+.ql-font-amiri{font-family:Aref Ruqaa,serif;}
 .ql-font-tajawal{font-family:'Tajawal',sans-serif;}
 .ql-editor .ql-size-12px{font-size:12px;} .ql-editor .ql-size-14px{font-size:14px;}
 .ql-editor .ql-size-16px{font-size:16px;} .ql-editor .ql-size-18px{font-size:18px;}

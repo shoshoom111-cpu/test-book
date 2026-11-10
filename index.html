@@ -22,6 +22,12 @@
   --orange:#7A1F2B;--ol:#F5E6E7;
   --green:#2E6B64;
   --display:'Aref Ruqaa',serif;--text:'Readex Pro',sans-serif;
+  --td:color-mix(in srgb,var(--teal) 78%,#000);--tl:color-mix(in srgb,var(--teal) 12%,var(--paper));
+  --leather-2:color-mix(in srgb,var(--leather) 72%,#000);--gilt:color-mix(in srgb,var(--gold) 68%,#fff);
+  --leaf:color-mix(in srgb,var(--paper) 94%,var(--ink));--cream:var(--leaf);
+  --border:color-mix(in srgb,var(--paper) 86%,var(--ink));
+  --mid:color-mix(in srgb,var(--ink) 70%,var(--paper));--light:color-mix(in srgb,var(--ink) 52%,var(--paper));
+  --ol:color-mix(in srgb,var(--orange) 10%,var(--paper));
   --spine:linear-gradient(to left,rgba(0,0,0,.35) 0,rgba(0,0,0,.1) 9px,rgba(255,255,255,.12) 11px,rgba(0,0,0,0) 20px);
   --grain:radial-gradient(circle at 20% 30%,rgba(255,255,255,.035) 0 1px,transparent 1.5px) 0 0/7px 7px,radial-gradient(circle at 70% 60%,rgba(0,0,0,.12) 0 1px,transparent 1.5px) 0 0/5px 5px;
 }
@@ -432,6 +438,12 @@ img{max-width:100%;}
 .back-top.show{display:flex;}
 .back-top:hover{background:var(--orange);}
 
+/* ── admin-controlled layout ── */
+.sec-hidden{display:none !important;}
+body.no-marble .cover::before,body.no-marble .cover::after,body.no-marble .footer::before,body.no-marble .page-header::after,body.no-marble .issue-hd::after{background:var(--gold);height:3px;}
+body.no-marble .newsletter{background:var(--leather);}
+body.no-marble .arch-mini-cover,body.no-marble .arch-pg-cover{background-image:var(--spine) !important;}
+
 /* ── night reading ── */
 body.dark{--paper:#17120F;--leaf:#211A16;--cream:#211A16;--ink:#EEE5D6;--mid:#B9AC9C;--light:#8B7F72;--border:#352A23;--teal:#9DAAE6;--td:#B5BFEE;--tl:#26233A;--orange:#E08A93;--gold:#D2A75A;}
 body.dark .site-header{background:#17120F;}
@@ -452,9 +464,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
   .hero-main,.hero-side{padding:44px 40px 48px;}
   .hero-title{font-size:50px;}
   .books-grid,.books-page-grid{grid-template-columns:repeat(3,1fr);}
-  .books-grid > .book-card:nth-child(4){display:none;}
   .arch-row{grid-template-columns:repeat(4,1fr);}
-  .arch-row > .arch-mini:nth-child(5){display:none;}
   .arch-pg-grid{grid-template-columns:repeat(3,1fr);}
 }
 @media(max-width:900px){
@@ -487,7 +497,6 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
   .sec-header{margin:72px 0 32px;}
   .sec-title{font-size:42px;}
   .books-grid{grid-template-columns:1fr 1fr;gap:44px 0;}
-  .books-grid > .book-card:nth-child(4){display:flex;}
   .book-card,.bpg-card{padding:0 12px;}
   .book-card-body,.bpg-body{margin:0 -12px;padding:16px 12px 0;}
   .book-card-strip span,.bpg-cover span{font-size:22px;}
@@ -499,7 +508,6 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
   .news-title{font-size:19px;}
   .arch-strip{padding:4px 16px 72px;margin-top:72px;}
   .arch-row{grid-template-columns:repeat(2,1fr);gap:32px 20px;}
-  .arch-row > .arch-mini:nth-child(5){display:none;}
   .arch-mini-name,.arch-pg-logo{font-size:24px;padding:4px 16px;}
   .month-pick{padding:72px 16px;}
   .mp-in{grid-template-columns:1fr;gap:44px;text-align:center;}
@@ -548,6 +556,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
   *{transition:none !important;}
 }
 </style>
+<style id="waraq-layout-style">#home-books > .book-card:nth-child(n+5),#arts-grid-home > .news-card:nth-child(n+5),#home-news > .news-card:nth-child(n+5),#home-arch > .arch-mini:nth-child(n+6){display:none;}</style>
 </head>
 <body>
 <div class="topbar"><div class="topbar-in"><span class="topbar-text" id="tb-txt">مركز الأدب العربي للنشر والتوزيع</span><div class="tb-links"><a id="ig-lnk" href="https://www.instagram.com/servicesbook1" target="_blank" rel="noopener noreferrer">Instagram</a><a id="tt-lnk" href="https://www.tiktok.com/@adab_book" target="_blank" rel="noopener noreferrer">TikTok</a><a id="store-lnk" href="https://adab-book.com/" target="_blank" rel="noopener noreferrer">المتجر</a></div></div></div>
@@ -601,7 +610,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 
 <!-- HOME -->
 <div class="view active" id="v-home">
-<section class="cover">
+<section class="cover" data-section="hero">
 <div class="masthead"><div class="mh-in">
   <div class="mh-left" id="mh-left">العدد الأول<br>أبريل ٢٠٢٥<br>مجانية</div>
   <div><div class="mh-name" id="mh-name" data-text-logo="1">وَرَق</div><div class="mh-tag" id="mh-tag">مجلة مركز الأدب العربي الشهرية</div></div>
@@ -622,12 +631,14 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
   </div>
 </div></div>
 </section>
-<div class="ticker"><div class="ticker-track" id="ticker-track">
+<div class="ticker" data-section="ticker"><div class="ticker-track" id="ticker-track">
 </div></div>
 <div class="wrap" data-section="books">
-  <div class="sec-header books-hd"><div class="sec-title">إصدارات المركز</div><div class="sec-more" id="more-books">الكتب كلها ←</div></div>
+  <div class="sec-header books-hd"><div class="sec-title" id="sec-t-books">إصدارات المركز</div><div class="sec-more" id="more-books">الكتب كلها ←</div></div>
   <div class="books-grid" id="home-books"></div>
-  <div class="sec-header arts-hd"><div class="sec-title">المقالات</div><div class="sec-more" id="more-arts">كل المقالات ←</div></div>
+</div>
+<div class="wrap" data-section="articles">
+  <div class="sec-header arts-hd"><div class="sec-title" id="sec-t-arts">المقالات</div><div class="sec-more" id="more-arts">كل المقالات ←</div></div>
   <div class="arts-grid" id="arts-grid-home">
     <div id="home-arts" style="display:none;"></div>
     <div id="home-arts-side" style="display:none;"></div>
@@ -635,11 +646,11 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </div>
 
 <div class="wrap" data-section="news">
-  <div class="sec-header news-hd"><div class="sec-title">الأخبار</div><div class="sec-more" id="more-news">كل الأخبار ←</div></div>
+  <div class="sec-header news-hd"><div class="sec-title" id="sec-t-news">الأخبار</div><div class="sec-more" id="more-news">كل الأخبار ←</div></div>
   <div class="news-grid" id="home-news"></div>
 </div>
 <div class="arch-strip" data-section="archive"><div style="max-width:1200px;margin:0 auto;">
-  <div class="sec-header arch-hd" style="margin-top:0;"><div class="sec-title">أرشيف الأعداد</div><div class="sec-more" id="more-arch">عرض الكل ←</div></div>
+  <div class="sec-header arch-hd" style="margin-top:0;"><div class="sec-title" id="sec-t-arch">أرشيف الأعداد</div><div class="sec-more" id="more-arch">عرض الكل ←</div></div>
   <div class="arch-row" id="home-arch">
     <div class="arch-mini" id="am1" data-goissue="1"><div class="arch-mini-cover" style="background:#2E3FA8;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد الأول</div></div><div class="arch-mini-info"><div class="arch-mini-date">أبريل ٢٠٢٥</div><div class="arch-mini-dl">تصفح ←</div></div></div>
     <div class="arch-mini" data-goissue="2"><div class="arch-mini-cover" style="background:#B4442A;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد الثاني</div></div><div class="arch-mini-info"><div class="arch-mini-date">مايو ٢٠٢٥</div><div class="arch-mini-dl" style="color:var(--light);">قريباً</div></div></div>
@@ -1074,7 +1085,7 @@ function renderBooks(books) {
     var imgHTML = (b.image&&b.image.trim()) ? '<img style="width:100%;height:180px;object-fit:cover;display:block;" src="' + b.image + '" alt="' + b.title + '" loading="lazy">' : '<div class="book-card-strip" style="background:' + (b.color||'#4E151C') + ';"><span>' + b.title + '</span></div>';
     return '<div class="book-card" data-bid="' + b.id + '">' + imgHTML + '<div class="book-card-body"><div class="book-genre">' + (b.genre||'') + '</div><div class="book-title">' + b.title + '</div><div class="book-author">' + (b.author||'') + '</div><div class="book-desc">' + (b.description||b.desc||'') + '</div><div class="book-cta">اقرأ المزيد</div></div></div>';
   }
-  if (hg) { hg.innerHTML = books.slice(0,4).map(bookCardHTML).join(''); hg.querySelectorAll('.book-card').forEach(function(c) { var bid = c.getAttribute('data-bid'); c.addEventListener('click', function() { openBook(bid); }); }); }
+  if (hg) { hg.innerHTML = books.slice(0,12).map(bookCardHTML).join(''); hg.querySelectorAll('.book-card').forEach(function(c) { var bid = c.getAttribute('data-bid'); c.addEventListener('click', function() { openBook(bid); }); }); }
   if (pg) {
     pg.innerHTML = books.map(function(b) {
       var covHTML = b.image ? '<div class="bpg-cover" style="background:' + (b.color||'#4E151C') + ';padding:0;"><img alt="" src="' + b.image + '" style="width:100%;height:100%;object-fit:cover;"></div>' : '<div class="bpg-cover" style="background:' + (b.color||'#4E151C') + ';"><span>' + b.title + '</span></div>';
@@ -1105,7 +1116,7 @@ function renderArts(arts) {
 
   var grid = document.getElementById('arts-grid-home');
   if (grid) {
-    grid.innerHTML = arts.slice(0, 4).map(artCardHTML).join('');
+    grid.innerHTML = arts.slice(0,12).map(artCardHTML).join('');
     grid.querySelectorAll('.news-card[data-aid]').forEach(function(c) {
       var aid = c.getAttribute('data-aid');
       c.addEventListener('click', function() { openArt(aid); });
@@ -1144,7 +1155,7 @@ function renderNews(news) {
     }
     return '<div class="news-card" data-nid="' + n.id + '"><div class="news-card-icon">' + icon + '</div><div class="news-card-body"><span class="news-badge">' + (n.category||'أخبار') + '</span><div class="news-title">' + n.title + '</div><div class="news-excerpt">' + (n.excerpt||'') + '</div><div class="news-meta">' + (n.author_name||'') + (date?' · '+date:'') + '</div></div></div>';
   }
-  if (hg) { hg.innerHTML = news.slice(0,4).map(function(n){return newsCardHTML(n,false);}).join(''); }
+  if (hg) { hg.innerHTML = news.slice(0,12).map(function(n){return newsCardHTML(n,false);}).join(''); }
   if (pg) { pg.innerHTML = news.map(function(n){return newsCardHTML(n,true);}).join(''); pg.querySelectorAll('.apg-card').forEach(function(c){var nid=c.getAttribute('data-nid');c.addEventListener('click',function(){openArt(nid);});}); }
   if (hg) hg.querySelectorAll('.news-card').forEach(function(c){var nid=c.getAttribute('data-nid');c.addEventListener('click',function(){openArt(nid);});});
 }
@@ -1152,16 +1163,68 @@ function renderNews(news) {
 function renderArchive(items) {
   var hr = document.getElementById('home-arch');
   var pg = document.getElementById('arch-pg');
-  if (hr) { hr.innerHTML = ''; if (items && items.length) hr.innerHTML = items.slice(0,5).map(function(i) { return '<div class="arch-mini" data-goissue="'+i.id+'"><div class="arch-mini-cover" style="background:' + (i.color||'#2E3FA8') + ';"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد ' + i.num + '</div></div><div class="arch-mini-info"><div class="arch-mini-date">' + (i.date||'') + '</div>' + (i.pdf ? '<a class="arch-mini-dl" href="' + i.pdf + '" target="_blank" rel="noopener noreferrer">تحميل PDF</a>' : '<div class="arch-mini-dl" style="color:var(--light);">قريباً</div>') + '</div></div>'; }).join(''); }
+  if (hr) { hr.innerHTML = ''; if (items && items.length) hr.innerHTML = items.slice(0,12).map(function(i) { return '<div class="arch-mini" data-goissue="'+i.id+'"><div class="arch-mini-cover" style="background:' + (i.color||'#2E3FA8') + ';"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد ' + i.num + '</div></div><div class="arch-mini-info"><div class="arch-mini-date">' + (i.date||'') + '</div>' + (i.pdf ? '<a class="arch-mini-dl" href="' + i.pdf + '" target="_blank" rel="noopener noreferrer">تحميل PDF</a>' : '<div class="arch-mini-dl" style="color:var(--light);">قريباً</div>') + '</div></div>'; }).join(''); }
   if (pg) pg.innerHTML = items.map(function(i) { return '<div class="arch-pg-card" data-goissue="'+i.id+'"><div class="arch-pg-cover" style="background:' + (i.color||'#2E3FA8') + ';"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد ' + i.num + '</div></div><div class="arch-pg-info"><span class="arch-pg-date">' + (i.date||'') + '</span>' + (i.pdf ? '<span class="arch-pg-dl">تصفح ←</span>' : '<span style="font-size:12px;color:var(--light);">قريباً</span>') + '</div></div>'; }).join('');
 }
 
 function parseVal(v){try{return(typeof v==='string')?JSON.parse(v):v;}catch(e){return v;}}
+
+/* ── لوحة التحكم: الهوية والأقسام ── */
+var WARAQ_FONTS = {
+  'Aref Ruqaa':'Aref+Ruqaa:wght@400;700','Amiri':'Amiri:wght@400;700','Reem Kufi':'Reem+Kufi:wght@400..700',
+  'Noto Naskh Arabic':'Noto+Naskh+Arabic:wght@400;700','El Messiri':'El+Messiri:wght@400..700','Lalezar':'Lalezar',
+  'Readex Pro':'Readex+Pro:wght@300..700','IBM Plex Sans Arabic':'IBM+Plex+Sans+Arabic:wght@400;500;600;700',
+  'Cairo':'Cairo:wght@400..700','Tajawal':'Tajawal:wght@400;500;700','Almarai':'Almarai:wght@400;700','Noto Sans Arabic':'Noto+Sans+Arabic:wght@400..700'
+};
+function applyDesign(d) {
+  var R = document.documentElement.style;
+  var isOld = function(v, def) { return !v || String(v).toUpperCase() === def; };
+  if (!isOld(d.teal, '#1A7A7A')) R.setProperty('--teal', d.teal);
+  if (!isOld(d.orange, '#C94B1E')) R.setProperty('--orange', d.orange);
+  if (!isOld(d.gold, '#D4A843')) R.setProperty('--gold', d.gold);
+  ['leather', 'paper', 'ink'].forEach(function(k) { if (d[k]) R.setProperty('--' + k, d[k]); });
+  var fams = [];
+  if (d.font_display && WARAQ_FONTS[d.font_display]) { R.setProperty('--display', "'" + d.font_display + "',serif"); fams.push(WARAQ_FONTS[d.font_display]); }
+  if (d.font_text && WARAQ_FONTS[d.font_text]) { R.setProperty('--text', "'" + d.font_text + "',sans-serif"); fams.push(WARAQ_FONTS[d.font_text]); }
+  if (fams.length && !document.getElementById('waraq-custom-fonts')) {
+    var l = document.createElement('link'); l.id = 'waraq-custom-fonts'; l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=' + fams.join('&family=') + '&display=swap';
+    document.head.appendChild(l);
+  }
+  document.body.classList.toggle('no-marble', d.marble === false);
+}
+var WARAQ_SECTIONS = ['hero', 'ticker', 'books', 'articles', 'news', 'archive', 'monthpick', 'newsletter'];
+function waraqMergeOrder(saved, defaults) {
+  // keep sections missing from an older saved order in their default slots
+  var picked = (saved || []).filter(function(k, i, a) { return defaults.indexOf(k) > -1 && a.indexOf(k) === i; });
+  var out = defaults.slice(), j = 0;
+  for (var i = 0; i < out.length; i++) { if (picked.indexOf(out[i]) > -1) out[i] = picked[j++]; }
+  return out;
+}
+function applyLayout(L) {
+  var home = document.getElementById('v-home'); if (!home || !L) return;
+  var footer = home.querySelector('footer');
+  var order = waraqMergeOrder(L.order, WARAQ_SECTIONS);
+  order.forEach(function(k) { var el = home.querySelector('[data-section="' + k + '"]'); if (el && footer) home.insertBefore(el, footer); });
+  var hidden = L.hidden || [];
+  WARAQ_SECTIONS.forEach(function(k) { var el = home.querySelector('[data-section="' + k + '"]'); if (el) el.classList.toggle('sec-hidden', hidden.indexOf(k) > -1); });
+  var T = L.titles || {};
+  [['books', 'sec-t-books'], ['articles', 'sec-t-arts'], ['news', 'sec-t-news'], ['archive', 'sec-t-arch']].forEach(function(p) {
+    if (T[p[0]] && String(T[p[0]]).trim()) { var e = document.getElementById(p[1]); if (e) e.textContent = T[p[0]]; }
+  });
+  var C = L.counts || {}, n = function(k, d) { var v = parseInt(C[k], 10); return (v >= 1 && v <= 12) ? v : d; };
+  var css = '#home-books > .book-card:nth-child(n+' + (n('books', 4) + 1) + '),#arts-grid-home > .news-card:nth-child(n+' + (n('articles', 4) + 1) + '),#home-news > .news-card:nth-child(n+' + (n('news', 4) + 1) + '),#home-arch > .arch-mini:nth-child(n+' + (n('archive', 5) + 1) + '){display:none;}';
+  var st = document.getElementById('waraq-layout-style');
+  if (!st) { st = document.createElement('style'); st.id = 'waraq-layout-style'; document.head.appendChild(st); }
+  st.textContent = css;
+}
+
 function applySettings(rows) {
   if (!rows || !rows.length) return;
   var s = {};
   rows.forEach(function(r) { s[r.key] = parseVal(r.value); });
-  if (s.design) { var R = document.documentElement.style; var oldDef = function(v, d) { return !v || String(v).toUpperCase() === d; }; if (!oldDef(s.design.teal, '#1A7A7A')) R.setProperty('--teal', s.design.teal); if (!oldDef(s.design.orange, '#C94B1E')) R.setProperty('--orange', s.design.orange); if (!oldDef(s.design.gold, '#D4A843')) R.setProperty('--gold', s.design.gold); }
+  if (s.design) applyDesign(s.design);
+  if (s.layout) applyLayout(s.layout); else if (Array.isArray(s.sections_order)) applyLayout({order: s.sections_order});
   if (s.issue) { se('hero-title', s.issue.hero_title); se('hero-body', s.issue.hero_body); se('hero-by', s.issue.hero_by); if (s.issue.hero_badge) { var hb = document.getElementById('hero-badge'); if (hb) hb.textContent = s.issue.hero_badge; } if (s.issue.quote) { var qt = document.getElementById('quote-t'); if (qt) qt.textContent = '"' + s.issue.quote + '"'; } if (s.issue.num && s.issue.date) { var ml = document.getElementById('mh-left'); if (ml) ml.innerHTML = 'العدد ' + s.issue.num + '<br>' + s.issue.date + '<br>مجانية'; } }
   if (s.general) {
     if (s.general.name) { var nameEls = document.querySelectorAll('#mh-name[data-text-logo], .header-logo-text, #ft-logo-text, .nl-logo-text'); nameEls.forEach(function(el){ if(el) el.textContent = s.general.name; }); }
