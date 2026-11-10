@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وَرَق | لوحة الكاتب</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--teal:#1A7A7A;--tl:#E1F5EE;--orange:#C94B1E;--ol:#FAECE7;--gold:#F5C842;--black:#1A1A1A;--bg:#F0F0ED;--white:#fff;--border:#E2E2DE;--gray:#888;}
+body{font-family:"Cairo",sans-serif;background:var(--bg);color:var(--black);direction:rtl;min-height:100vh;}
+.topbar{background:var(--black);height:50px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.tb-logo{font-family:"Amiri",serif;font-size:24px;color:#FAFAF8;cursor:pointer;}
+.tb-right{display:flex;align-items:center;gap:10px;}
+.tb-name{font-size:12px;color:#aaa;}
+.tb-role{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--teal);color:#fff;}
+.tb-out{font-size:12px;color:#aaa;cursor:pointer;border:none;background:none;font-family:"Cairo",sans-serif;transition:color .15s;}
+.tb-out:hover{color:var(--orange);}
+.layout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 50px);}
+.sidebar{background:var(--white);border-left:1px solid var(--border);padding:10px 0;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:10px 16px;font-size:13px;color:var(--gray);cursor:pointer;transition:all .15s;border-right:2px solid transparent;}
+.nav-item:hover{color:var(--black);background:#f7f7f5;}
+.nav-item.active{color:var(--teal);border-right-color:var(--teal);background:var(--tl);}
+.sidebar-foot{padding:14px 16px;border-top:.5px solid var(--border);margin-top:auto;}
+.sidebar-foot a{font-size:12px;color:var(--gray);text-decoration:none;}
+.main{padding:24px;overflow-y:auto;}
+.panel{display:none;}
+.panel.active{display:block;}
+.pg-title{font-size:18px;font-weight:500;margin-bottom:18px;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.stat{background:var(--white);border:.5px solid var(--border);border-radius:8px;padding:14px 16px;}
+.stat-label{font-size:11px;color:var(--gray);margin-bottom:5px;}
+.stat-val{font-family:"Noto Naskh Arabic",serif;font-size:26px;}
+.stat-note{font-size:10px;margin-top:3px;}
+.card{background:var(--white);border:.5px solid var(--border);border-radius:10px;margin-bottom:14px;}
+.card-hd{padding:12px 16px;border-bottom:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-size:13px;font-weight:500;}
+.card-body{padding:16px;}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+label{font-size:12px;color:var(--gray);font-weight:500;}
+input[type=text],select,textarea{font-family:"Cairo",sans-serif;font-size:13px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;background:#FAFAF8;color:var(--black);direction:rtl;width:100%;transition:border-color .15s;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);}
+textarea{resize:vertical;min-height:200px;line-height:1.75;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.btn{font-family:"Cairo",sans-serif;font-size:13px;font-weight:500;padding:9px 20px;border-radius:6px;cursor:pointer;border:none;transition:all .15s;}
+.btn.primary{background:var(--teal);color:#fff;}
+.btn.primary:hover{background:#115555;}
+.btn.outline{background:transparent;color:var(--black);border:1px solid var(--border);}
+.btn.outline:hover{background:var(--bg);}
+.btn.sm{font-size:11px;padding:5px 12px;}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:8px;background:#f5f5f2;border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;}
+.tool{font-size:12px;padding:4px 10px;border:1px solid var(--border);border-radius:4px;background:var(--white);cursor:pointer;transition:all .15s;}
+.tool:hover{background:var(--tl);border-color:var(--teal);color:var(--teal);}
+.editor{border-radius:0 0 6px 6px !important;border-top:none !important;}
+.art-row{background:var(--white);border:.5px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.status-pill{font-size:10px;padding:3px 10px;border-radius:20px;flex-shrink:0;}
+.s-pending{background:#FFF3CD;color:#856404;}
+.s-published{background:var(--tl);color:#085041;}
+.s-rejected{background:var(--ol);color:#712B13;}
+.s-draft{background:#f0f0ed;color:#666;}
+.art-info{flex:1;min-width:0;}
+.art-name{font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.art-sub{font-size:11px;color:var(--gray);margin-top:2px;}
+.art-reject{font-size:11px;color:var(--orange);margin-top:3px;}
+.art-btns{display:flex;gap:5px;flex-shrink:0;}
+.btn-sm{font-size:11px;padding:4px 10px;border-radius:4px;cursor:pointer;font-family:"Cairo",sans-serif;border:1px solid var(--border);background:transparent;transition:all .15s;}
+.btn-sm:hover{background:var(--bg);}
+.btn-sm.t:hover{background:var(--tl);border-color:var(--teal);color:var(--teal);}
+.btn-sm.r:hover{background:var(--ol);border-color:var(--orange);color:var(--orange);}
+.empty{text-align:center;padding:36px;color:var(--gray);font-size:13px;}
+.toast{position:fixed;bottom:20px;left:20px;background:var(--black);color:#fff;font-size:12px;padding:9px 16px;border-radius:6px;transform:translateY(60px);transition:transform .25s;z-index:999;border-right:3px solid var(--teal);}
+.toast.show{transform:translateY(0);}
+@media(max-width:700px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.stats{grid-template-columns:1fr 1fr;}.two{grid-template-columns:1fr;}}
+.edit-banner{background:var(--gold);padding:10px 16px;border-radius:6px;margin-bottom:14px;font-size:13px;display:none;align-items:center;justify-content:space-between;}
+.edit-banner.on{display:flex;}
+.edit-banner button{border:none;background:transparent;font-size:12px;cursor:pointer;font-family:"Cairo",sans-serif;font-weight:500;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="tb-logo" onclick="window.location.href='index.html'">وَرَق</div>
+  <div class="tb-right">
+    <span class="tb-role">كاتب</span>
+    <span class="tb-name" id="tb-name"></span>
+    <button class="tb-out" onclick="logout()">خروج</button>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar" style="display:flex;flex-direction:column;">
+    <div class="nav-item active" onclick="go('dash',this)">الرئيسية</div>
+    <div class="nav-item" onclick="go('new',this)">مقالة جديدة</div>
+    <div class="nav-item" onclick="go('mine',this)">مقالاتي</div>
+    <div class="nav-item" onclick="go('profile',this)">ملفي الشخصي</div>
+    <div style="flex:1;"></div>
+    <div class="sidebar-foot"><a href="index.html">← عرض الموقع</a></div>
+  </aside>
+  <main class="main">
+    <div class="panel active" id="p-dash">
+      <div class="pg-title" id="greeting">أهلاً!</div>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">مقالاتي</div><div class="stat-val" id="st-all">—</div><div class="stat-note" style="color:var(--gray);">إجمالي</div></div>
+        <div class="stat"><div class="stat-label">منشورة</div><div class="stat-val" id="st-pub">—</div><div class="stat-note" style="color:var(--teal);">مرئية للقراء</div></div>
+        <div class="stat"><div class="stat-label">قيد المراجعة</div><div class="stat-val" id="st-pend">—</div><div class="stat-note" style="color:#856404;">بانتظار الموافقة</div></div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">آخر مقالاتي</span><button class="btn primary sm" onclick="go('new',navEl(1))">كتابة مقالة +</button></div>
+        <div class="card-body" id="dash-list"><div class="empty">لا توجد مقالات بعد</div></div>
+      </div>
+    </div>
+    <div class="panel" id="p-new">
+      <div class="pg-title" id="new-panel-title">مقالة جديدة</div>
+      <div class="edit-banner" id="edit-banner">
+        <span>وضع التعديل — ستُرسل للمراجعة بعد الحفظ</span>
+        <button onclick="cancelEdit()">إلغاء ×</button>
+      </div>
+      <div class="card"><div class="card-body">
+        <div class="fg"><label>عنوان المقالة *</label><input type="text" id="a-title" placeholder="عنوان المقالة"></div>
+        <div class="two">
+          <div class="fg"><label>التصنيف</label><select id="a-cat"><option>مقالات أدبية</option><option>نقد</option><option>حوار</option><option>ثقافة</option><option>توصية</option></select></div>
+          <div class="fg"><label>اسم القلم</label><input type="text" id="a-author"></div>
+        </div>
+        <div class="fg"><label>مقتطف (يظهر في الصفحة الرئيسية)</label><input type="text" id="a-excerpt" placeholder="جملة أو جملتان..."></div>
+        <div class="fg">
+          <label>المحتوى *</label>
+          <div class="toolbar">
+            <button class="tool" onclick="fmt('**','**')">عريض</button>
+            <button class="tool" onclick="fmt('\n## ','')">عنوان</button>
+            <button class="tool" onclick="fmt('\n> ','')">اقتباس</button>
+            <button class="tool" onclick="fmt('\n- ','')">قائمة</button>
+            <button class="tool" onclick="fmt('\n---\n','')">فاصل</button>
+          </div>
+          <textarea id="a-body" class="editor" placeholder="اكتبي المقالة هنا..."></textarea>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn primary" onclick="submit()">إرسال للمراجعة</button>
+          <button class="btn outline" onclick="draft()">حفظ مسودة</button>
+        </div>
+      </div></div>
+    </div>
+    <div class="panel" id="p-mine">
+      <div class="pg-title">مقالاتي</div>
+      <div id="mine-list"><div class="empty">جاري التحميل...</div></div>
+    </div>
+    <div class="panel" id="p-profile">
+      <div class="pg-title">ملفي الشخصي</div>
+      <div class="card"><div class="card-body">
+        <div class="fg"><label>الاسم الكامل</label><input type="text" id="p-name"></div>
+        <div class="fg"><label>اسم القلم</label><input type="text" id="p-pen"></div>
+        <div class="fg"><label>نبذة مختصرة</label><textarea id="p-bio" rows="3" style="min-height:80px;"></textarea></div>
+        <div class="fg"><label>البريد الإلكتروني</label><input type="text" id="p-email" disabled style="opacity:.5;"></div>
+        <button class="btn primary" onclick="saveProfile()">حفظ</button>
+      </div></div>
+      <div class="card"><div class="card-hd"><span class="card-title">تغيير كلمة المرور</span></div>
+        <div class="card-body">
+          <div class="fg"><label>كلمة المرور الجديدة</label><input type="password" id="p-pass" placeholder="٦ أحرف على الأقل"></div>
+          <button class="btn outline" onclick="changePass()">تغيير</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let me = null;
+
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { location.href = 'login.html'; return; }
+  me = session.user;
+  const { data: p } = await sb.from('profiles').select('*').eq('id', me.id).single();
+  if (p && p.role === 'admin') { location.href = 'admin.html'; return; }
+  document.getElementById('tb-name').textContent = (p && p.name) || me.email;
+  document.getElementById('greeting').textContent = 'أهلاً ' + ((p && p.name) || '') + ' !';
+  document.getElementById('p-email').value = me.email;
+  document.getElementById('p-name').value = (p && p.name) || '';
+  document.getElementById('p-pen').value = (p && p.pen_name) || '';
+  document.getElementById('p-bio').value = (p && p.bio) || '';
+  document.getElementById('a-author').value = (p && p.pen_name) || (p && p.name) || '';
+  loadMine();
+}
+init();
+
+function navEl(i) { return document.querySelectorAll('.nav-item')[i]; }
+
+function go(n, el) {
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(x) { x.classList.remove('active'); });
+  document.getElementById('p-' + n).classList.add('active');
+  if (el) el.classList.add('active');
+  if (n === 'mine') loadMine();
+  if (n === 'new' && !editingId) clearForm();
+}
+
+async function loadMine() {
+  const { data } = await sb.from('articles').select('*').eq('author_id', me.id).order('created_at', { ascending: false });
+  const arts = data || [];
+  document.getElementById('st-all').textContent = arts.length;
+  document.getElementById('st-pub').textContent = arts.filter(function(a) { return a.status === 'published'; }).length;
+  document.getElementById('st-pend').textContent = arts.filter(function(a) { return a.status === 'pending'; }).length;
+  renderList(arts, 'mine-list');
+  renderList(arts.slice(0, 3), 'dash-list');
+}
+
+function renderList(arts, id) {
+  const el = document.getElementById(id);
+  if (!arts.length) { el.innerHTML = '<div class="empty">لا توجد مقالات</div>'; return; }
+  const sl = { pending: 'قيد المراجعة', published: 'منشورة', rejected: 'مرفوضة', draft: 'مسودة' };
+  const sc = { pending: 's-pending', published: 's-published', rejected: 's-rejected', draft: 's-draft' };
+  el.innerHTML = '';
+  arts.forEach(function(a) {
+    var d = document.createElement('div');
+    d.className = 'art-row';
+    var rejHTML = (a.status === 'rejected' && a.reject_reason) ? '<div class="art-reject">سبب الرفض: ' + a.reject_reason + '</div>' : '';
+    var editBtn = a.status !== 'published' ? '<button class="btn-sm t" onclick="edit('' + a.id + '')">تعديل</button>' : '';
+    d.innerHTML = '<span class="status-pill ' + (sc[a.status] || '') + '">' + (sl[a.status] || a.status) + '</span><div class="art-info"><div class="art-name">' + a.title + '</div><div class="art-sub">' + (a.author_name || '') + ' &middot; ' + new Date(a.created_at).toLocaleDateString('ar-SA') + '</div>' + rejHTML + '</div><div class="art-btns">' + editBtn + '<button class="btn-sm r" onclick="del('' + a.id + '')">حذف</button></div>';
+    el.appendChild(d);
+  });
+}
+
+async function submit() {
+  var title = document.getElementById('a-title').value.trim();
+  var body = document.getElementById('a-body').value.trim();
+  if (!title || !body) { toast('يرجى إدخال العنوان والمحتوى'); return; }
+  var res;
+  if (editingId) {
+    res = await sb.from('articles').update({ title: title, body: body, excerpt: document.getElementById('a-excerpt').value, category: document.getElementById('a-cat').value, author_name: document.getElementById('a-author').value, status: 'pending' }).eq('id', editingId).eq('author_id', me.id);
+    if (res.error) { toast('خطأ في التعديل: ' + res.error.message); return; }
+    toast('تم تحديث المقالة وإرسالها للمراجعة! ✓');
+  } else {
+    res = await sb.from('articles').insert({ title: title, body: body, excerpt: document.getElementById('a-excerpt').value, category: document.getElementById('a-cat').value, author_name: document.getElementById('a-author').value, author_id: me.id, status: 'pending' });
+    if (res.error) { toast('خطأ: ' + res.error.message); return; }
+    toast('تم الإرسال للمراجعة! ✓');
+  }
+  clearForm();
+  go('mine', navEl(2));
+  loadMine();
+}
+
+async function draft() {
+  var title = document.getElementById('a-title').value.trim();
+  if (!title) { toast('أدخلي عنواناً'); return; }
+  var res = await sb.from('articles').insert({ title: title, body: document.getElementById('a-body').value, excerpt: document.getElementById('a-excerpt').value, category: document.getElementById('a-cat').value, author_name: document.getElementById('a-author').value, author_id: me.id, status: 'draft' });
+  if (res.error) { toast('خطأ في الحفظ: ' + res.error.message); return; }
+  toast('تم حفظ المسودة! ✓');
+  clearForm(); loadMine();
+}
+
+async function del(id) {
+  if (!confirm('حذف هذه المقالة نهائياً؟')) return;
+  var res = await sb.from('articles').delete().eq('id', id).eq('author_id', me.id);
+  if (res.error) { toast('خطأ في الحذف: ' + res.error.message); return; }
+  toast('تم الحذف ✓'); loadMine();
+}
+
+var editingId = null;
+async function edit(id) {
+  var { data: a } = await sb.from('articles').select('*').eq('id', id).eq('author_id', me.id).single();
+  if (!a) { toast('لا يمكن تعديل هذه المقالة'); return; }
+  document.getElementById('a-title').value = a.title;
+  document.getElementById('a-body').value = a.body || '';
+  document.getElementById('a-excerpt').value = a.excerpt || '';
+  document.getElementById('a-author').value = a.author_name || '';
+  editingId = id;
+  go('new', navEl(1));
+  var eb = document.getElementById('edit-banner');
+  if (eb) eb.classList.add('on');
+  var t = document.getElementById('new-panel-title');
+  if (t) t.textContent = 'تعديل المقالة';
+}
+
+function cancelEdit() { clearForm(); go('mine', navEl(2)); }
+
+async function saveProfile() {
+  var res = await sb.from('profiles').upsert({ id: me.id, name: document.getElementById('p-name').value, pen_name: document.getElementById('p-pen').value, bio: document.getElementById('p-bio').value, role: 'writer' });
+  if (res.error) { toast('خطأ في الحفظ: ' + res.error.message); return; }
+  toast('تم حفظ الملف الشخصي!');
+}
+
+async function changePass() {
+  var p = document.getElementById('p-pass').value;
+  if (!p || p.length < 6) { toast('كلمة المرور قصيرة جداً — ٦ أحرف على الأقل'); return; }
+  try {
+    var res = await sb.auth.updateUser({ password: p });
+    if (res.error) { toast('خطأ: ' + res.error.message); return; }
+    document.getElementById('p-pass').value = '';
+    toast('تم تغيير كلمة المرور! ✓');
+  } catch(e) { toast('خطأ في تغيير كلمة المرور'); }
+}
+
+function fmt(b, a) {
+  const ta = document.getElementById('a-body');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const sel = ta.value.substring(s, e);
+  ta.value = ta.value.substring(0, s) + b + sel + a + ta.value.substring(e);
+  ta.focus();
+}
+
+function clearForm() {
+  ['a-title', 'a-body', 'a-excerpt'].forEach(function(id) { var e = document.getElementById(id); if (e) e.value = ''; });
+  var cat = document.getElementById('a-cat'); if (cat) cat.selectedIndex = 0;
+  editingId = null;
+  var eb = document.getElementById('edit-banner'); if (eb) eb.classList.remove('on');
+  var t = document.getElementById('new-panel-title'); if (t) t.textContent = 'مقالة جديدة';
+}
+
+async function logout() { await sb.auth.signOut(); location.href = 'login.html'; }
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2800);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="canonical" href="https://waraq-adab.com/">
+<title>وَرَق | مجلة مركز الأدب العربي</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;700&family=Cairo:wght@300;400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.5/purify.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--teal:#1A7A7A;--td:#0f5555;--tl:#E8F5F2;--orange:#C94B1E;--ol:#FDF0EC;--gold:#D4A843;--gd:#3D2800;--ink:#0E0E0E;--paper:#FAF9F7;--cream:#F4F2EE;--mid:#6B6860;--light:#C8C5BC;--border:#E2DFD8;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:'Cairo',sans-serif;background:var(--paper);color:var(--ink);direction:rtl;line-height:1.6;overflow-x:hidden;}
+button,a{cursor:pointer;}
+.view{display:none;} .view.active{display:block;} 
+.topbar{background:var(--ink);padding:6px 0;}
+.topbar-in{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-text{font-size:11px;color:#888;}
+.tb-links{display:flex;gap:16px;}
+.tb-links a{font-size:11px;color:#888;text-decoration:none;}
+.tb-links a:hover{color:var(--gold);}
+.site-header{background:var(--paper);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;}
+.header-in{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.header-logo{font-family:'Amiri',serif;font-size:32px;color:var(--ink);cursor:pointer;text-decoration:none;}
+.header-logo:hover{color:var(--teal);}
+.header-nav{display:flex;align-items:center;gap:2px;}
+.nav-a{font-size:12px;color:var(--mid);text-decoration:none;padding:6px 14px;border-radius:6px;cursor:pointer;}
+.nav-a:hover,.nav-a.on{color:var(--teal);background:var(--tl);}
+.header-actions{display:flex;align-items:center;gap:8px;}
+.btn-ghost{font-size:11px;color:var(--mid);text-decoration:none;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;font-family:'Cairo',sans-serif;}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal);}
+.btn-primary{font-size:11px;color:#fff;background:var(--teal);padding:7px 16px;border-radius:6px;border:none;font-family:'Cairo',sans-serif;font-weight:500;}
+.btn-primary:hover{background:var(--td);}
+.ham-btn{display:none;background:none;border:none;flex-direction:column;gap:5px;padding:4px;}
+.ham-btn span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s;}
+.ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham-btn.open span:nth-child(2){opacity:0;}
+.ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mob-menu{background:var(--paper);border-bottom:1px solid var(--border);padding:12px 24px 20px;}
+.mob-menu a{display:block;font-size:14px;color:var(--ink);padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.mob-menu a:hover{color:var(--teal);}
+.mob-actions{display:flex;gap:8px;margin-top:14px;}
+.mob-actions .btn-ghost,.mob-actions .btn-primary{flex:1;text-align:center;padding:10px;}
+.masthead{border-bottom:3px solid var(--orange);padding:18px 24px 14px;}
+.mh-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;}
+.mh-left,.mh-right{font-size:11px;color:var(--mid);line-height:2;}
+.mh-right{text-align:left;}
+.mh-name{font-family:'Amiri',serif;font-size:64px;color:var(--ink);cursor:pointer;line-height:1;text-align:center;}
+.mh-tag{font-size:11px;color:var(--teal);letter-spacing:.1em;margin-top:5px;text-align:center;}
+.ticker{background:var(--teal);overflow:hidden;padding:6px 0;}
+.ticker-track{display:flex;gap:56px;animation:roll 36s linear infinite;white-space:nowrap;}
+.ticker:hover .ticker-track{animation-play-state:paused;}
+.ticker-track span{font-size:11px;color:#fff;cursor:pointer;}
+.ticker-track span::before{content:"◄ ";color:var(--gold);font-size:9px;}
+@keyframes roll{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.hero-section{max-width:1200px;margin:0 auto;padding:32px 24px 0;}
+.hero-grid{display:grid;grid-template-columns:1fr 320px;gap:0;border-bottom:1px solid var(--border);}
+.hero-main{padding-bottom:32px;padding-left:28px;border-left:1px solid var(--border);}
+.hero-side{padding-bottom:32px;}
+.tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;color:#fff;padding:3px 10px;border-radius:2px;}
+.hero-title{font-family:'Noto Naskh Arabic',serif;font-size:32px;line-height:1.35;color:var(--ink);margin-bottom:12px;cursor:pointer;}
+.hero-title:hover{color:var(--teal);}
+.hero-rule{width:40px;height:3px;background:var(--orange);margin-bottom:14px;}
+.hero-body{font-size:14px;color:var(--mid);line-height:1.9;}
+.hero-byline{font-size:11px;color:var(--teal);margin-top:10px;}
+.hero-cta{display:inline-block;margin-top:16px;font-size:11px;color:var(--teal);border-bottom:1px solid var(--teal);cursor:pointer;}
+.hero-cta:hover{color:var(--orange);border-color:var(--orange);}
+.side-hd{font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--mid);border-bottom:1px solid var(--border);padding:0 20px 10px;}
+.side-item{padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;}
+.side-item:hover{background:var(--cream);}
+.si-badge{font-size:9px;letter-spacing:.06em;color:var(--mid);margin-bottom:3px;}
+.si-title{font-size:13px;font-weight:500;line-height:1.4;}
+.si-meta{font-size:11px;color:var(--light);margin-top:2px;}
+.quote-card{margin:16px 20px 0;border-right:3px solid var(--gold);padding:12px 14px;background:#FFFDF0;}
+.quote-text{font-family:'Noto Naskh Arabic',serif;font-size:13px;line-height:1.75;color:var(--gd);}
+.quote-attr{font-size:10px;color:var(--gold);margin-top:6px;}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px;}
+.sec-header{display:flex;align-items:center;justify-content:space-between;border-top:2px solid var(--ink);padding-top:18px;margin-top:32px;margin-bottom:18px;}
+.sec-title{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--ink);}
+.sec-more{font-size:11px;color:var(--teal);cursor:pointer;}
+.books-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+.book-card{background:var(--paper);cursor:pointer;overflow:hidden;}
+.book-card:hover{background:var(--cream);}
+.book-card:hover .book-title{color:var(--teal);}
+.book-card-img{width:100%;height:180px;object-fit:cover;display:block;}
+.book-card-strip{height:6px;display:block;}
+.book-card-body{padding:14px 16px 16px;}
+.book-genre{font-size:9px;letter-spacing:.08em;color:var(--mid);margin-bottom:5px;font-weight:600;}
+.book-title{font-family:'Noto Naskh Arabic',serif;font-size:17px;line-height:1.35;margin-bottom:4px;}
+.book-author{font-size:11px;color:var(--orange);margin-bottom:6px;}
+.book-stars{font-size:12px;color:var(--gold);}
+.book-desc{font-size:12px;color:var(--mid);line-height:1.7;margin-top:6px;}
+.book-cta{display:inline-block;margin-top:10px;font-size:11px;color:var(--teal);border-bottom:1px solid var(--teal);}
+.arts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.art-item{display:grid;grid-template-columns:auto 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.art-item.has-img{grid-template-columns:120px 1fr;}
+.art-item-img{width:120px;height:90px;object-fit:cover;border-radius:6px;}
+.art-item:hover .ai-title{color:var(--teal);}
+.art-num{font-family:'Noto Naskh Arabic',serif;font-size:36px;color:var(--border);line-height:1;font-weight:700;min-width:40px;}
+.ai-badge{font-size:9px;letter-spacing:.08em;color:var(--mid);margin-bottom:6px;font-weight:600;}
+.ai-title{font-family:'Noto Naskh Arabic',serif;font-size:18px;line-height:1.45;margin-bottom:6px;}
+.ai-excerpt{font-size:13px;color:var(--mid);line-height:1.75;}
+.ai-meta{font-size:11px;color:var(--light);margin-top:8px;}
+.art-side-item{padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.art-side-item:hover .asi-title{color:var(--teal);}
+.asi-badge{font-size:9px;letter-spacing:.06em;color:var(--mid);margin-bottom:5px;}
+.asi-title{font-size:14px;font-weight:500;line-height:1.4;}
+.asi-meta{font-size:11px;color:var(--light);margin-top:4px;}
+.arch-strip{background:var(--cream);padding:32px 24px;margin-top:36px;}
+.arch-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px;}
+.arch-mini{border-radius:6px;overflow:hidden;cursor:pointer;transition:transform .2s;}
+.arch-mini:hover{transform:translateY(-4px);}
+.arch-mini-cover{height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.arch-mini-name{font-family:'Amiri',serif;font-size:18px;color:#fff;}
+.arch-mini-num{font-size:9px;color:rgba(255,255,255,.6);}
+.arch-mini-info{background:#fff;padding:8px 10px;border:.5px solid var(--border);}
+.arch-mini-date{font-size:10px;color:var(--mid);}
+.arch-mini-dl{display:block;font-size:10px;color:var(--teal);margin-top:3px;text-decoration:none;}
+.newsletter{padding:48px 24px;text-align:center;}
+.nl-logo{font-family:'Amiri',serif;font-size:36px;color:rgba(255,255,255,.3);margin-bottom:14px;}
+.nl-title{font-family:'Noto Naskh Arabic',serif;font-size:26px;color:#fff;margin-bottom:8px;}
+.nl-sub{font-size:13px;margin-bottom:22px;}
+.nl-form{display:flex;gap:8px;max-width:400px;margin:0 auto;}
+.nl-input{flex:1;padding:11px 14px;border:none;border-radius:6px;font-family:'Cairo',sans-serif;font-size:13px;direction:rtl;}
+.nl-btn{padding:11px 20px;border:none;border-radius:6px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.footer{background:var(--ink);padding:40px 24px 16px;}
+.ft{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px;padding-bottom:28px;border-bottom:.5px solid #1e1e1e;max-width:1200px;margin:0 auto;}
+.ft-logo{font-family:'Amiri',serif;font-size:34px;color:#fff;cursor:pointer;}
+.ft-logo:hover{color:var(--gold);}
+.ft-tag{font-size:12px;color:#555;margin-top:6px;line-height:1.8;}
+.ft-col h4{font-size:10px;color:#444;letter-spacing:.1em;margin-bottom:12px;}
+.ft-col a{display:block;font-size:13px;color:#666;text-decoration:none;margin-bottom:7px;cursor:pointer;}
+.ft-col a:hover{color:var(--gold);}
+.ft-btm{max-width:1200px;margin:16px auto 0;display:flex;justify-content:space-between;align-items:center;}
+.ft-copy{font-size:11px;color:#333;}
+.ft-soc{font-size:11px;padding:4px 12px;border-radius:4px;color:#fff;text-decoration:none;}
+.page-header{background:var(--ink);padding:32px 24px;}
+.ph-in{max-width:1200px;margin:0 auto;}
+.ph-back{font-size:12px;color:#888;cursor:pointer;border:none;background:none;font-family:'Cairo',sans-serif;display:inline-flex;align-items:center;gap:5px;margin-bottom:12px;padding:0;}
+.ph-back:hover{color:#fff;}
+.ph-title{font-family:'Noto Naskh Arabic',serif;font-size:32px;color:#fff;margin-bottom:4px;}
+.ph-sub{font-size:12px;color:#555;}
+.books-page-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:28px auto;padding:0 24px;}
+.bpg-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;}
+.bpg-card:hover{border-color:var(--teal);transform:translateY(-3px);}
+.bpg-cover{height:160px;display:flex;align-items:center;justify-content:center;padding:20px;}
+.bpg-cover span{font-family:'Noto Naskh Arabic',serif;font-size:22px;color:#fff;text-align:center;}
+.bpg-body{padding:16px;}
+.bpg-badge{display:inline-block;font-size:9px;padding:2px 9px;border-radius:2px;color:#fff;margin-bottom:8px;}
+.bpg-title{font-family:'Noto Naskh Arabic',serif;font-size:19px;margin-bottom:4px;}
+.bpg-author{font-size:12px;color:var(--orange);margin-bottom:8px;}
+.bpg-stars{font-size:12px;color:var(--gold);margin-bottom:8px;}
+.bpg-desc{font-size:12px;color:var(--mid);line-height:1.7;}
+.bpg-btn{display:block;margin-top:12px;padding:8px;text-align:center;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--teal);font-family:'Cairo',sans-serif;}
+.bpg-btn:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+.arts-page{max-width:1200px;margin:0 auto;padding:28px 24px;}
+.apg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.apg-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all .2s;overflow:hidden;}
+.apg-card:hover{border-color:var(--teal);}
+.apg-card:hover .apg-title{color:var(--teal);}
+.apg-badge{display:inline-block;font-size:9px;padding:2px 9px;border-radius:20px;color:#fff;margin-bottom:10px;}
+.apg-img{width:calc(100% + 40px);height:140px;object-fit:cover;margin:-20px -20px 14px;}
+.apg-title{font-family:'Noto Naskh Arabic',serif;font-size:18px;line-height:1.45;margin-bottom:8px;}
+.apg-excerpt{font-size:13px;color:var(--mid);line-height:1.8;}
+.apg-footer{display:flex;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);}
+.apg-author{font-size:11px;color:var(--teal);}
+.apg-date{font-size:11px;color:var(--light);}
+.arch-page{max-width:1200px;margin:0 auto;padding:28px 24px;}
+.arch-pg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.arch-pg-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .2s;}
+.arch-pg-card:hover{transform:translateY(-3px);}
+.arch-pg-cover{height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+.arch-pg-logo{font-family:'Amiri',serif;font-size:36px;color:#fff;}
+.arch-pg-num{font-size:11px;color:rgba(255,255,255,.6);}
+.arch-pg-info{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.arch-pg-date{font-size:12px;color:var(--mid);}
+.arch-pg-dl{font-size:12px;color:var(--teal);text-decoration:none;font-weight:500;}
+.single-art-wrap{max-width:720px;margin:0 auto;padding:32px 24px 60px;}
+.sa-badge{display:inline-block;color:#fff;font-size:10px;padding:3px 12px;margin-bottom:14px;border-radius:2px;}
+.sa-title{font-family:'Noto Naskh Arabic',serif;font-size:32px;line-height:1.35;margin-bottom:12px;}
+.sa-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.sa-author{font-size:13px;font-weight:500;}
+.sa-date{font-size:12px;color:var(--light);}
+.sa-cat{font-size:10px;padding:3px 10px;border-radius:20px;background:var(--tl);color:var(--teal);}
+.sa-body{font-size:15px;line-height:2.1;color:#222;}
+.sa-body p{margin-bottom:1.2em;}
+.sa-body h2{font-family:'Noto Naskh Arabic',serif;font-size:22px;margin:1.8em 0 .8em;}
+.sa-quote{border-right:4px solid var(--orange);padding:12px 18px;margin:24px 0;background:var(--ol);}
+.sa-quote p{font-family:'Noto Naskh Arabic',serif;font-size:16px;line-height:1.75;color:var(--orange);}
+.single-book-wrap{max-width:860px;margin:0 auto;padding:32px 24px 60px;}
+.sb-in{display:grid;grid-template-columns:200px 1fr;gap:36px;align-items:start;}
+.sb-cover{border-radius:10px;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;padding:16px;}
+.sb-cover span{font-family:'Noto Naskh Arabic',serif;font-size:22px;color:#fff;text-align:center;}
+.sb-badge{display:inline-block;color:#fff;font-size:9px;padding:2px 10px;border-radius:2px;margin-bottom:8px;}
+.sb-title{font-family:'Noto Naskh Arabic',serif;font-size:32px;line-height:1.2;margin-bottom:8px;}
+.sb-author{font-size:16px;color:var(--orange);margin-bottom:10px;}
+.sb-stars{font-size:20px;color:var(--gold);margin-bottom:14px;}
+.sb-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.sb-pill{font-size:11px;padding:3px 11px;border-radius:20px;background:var(--cream);color:var(--mid);border:1px solid var(--border);}
+.sb-desc{font-size:14px;line-height:2;color:#333;margin-bottom:18px;}
+.sb-quote{border-right:4px solid var(--gold);padding:10px 16px;margin:18px 0;background:#FFFDF0;}
+.sb-quote p{font-family:'Noto Naskh Arabic',serif;font-size:15px;color:var(--gd);}
+.sb-buy{background:var(--teal);color:#fff;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;cursor:pointer;border:none;}
+.related-sec{max-width:720px;margin:0 auto;padding:20px 24px 0;border-top:1px solid var(--border);}
+.rel-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--mid);margin-bottom:12px;}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.rel-card{padding:12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;}
+.rel-card:hover{border-color:var(--teal);background:var(--tl);}
+.rel-title{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:4px;}
+.rel-meta{font-size:11px;color:var(--light);}
+.issue-hd{background:var(--ink);padding:20px 24px;}
+.issue-hd-in{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.issue-pdf-wrap{background:#2a2a2a;min-height:80vh;display:flex;flex-direction:column;align-items:center;direction:ltr;}
+.pdf-placeholder{max-width:500px;margin:60px auto;text-align:center;padding:0 24px;direction:rtl;}
+.pdf-placeholder-icon{width:70px;height:90px;background:#4a4a4a;border-radius:6px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;}
+.pdf-frame-wrap{width:100%;padding:0 0 40px;}
+/* PDF.js viewer */
+#pdf-viewer-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:0;background:#2a2a2a;padding-bottom:40px;}
+#pdf-controls{width:100%;max-width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;background:#1a1a1a;border-bottom:1px solid #444;position:sticky;top:0;z-index:100;flex-wrap:nowrap;box-shadow:0 2px 12px rgba(0,0,0,.4);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.pdf-ctrl-btn{background:#333;color:#fff;border:1px solid #555;border-radius:6px;padding:6px 12px;font-family:'Cairo',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.pdf-ctrl-btn:hover{background:#444;border-color:#888;}
+.pdf-ctrl-btn:disabled{opacity:.4;cursor:not-allowed;}
+#pdf-page-info{font-size:12px;color:#aaa;font-family:'Cairo',sans-serif;min-width:80px;text-align:center;}
+#pdf-zoom-info{font-size:11px;color:#888;font-family:'Cairo',sans-serif;}
+#pdf-canvas-wrap{width:100%;max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px 8px;}
+.pdf-page-canvas{display:block;box-shadow:0 4px 24px rgba(0,0,0,.5);border-radius:4px;max-width:100%;height:auto;cursor:grab;touch-action:pan-x pan-y;}
+.pdf-page-canvas:active{cursor:grabbing;}
+#pdf-loading{color:#888;font-family:'Cairo',sans-serif;font-size:14px;padding:60px 0;text-align:center;}
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-main{border-left:none;border-bottom:1px solid var(--border);padding-left:0;}
+  .books-grid{grid-template-columns:repeat(2,1fr);}
+  .arts-grid{grid-template-columns:1fr;}
+  .arch-row{grid-template-columns:repeat(3,1fr);}
+  .ft{grid-template-columns:1fr 1fr;}
+  .books-page-grid{grid-template-columns:repeat(2,1fr);}
+  .arch-pg-grid{grid-template-columns:repeat(2,1fr);}
+  .sb-in{grid-template-columns:160px 1fr;}
+  .mh-in{grid-template-columns:1fr;}
+  .mh-left,.mh-right{display:none;}
+  .mh-name{font-size:52px;}
+}
+@media(max-width:768px){
+  .header-nav,.header-actions{display:none;}
+  .ham-btn{display:flex;}
+  .header-in{padding:0 16px;}
+  .topbar-text{display:none;}
+  .search-btn-text{display:none;}
+  .mh-name{font-size:40px;}
+  .hero-section,.wrap{padding-left:16px;padding-right:16px;}
+  .books-grid{grid-template-columns:1fr 1fr;}
+  .arch-row{grid-template-columns:repeat(2,1fr);}
+  .nl-form{flex-direction:column;}
+  .ft{grid-template-columns:1fr;}
+  .ft-btm{flex-direction:column;gap:10px;text-align:center;}
+  .apg-grid,.arch-pg-grid{grid-template-columns:1fr;}
+  .sb-in{grid-template-columns:1fr;}
+  .sb-cover{width:140px;margin:0 auto 20px;}
+  .rel-grid{grid-template-columns:1fr;}
+  .single-art-wrap,.single-book-wrap,.arts-page,.arch-page{padding-left:16px;padding-right:16px;}
+  .books-page-grid{grid-template-columns:1fr 1fr;padding:0 16px;}
+  .arts-grid{grid-template-columns:1fr;}
+  .news-card{padding:12px;gap:10px;}
+  .news-title{font-size:13px;}
+  .news-excerpt{font-size:11px;}
+  .hero-title{font-size:22px;}
+  .news-grid{grid-template-columns:1fr;}
+  .news-title{font-size:13px;line-height:1.35;}
+  .news-excerpt{font-size:11px;line-height:1.6;}
+  .news-card{padding:12px;gap:10px;}
+  .news-card-icon{width:34px;height:34px;font-size:15px;}
+}
+@media(max-width:480px){
+  .mh-name{font-size:34px;}
+  .books-grid,.books-page-grid{grid-template-columns:1fr;}
+  .arch-row{grid-template-columns:repeat(2,1fr);}
+  .news-grid{grid-template-columns:1fr !important;}
+  .arts-grid{grid-template-columns:1fr !important;}
+  .news-card{padding:14px;gap:10px;}
+  .news-title{font-size:15px;line-height:1.45;}
+  .news-excerpt{font-size:12px;}
+  .news-card-icon{width:38px;height:38px;font-size:17px;}
+}
+
+/* BANNER */
+.site-banner{width:100%;overflow:hidden;cursor:pointer;display:none;}
+.site-banner img{width:100%;max-height:400px;object-fit:cover;display:block;}
+/* LOGO IN HEADER */
+.header-logo-img{height:40px;width:auto;object-fit:contain;}
+.header-logo-wrap{display:flex;align-items:center;gap:10px;}
+/* MONTH PICK */
+.month-pick{background:var(--ink);color:#fff;padding:28px 24px;margin-top:32px;}
+.mp-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;}
+.mp-label{font-size:10px;letter-spacing:.12em;color:var(--gold);margin-bottom:8px;font-weight:600;}
+.mp-title{font-family:'Noto Naskh Arabic',serif;font-size:26px;color:#fff;line-height:1.4;margin-bottom:6px;}
+.mp-author{font-size:13px;color:#888;margin-bottom:12px;}
+.mp-desc{font-size:13px;color:#666;line-height:1.8;}
+.mp-btn{display:inline-block;margin-top:14px;padding:9px 22px;border:1px solid var(--gold);color:var(--gold);border-radius:5px;font-size:12px;font-family:'Cairo',sans-serif;cursor:pointer;text-decoration:none;}
+.mp-btn:hover{background:var(--gold);color:var(--gd);}
+.mp-cover{aspect-ratio:2/3;max-width:180px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:16px;margin:0 auto;}
+.mp-cover span{font-family:'Noto Naskh Arabic',serif;font-size:20px;color:#fff;text-align:center;}
+.mp-cover img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
+@media(max-width:768px){.mp-in{grid-template-columns:1fr;}.mp-cover{max-width:120px;}}
+
+/* SKELETON LOADER */
+.skeleton{background:linear-gradient(90deg,var(--cream) 25%,var(--border) 50%,var(--cream) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.sk-title{height:24px;margin-bottom:10px;width:80%;}
+.sk-text{height:14px;margin-bottom:7px;width:100%;}
+.sk-text.w60{width:60%;}
+.sk-cover{height:180px;margin-bottom:10px;}
+/* READING PROGRESS */
+.read-progress{position:fixed;top:0;right:0;left:0;height:3px;background:var(--border);z-index:7000;display:none;}
+.read-progress-bar{height:100%;background:var(--teal);width:0%;transition:width .1s;}
+/* BACK TO TOP */
+.back-top{position:fixed;bottom:32px;left:24px;z-index:900;width:42px;height:42px;border-radius:50%;background:var(--teal);color:#fff;border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s;}
+.back-top.show{display:flex;}
+.back-top:hover{background:var(--td);transform:translateY(-2px);}
+/* DARK MODE */
+.dark-toggle{font-size:16px;cursor:pointer;border:none;background:none;padding:4px 8px;border-radius:6px;transition:background .2s;}
+.dark-toggle:hover{background:var(--cream);}
+body.dark{--paper:#0E0E0E;--ink:#F0EFEB;--cream:#1a1a1a;--mid:#aaa;--border:#2a2a2a;--tl:#0f2a2a;--light:#666;}
+body.dark .site-header{background:#111;border-color:#2a2a2a;}
+body.dark .topbar{background:#000;}
+body.dark .header-nav .nav-a{color:#aaa;}
+body.dark .header-nav .nav-a.on{color:var(--teal);background:rgba(26,122,122,.2);}
+body.dark .header-logo{color:#F0EFEB;}
+body.dark .btn-ghost{border-color:#333;color:#aaa;}
+body.dark .book-card{background:#111;}
+body.dark .book-card:hover{background:#1a1a1a;}
+body.dark .book-title,body.dark .ai-title,body.dark .asi-title,body.dark .bpg-title,body.dark .apg-title{color:#F0EFEB;}
+body.dark .book-desc,body.dark .ai-excerpt,body.dark .apg-excerpt,body.dark .bpg-desc{color:#888;}
+body.dark .art-item,body.dark .art-side-item{border-color:#2a2a2a;}
+body.dark .apg-card,body.dark .bpg-card{background:#111;border-color:#2a2a2a;}
+body.dark .apg-footer,body.dark .bpg-body{border-color:#2a2a2a;}
+body.dark .rel-card{background:#111;border-color:#2a2a2a;}
+body.dark .masthead{background:#0E0E0E;border-color:#2a2a2a;}
+body.dark .mh-name{color:#F0EFEB;}
+body.dark .mh-tag{color:var(--teal);}
+body.dark .ticker{background:var(--teal);}
+body.dark .hero-title{color:#F0EFEB;}
+body.dark .hero-body{color:#999;}
+body.dark .hero-rule{background:var(--orange);}
+body.dark .hero-section{background:#0E0E0E;}
+body.dark .hero-grid{border-color:#2a2a2a;}
+body.dark .hero-main{border-color:#2a2a2a;}
+body.dark .side-item{border-color:#2a2a2a;}
+body.dark .side-item:hover{background:#1a1a1a;}
+body.dark .quote-card{background:#1a1500;}
+body.dark .wrap .sec-header{border-color:#F0EFEB;}
+body.dark .sec-title{color:#F0EFEB;}
+body.dark .sec-more{color:var(--teal);}
+body.dark .arch-mini-info,body.dark .arch-pg-info{background:#111;border-color:#2a2a2a;}
+body.dark .arch-strip{background:#111;}
+body.dark .arch-mini-date,body.dark .arch-pg-date{color:#888;}
+body.dark .page-header{background:#000;}
+body.dark .sa-body{color:#ddd;}
+body.dark .sa-body h2{color:#F0EFEB;}
+body.dark .sa-meta{border-color:#2a2a2a;}
+body.dark .sa-cat{background:#0f2a2a;color:var(--teal);}
+body.dark .single-art-wrap{background:#0E0E0E;}
+body.dark .single-book-wrap{background:#0E0E0E;}
+body.dark .sb-in{background:#0E0E0E;}
+body.dark .sb-pill{background:#1a1a1a;border-color:#2a2a2a;color:#aaa;}
+body.dark .sb-desc{color:#ccc;}
+body.dark .sb-quote{background:#1a1500;}
+body.dark .related-sec{border-color:#2a2a2a;}
+body.dark .comments-sec{border-color:#2a2a2a;}
+body.dark .comment-form{background:#1a1a1a;}
+body.dark .cf-input,body.dark .cf-textarea{background:#111;border-color:#333;color:#ddd;}
+body.dark .comment-item{background:#111;border-color:#2a2a2a;}
+body.dark .ci-body{color:#ccc;}
+body.dark .bpg-card:hover,body.dark .apg-card:hover{border-color:var(--teal);}
+body.dark .search-results{background:#111;border-color:#2a2a2a;}
+body.dark .sr-item{border-color:#2a2a2a;color:#ddd;}
+body.dark .sr-item:hover{background:rgba(26,122,122,.2);}
+body.dark .font-btn{background:#1a1a1a;border-color:#2a2a2a;color:#ddd;}
+body.dark .read-progress{background:#2a2a2a;}
+body.dark .search-bar{background:#111;border-color:#2a2a2a;}
+body.dark .search-input{background:#111;border-color:#333;color:#ddd;}
+body.dark .search-input::placeholder{color:#555;}
+body.dark .share-box{background:#111;color:#F0EFEB;}
+body.dark .share-opt{border-color:#333;color:#ddd;}
+body.dark .share-opt:hover{background:#1a1a1a;}
+body.dark .share-url input{background:#0E0E0E;border-color:#333;color:#888;}
+body.dark .footer{background:#000;}
+body.dark .dark-toggle{color:#F0EFEB;}
+body.dark .dark-toggle:hover{background:#1a1a1a;}
+body.dark #mob-search-input{background:#1a1a1a;border-color:#333;color:#ddd;}
+body.dark #mob-search-results{background:#111;border-color:#2a2a2a;}
+body.dark .news-card{background:#111;border-color:#2a2a2a;}
+body.dark .news-card:hover{border-color:var(--teal);}
+body.dark .news-title{color:#F0EFEB;}
+body.dark .news-excerpt{color:#888;}
+body.dark .news-card-icon{background:#1a1a1a;}
+/* READ TIME */
+.read-time{font-size:11px;color:var(--mid);display:flex;align-items:center;gap:4px;}
+/* FONT SIZE */
+.font-controls{display:flex;align-items:center;gap:4px;margin-top:12px;}
+.font-btn{font-size:12px;padding:4px 10px;border:1px solid var(--border);border-radius:5px;cursor:pointer;background:var(--cream);font-family:'Cairo',sans-serif;}
+.font-btn:hover{border-color:var(--teal);color:var(--teal);}
+/* SEARCH */
+.search-bar{display:none;padding:14px 24px;background:var(--paper);border-bottom:1px solid var(--border);position:relative;z-index:201;}
+.search-bar.show{display:block;}
+.search-in{max-width:680px;margin:0 auto;position:relative;}
+.search-input-wrap{position:relative;display:flex;align-items:center;}
+.search-input{width:100%;padding:13px 50px 13px 50px;border:2px solid var(--border);border-radius:12px;font-family:'Cairo',sans-serif;font-size:15px;direction:rtl;background:var(--paper);color:var(--ink);transition:all .2s;}
+.search-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,122,.1);}
+.search-input::placeholder{color:var(--light);font-size:14px;}
+.search-icon-inner{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--mid);font-size:18px;pointer-events:none;}
+.search-clear{position:absolute;left:14px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer;color:var(--mid);font-size:18px;display:none;padding:0;line-height:1;}
+.search-clear.show{display:block;}
+.search-results{position:absolute;top:calc(100% + 6px);right:0;left:0;background:var(--paper);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.12);z-index:5000;max-height:380px;overflow-y:auto;display:none;}
+.search-results.show{display:block;}
+.sr-item{padding:14px 18px;cursor:pointer;border-bottom:.5px solid var(--border);transition:background .15s;}
+.sr-item:hover{background:var(--tl);}
+.sr-item:last-child{border:none;}
+.sr-cat{font-size:9px;color:var(--teal);letter-spacing:.06em;margin-bottom:4px;font-weight:700;}
+.sr-title{font-size:14px;font-weight:500;color:var(--ink);}
+.sr-empty{padding:24px;text-align:center;color:var(--mid);font-size:13px;}
+.search-hint{font-size:11px;color:var(--light);text-align:center;margin-top:8px;}
+/* SHARE BUTTON */
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--mid);background:transparent;cursor:pointer;font-family:'Cairo',sans-serif;transition:all .2s;}
+.share-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--tl);}
+.share-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
+.share-popup{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8000;display:none;align-items:center;justify-content:center;}
+.share-popup.on{display:flex;}
+.share-box{background:#fff;border-radius:12px;padding:24px;width:320px;direction:rtl;}
+.share-box h3{font-size:15px;font-weight:600;margin-bottom:16px;color:var(--ink);}
+.share-options{display:flex;flex-direction:column;gap:8px;}
+.share-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;color:var(--ink);background:transparent;font-family:'Cairo',sans-serif;width:100%;text-align:right;}
+.share-opt:hover{background:var(--cream);}
+.share-opt-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.share-url{display:flex;gap:6px;margin-top:12px;}
+.share-url input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;direction:ltr;color:var(--mid);}
+.share-url button{padding:8px 14px;background:var(--teal);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Cairo',sans-serif;}
+.share-close{float:left;background:none;border:none;font-size:18px;cursor:pointer;color:var(--mid);padding:0;}
+/* ── COMMENTS ── */
+.comments-sec{max-width:720px;margin:0 auto;padding:32px 24px 60px;border-top:1px solid var(--border);}
+.comments-title{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--mid);margin-bottom:20px;}
+.comment-form{background:var(--cream);border-radius:10px;padding:20px;margin-bottom:28px;}
+.comment-form-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:14px;}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.cf-field{display:flex;flex-direction:column;gap:4px;}
+.cf-field label{font-size:11px;color:var(--mid);font-weight:500;}
+.cf-field label span{color:var(--orange);}
+.cf-input{padding:9px 12px;border:1px solid var(--border);border-radius:7px;font-family:'Cairo',sans-serif;font-size:13px;direction:rtl;background:#fff;color:var(--ink);transition:border .2s;}
+.cf-input:focus{outline:none;border-color:var(--teal);}
+.cf-input[aria-invalid="true"]{border-color:var(--orange);}
+.cf-textarea{padding:10px 12px;border:1px solid var(--border);border-radius:7px;font-family:'Cairo',sans-serif;font-size:13px;direction:rtl;background:#fff;color:var(--ink);resize:vertical;min-height:90px;width:100%;transition:border .2s;}
+.cf-textarea:focus{outline:none;border-color:var(--teal);}
+.cf-submit{background:var(--teal);color:#fff;border:none;padding:10px 22px;border-radius:7px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:10px;}
+.cf-submit:hover{background:var(--td);}
+.cf-submit:disabled{opacity:.6;cursor:not-allowed;}
+.cf-note{font-size:11px;color:var(--mid);margin-top:8px;}
+.cf-error{font-size:11px;color:var(--orange);margin-top:6px;display:none;}
+.cf-success{font-size:12px;color:var(--teal);background:var(--tl);padding:10px 14px;border-radius:7px;margin-top:10px;display:none;}
+.comments-list{display:flex;flex-direction:column;gap:16px;}
+.comment-item{padding:16px;border:1px solid var(--border);border-radius:10px;background:#fff;}
+.ci-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.ci-name{font-size:13px;font-weight:600;color:var(--ink);}
+.ci-date{font-size:11px;color:var(--light);}
+.ci-body{font-size:13px;color:#333;line-height:1.8;}
+.comments-empty{font-size:13px;color:var(--light);text-align:center;padding:20px 0;}
+.comments-loading{font-size:13px;color:var(--mid);text-align:center;padding:16px;}
+@media(max-width:600px){.cf-row{grid-template-columns:1fr;}}
+/* ── NEWS SECTION ── */
+.news-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.news-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all .2s;display:flex;gap:14px;align-items:flex-start;}
+.news-card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.news-card-icon{width:40px;height:40px;border-radius:8px;background:var(--ol);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.news-card-body{flex:1;}
+.news-badge{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--orange);margin-bottom:5px;display:block;}
+.news-title{font-family:'Noto Naskh Arabic',serif;font-size:15px;line-height:1.4;color:var(--ink);margin-bottom:4px;}
+.news-card:hover .news-title{color:var(--teal);}
+.news-excerpt{font-size:12px;color:var(--mid);line-height:1.7;}
+.news-meta{font-size:11px;color:var(--light);margin-top:6px;}
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;margin-top:32px;margin-bottom:18px;border-radius:8px;}
+.sec-header.books-hd{background:linear-gradient(135deg,var(--teal),var(--td));border-top:none;}
+.sec-header.arts-hd{background:linear-gradient(135deg,var(--orange),#a33a14);border-top:none;}
+.sec-header.news-hd{background:linear-gradient(135deg,#7B2D8B,#5a1f68);border-top:none;}
+.sec-header.arch-hd{background:linear-gradient(135deg,var(--gd),#1a0e00);border-top:none;}
+.sec-title{font-size:14px;font-weight:700;letter-spacing:.08em;color:#fff;}
+.sec-more{font-size:12px;color:rgba(255,255,255,.85);cursor:pointer;font-weight:500;}
+.sec-more:hover{color:#fff;}
+
+/* ══════════ DESIGN REFRESH ══════════ */
+:root{--paper:#FBF8F3;--cream:#F3EEE5;--border:#E6DFD3;--mid:#5F5A50;--light:#9A9488;--shadow:0 1px 2px rgba(40,30,10,.04),0 6px 20px rgba(40,30,10,.06);}
+body{font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased;}
+/* Arabic script must never be letter-spaced: it breaks the joins */
+.tag,.side-hd,.si-badge,.sec-title,.book-genre,.ai-badge,.asi-badge,.mp-label,.news-badge,.sr-cat,.rel-label,.comments-title,.ft-col h4,.mh-tag,.quote-attr,.apg-badge,.bpg-badge,.sb-badge,.sa-badge{letter-spacing:0 !important;}
+/* top bar + header */
+.topbar{padding:7px 0;}
+.topbar-text,.tb-links a{font-size:12px;color:#9a9a9a;}
+.header-in{height:68px;}
+.header-logo{font-size:34px;}
+.nav-a{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;transition:color .2s,background .2s;}
+.btn-ghost{font-size:13px;padding:8px 14px;border-radius:999px;}
+.btn-primary{font-size:13px;padding:9px 18px;border-radius:999px;font-weight:600;}
+#search-toggle{border-radius:999px !important;}
+/* masthead */
+.masthead{padding:28px 24px 22px;border-bottom:1px solid var(--border);box-shadow:inset 0 -4px 0 var(--paper),inset 0 -5px 0 var(--border);}
+.mh-name{font-size:84px;}
+.mh-tag{font-size:14px;margin-top:10px;color:var(--mid);}
+.mh-left,.mh-right{font-size:12px;}
+/* ticker */
+.ticker{padding:9px 0;}
+.ticker-track span{font-size:13px;}
+/* hero */
+.hero-section{padding-top:44px;}
+.hero-main{padding-left:40px;padding-bottom:40px;}
+.tag{font-size:12px;padding:4px 12px;border-radius:999px;font-weight:600;}
+.hero-title{font-size:44px;line-height:1.3;margin:14px 0 16px;font-weight:700;}
+.hero-rule{width:56px;margin-bottom:18px;}
+.hero-body{font-size:17px;line-height:2.05;color:#3d3a34;max-width:62ch;}
+.hero-byline{font-size:14px;margin-top:14px;font-weight:500;}
+.side-hd{font-size:14px;font-weight:700;color:var(--ink);padding:0 24px 12px;}
+.side-item{padding:14px 24px;transition:background .2s;}
+.si-title{font-size:16px;font-family:'Noto Naskh Arabic',serif;font-weight:500;}
+.si-meta{font-size:12px;color:var(--light);margin-top:4px;}
+.quote-card{margin:20px 24px 0;border-radius:0 10px 10px 0;}
+.quote-text{font-size:15px;}
+.quote-attr{font-size:12px;}
+/* section headers: editorial, one system for every section */
+.sec-header,.sec-header.books-hd,.sec-header.arts-hd,.sec-header.news-hd,.sec-header.arch-hd{background:none;border-radius:0;padding:0 0 14px;margin-top:64px;margin-bottom:28px;border-top:none;border-bottom:1px solid var(--border);position:relative;}
+.sec-header::after{content:"";position:absolute;bottom:-1px;right:0;width:72px;height:3px;background:var(--accent,var(--teal));}
+.sec-header.books-hd{--accent:var(--teal);}
+.sec-header.arts-hd{--accent:var(--orange);}
+.sec-header.news-hd{--accent:var(--gold);}
+.sec-header.arch-hd{--accent:var(--ink);}
+.sec-title{font-family:'Noto Naskh Arabic',serif;font-size:28px;font-weight:700;color:var(--ink);line-height:1.3;}
+.sec-more{font-size:14px;font-weight:600;color:var(--teal);padding:6px 14px;border-radius:999px;transition:background .2s;}
+.sec-more:hover{color:var(--teal);background:var(--tl);}
+/* books */
+.books-grid{gap:24px;background:none;}
+.book-card{background:#fff;border:1px solid var(--border);border-radius:14px;transition:transform .25s,box-shadow .25s,border-color .25s;}
+.book-card:hover{background:#fff;transform:translateY(-4px);box-shadow:var(--shadow);border-color:transparent;}
+.book-card-img{height:220px;}
+.book-card-body{padding:18px 20px 20px;}
+.book-genre{font-size:12px;color:var(--light);margin-bottom:6px;}
+.book-title{font-size:20px;font-weight:700;margin-bottom:6px;}
+.book-author{font-size:14px;font-weight:500;margin-bottom:8px;}
+.book-desc{font-size:14px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.book-cta{font-size:13px;font-weight:600;margin-top:14px;}
+/* article + news cards */
+.arts-grid,.news-grid{gap:24px;}
+.news-card{border-radius:14px;padding:26px 28px;gap:0;transition:transform .25s,box-shadow .25s,border-color .25s;}
+.news-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent;}
+.news-card-icon{display:none;}
+.news-badge{font-size:12px;font-weight:700;margin-bottom:8px;display:inline-block;}
+.news-title{font-size:21px;font-weight:700;line-height:1.5;margin-bottom:8px;}
+.news-excerpt{font-size:15px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.news-meta{font-size:13px;color:var(--light);margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+/* archive */
+.arch-strip{padding:8px 24px 56px;margin-top:64px;}
+.arch-strip .sec-header{margin-top:48px;}
+.arch-row{gap:16px;}
+.arch-mini{border-radius:12px;box-shadow:var(--shadow);}
+.arch-mini-cover{height:120px;}
+.arch-mini-name{font-size:24px;}
+.arch-mini-num{font-size:12px;}
+.arch-mini-info{padding:12px 14px;border:none;}
+.arch-mini-date{font-size:13px;}
+.arch-mini-dl{font-size:13px;font-weight:600;}
+/* month pick */
+.month-pick{padding:64px 24px;margin-top:0;}
+.mp-label{font-size:13px;}
+.mp-title{font-size:34px;}
+.mp-author{font-size:15px;color:#bdb8ad;}
+.mp-desc{font-size:16px;color:#a9a397;line-height:2;}
+.mp-btn{font-size:14px;padding:11px 26px;border-radius:999px;}
+.mp-cover{max-width:220px;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+/* newsletter */
+.newsletter{padding:72px 24px;}
+.nl-title{font-size:32px;}
+.nl-sub{font-size:16px;}
+.nl-form{max-width:480px;}
+.nl-input,.nl-btn{padding:14px 18px;font-size:15px;border-radius:999px;}
+/* footer: readable contrast on black */
+.footer{padding:56px 24px 22px;}
+.ft-tag{font-size:14px;color:#8d8d8d;}
+.ft-col h4{font-size:14px;color:#cfcfcf;font-weight:600;}
+.ft-col a{font-size:14px;color:#9a9a9a;margin-bottom:10px;}
+.ft-copy{font-size:12px;color:#7a7a7a;}
+.ft-soc{font-size:12px;padding:6px 14px;border-radius:999px;}
+/* inner pages */
+.page-header{padding:48px 24px;}
+.ph-title{font-size:38px;}
+.ph-sub{font-size:14px;color:#8d8d8d;}
+.ph-back{font-size:14px;}
+.bpg-card,.apg-card,.arch-pg-card{border-radius:14px;}
+.bpg-card:hover,.apg-card:hover{box-shadow:var(--shadow);}
+.bpg-title,.apg-title{font-size:21px;font-weight:700;}
+.bpg-desc,.apg-excerpt{font-size:15px;line-height:1.9;}
+.bpg-author,.apg-author,.apg-date{font-size:13px;}
+.apg-badge,.bpg-badge{font-size:12px;padding:3px 12px;border-radius:999px;}
+.single-art-wrap{max-width:760px;padding-top:48px;}
+.sa-title{font-size:42px;line-height:1.3;font-weight:700;}
+.sa-author{font-size:15px;}
+.sa-date,.sa-cat{font-size:13px;}
+.sa-body{font-size:19px;line-height:2.15;font-family:'Noto Naskh Arabic',serif;color:#262320;}
+.sa-body h2{font-size:27px;}
+.sb-title{font-size:38px;font-weight:700;}
+.sb-desc{font-size:17px;}
+.sb-cover{box-shadow:0 18px 40px rgba(0,0,0,.18);}
+.rel-label,.comments-title{font-size:15px;color:var(--ink);}
+.rel-title{font-size:15px;}
+.ci-body{font-size:15px;}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px;}
+/* dark mode alignment */
+body.dark{--shadow:0 6px 24px rgba(0,0,0,.5);}
+body.dark .book-card,body.dark .book-card:hover{background:#141414;border-color:#262626;}
+body.dark .sec-header{border-color:#2a2a2a;}
+body.dark .sec-header.arch-hd{--accent:#F0EFEB;}
+body.dark .hero-body{color:#b5b0a6;}
+body.dark .sa-body{color:#ddd;}
+body.dark .news-meta{border-color:#2a2a2a;}
+body.dark .masthead{box-shadow:inset 0 -4px 0 #0E0E0E,inset 0 -5px 0 #2a2a2a;}
+/* responsive */
+@media(max-width:1024px){
+  .hero-main{padding-left:0;}
+  .mh-name{font-size:64px;}
+  .hero-title{font-size:36px;}
+}
+@media(max-width:768px){
+  .header-in{height:60px;}
+  .masthead{padding:20px 16px 16px;}
+  .mh-name{font-size:52px;}
+  .mh-tag{font-size:13px;}
+  .hero-section{padding-top:28px;}
+  .hero-title{font-size:28px;}
+  .hero-body{font-size:16px;}
+  .side-hd,.side-item{padding-right:0;padding-left:0;}
+  .quote-card{margin:16px 0 0;}
+  .sec-header,.sec-header.books-hd,.sec-header.arts-hd,.sec-header.news-hd,.sec-header.arch-hd{margin-top:44px;margin-bottom:20px;}
+  .sec-title{font-size:22px;}
+  .sec-more{font-size:13px;padding:4px 10px;}
+  .books-grid{gap:14px;}
+  .book-card-img{height:170px;}
+  .book-card-body{padding:14px;}
+  .book-title{font-size:17px;}
+  .book-desc{font-size:13px;-webkit-line-clamp:3;}
+  .news-card{padding:20px;}
+  .news-title{font-size:18px;line-height:1.5;}
+  .news-excerpt{font-size:14px;line-height:1.85;}
+  .arch-strip{padding:4px 16px 40px;margin-top:44px;}
+  .month-pick{padding:44px 16px;}
+  .mp-title{font-size:26px;}
+  .newsletter{padding:52px 16px;}
+  .nl-title{font-size:24px;}
+  .ph-title{font-size:28px;}
+  .sa-title{font-size:30px;}
+  .sa-body{font-size:17px;}
+  .sb-title{font-size:28px;}
+}
+@media(max-width:480px){
+  .mh-name{font-size:44px;}
+  .books-grid{grid-template-columns:1fr 1fr;}
+  .news-title{font-size:17px;}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in"><span class="topbar-text" id="tb-txt">مركز الأدب العربي للنشر والتوزيع</span><div class="tb-links"><a id="ig-lnk" href="https://www.instagram.com/servicesbook1" target="_blank" rel="noopener noreferrer">Instagram</a><a id="tt-lnk" href="https://www.tiktok.com/@adab_book" target="_blank" rel="noopener noreferrer">TikTok</a><a id="store-lnk" href="https://adab-book.com/" target="_blank" rel="noopener noreferrer">المتجر</a></div></div></div>
+<!-- BANNER -->
+<div class="site-banner" id="site-banner">
+  <img id="banner-img" src="" alt="إعلان">
+</div>
+<header class="site-header"><div class="header-in">
+  <a class="header-logo header-logo-wrap" id="logo-home">
+  <img id="header-logo-img" src="" alt="وَرَق" class="header-logo-img" style="display:none;">
+  <span id="header-logo-text">وَرَق</span>
+</a>
+  <nav class="header-nav">
+    <a class="nav-a on" id="nav-home">الرئيسية</a>
+    <a class="nav-a" id="nav-issue">العدد الحالي</a>
+    <a class="nav-a" id="nav-books">الكتب</a>
+    <a class="nav-a" id="nav-articles">مقالات</a>
+    <a class="nav-a" id="nav-archive">الأرشيف</a>
+    <a class="nav-a" id="nav-news">أخبار</a>
+  </nav>
+  <div class="header-actions">
+    <button type="button" class="dark-toggle" id="dark-toggle" title="وضع ليلي" aria-label="تبديل الوضع الليلي" style="font-size:18px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;">🌙</button>
+    <button type="button" id="search-toggle" title="بحث" aria-label="بحث" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border);border-radius:8px;background:transparent;cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;color:var(--mid);transition:all .2s;" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'"><span style="font-size:15px;">🔍</span><span class="search-btn-text">بحث</span></button>
+    <a class="btn-ghost" href="login.html">دخول المحررين</a>
+    <button type="button" class="btn-primary" id="sub-btn">اشترك مجاناً</button>
+  </div>
+  <button type="button" class="ham-btn" id="ham" aria-label="فتح القائمة" aria-expanded="false"><span></span><span></span><span></span></button>
+</div></header>
+<div class="read-progress" id="read-progress"><div class="read-progress-bar" id="read-bar"></div></div>
+<button type="button" class="back-top" id="back-top" aria-label="العودة للأعلى">↑</button>
+<div class="search-bar" id="search-bar">
+  <div class="search-in">
+    <div class="search-input-wrap">
+      <span class="search-icon-inner">🔍</span>
+      <input class="search-input" id="search-input" type="text" placeholder="ابحث في المقالات والكتب..." aria-label="بحث" autocomplete="off">
+      <button type="button" class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="مسح البحث">×</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+    <div class="search-hint">ابحث بعنوان المقالة أو اسم الكتاب أو الكاتب</div>
+  </div>
+</div>
+<div class="mob-menu" id="mob-menu"  style="display:none;flex-direction:column;">
+  <div style="padding:8px 0 12px;">
+    <input id="mob-search-input" type="text" placeholder="🔍  ابحث في المقالات والكتب..." autocomplete="off"
+      style="width:100%;padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;direction:rtl;background:var(--cream);color:var(--ink);">
+    <div id="mob-search-results" style="display:none;background:var(--paper);border:1px solid var(--border);border-radius:10px;margin-top:6px;max-height:260px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.1);"></div>
+  </div>
+  <a id="mob-home">الرئيسية</a><a id="mob-issue">العدد الحالي</a><a id="mob-books">الكتب</a><a id="mob-articles">مقالات</a><a id="mob-archive">الأرشيف</a><a id="mob-news">أخبار</a>
+  <div class="mob-actions"><a class="btn-ghost" href="login.html">دخول المحررين</a><button type="button" class="btn-primary" id="mob-sub">اشترك</button></div>
+</div>
+
+<!-- HOME -->
+<div class="view active" id="v-home">
+<div class="masthead"><div class="mh-in">
+  <div class="mh-left" id="mh-left">العدد الأول<br>أبريل ٢٠٢٥<br>مجانية</div>
+  <div><div class="mh-name" id="mh-name" data-text-logo="1">وَرَق</div><div class="mh-tag" id="mh-tag">مجلة مركز الأدب العربي الشهرية</div></div>
+  <div class="mh-right">رقمية<br>شهرية<br>مجانية</div>
+</div></div>
+<div class="ticker"><div class="ticker-track" id="ticker-track">
+</div></div>
+<div class="hero-section"><div class="hero-grid">
+  <div class="hero-main">
+    <div style="margin-bottom:12px;"><span class="tag" id="hero-badge" style="background:var(--teal);">كتاب الشهر</span></div>
+    <div class="hero-title" id="hero-title"></div>
+    <div class="hero-rule"></div>
+    <div class="hero-body" id="hero-body"></div>
+    <div class="hero-byline" id="hero-by"></div>
+  </div>
+  <div class="hero-side">
+    <div class="side-hd">جديد المركز</div>
+    <div id="side-items"></div>
+    <div class="quote-card"><div class="quote-text" id="quote-t"></div><div class="quote-attr">— اقتباس الشهر</div></div>
+  </div>
+</div></div>
+<div class="wrap" data-section="books">
+  <div class="sec-header books-hd"><div class="sec-title">إصدارات المركز</div><div class="sec-more" id="more-books">الكتب كلها ←</div></div>
+  <div class="books-grid" id="home-books"></div>
+  <div class="sec-header arts-hd"><div class="sec-title">المقالات</div><div class="sec-more" id="more-arts">كل المقالات ←</div></div>
+  <div class="arts-grid" id="arts-grid-home">
+    <div id="home-arts" style="display:none;"></div>
+    <div id="home-arts-side" style="display:none;"></div>
+  </div>
+</div>
+
+<div class="wrap" data-section="news">
+  <div class="sec-header news-hd"><div class="sec-title">الأخبار</div><div class="sec-more" id="more-news">كل الأخبار ←</div></div>
+  <div class="news-grid" id="home-news"></div>
+</div>
+<div class="arch-strip" data-section="archive"><div style="max-width:1200px;margin:0 auto;">
+  <div class="sec-header arch-hd" style="margin-top:0;"><div class="sec-title">أرشيف الأعداد</div><div class="sec-more" id="more-arch">عرض الكل ←</div></div>
+  <div class="arch-row" id="home-arch">
+    <div class="arch-mini" id="am1" data-goissue="1"><div class="arch-mini-cover" style="background:#1A7A7A;border-radius:6px 6px 0 0;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد الأول</div></div><div class="arch-mini-info"><div class="arch-mini-date">أبريل ٢٠٢٥</div><div class="arch-mini-dl">تصفح ←</div></div></div>
+    <div class="arch-mini" data-goissue="2"><div class="arch-mini-cover" style="background:#C94B1E;border-radius:6px 6px 0 0;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد الثاني</div></div><div class="arch-mini-info"><div class="arch-mini-date">مايو ٢٠٢٥</div><div class="arch-mini-dl" style="color:var(--light);">قريباً</div></div></div>
+    <div class="arch-mini" data-goissue="3"><div class="arch-mini-cover" style="background:#412402;border-radius:6px 6px 0 0;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد الثالث</div></div><div class="arch-mini-info"><div class="arch-mini-date">يونيو ٢٠٢٥</div><div class="arch-mini-dl" style="color:var(--light);">قريباً</div></div></div>
+    <div class="arch-mini" data-goissue="4"><div class="arch-mini-cover" style="background:#26215C;border-radius:6px 6px 0 0;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد الرابع</div></div><div class="arch-mini-info"><div class="arch-mini-date">يوليو ٢٠٢٥</div><div class="arch-mini-dl" style="color:var(--light);">قريباً</div></div></div>
+    <div class="arch-mini" data-goissue="5"><div class="arch-mini-cover" style="background:#633806;border-radius:6px 6px 0 0;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد الخامس</div></div><div class="arch-mini-info"><div class="arch-mini-date">أغسطس ٢٠٢٥</div><div class="arch-mini-dl" style="color:var(--light);">قريباً</div></div></div>
+  </div>
+</div></div>
+
+<!-- MONTH PICK -->
+<div class="month-pick" id="month-pick" data-section="monthpick" style="display:none;">
+  <div class="mp-in">
+    <div>
+      <div class="mp-label">توصية الشهر</div>
+      <div class="mp-title" id="mp-title">جحيم العابرين</div>
+      <div class="mp-author" id="mp-author">مركز الأدب العربي</div>
+      <div class="mp-desc" id="mp-desc">رواية استثنائية تجمع بين الإثارة والعمق الفلسفي في رحلة لا تُنسى.</div>
+      <a class="mp-btn" id="mp-btn">احصل على الكتاب</a>
+    </div>
+    <div style="text-align:center;">
+      <div class="mp-cover" id="mp-cover" style="background:#412402;">
+        <span id="mp-cover-t">جحيم العابرين</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="newsletter" id="newsletter" data-section="newsletter" style="background:linear-gradient(135deg,var(--teal),var(--td));">
+  <div class="nl-logo">وَرَق</div>
+  <div class="nl-title" id="nl-title">اشترك في وَرَق مجاناً</div>
+  <div class="nl-sub" style="color:rgba(255,255,255,.75);" id="nl-sub">احصل على كل عدد جديد في بريدك الإلكتروني</div>
+  <div class="nl-form"><input class="nl-input" type="email" placeholder="بريدك الإلكتروني" id="nl-input"><button type="button" class="nl-btn" id="nl-btn" style="background:var(--gold);color:var(--gd);">اشترك الآن</button></div>
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.15);direction:rtl;">
+    <div style="font-family:'Noto Naskh Arabic',serif;font-size:16px;color:#fff;margin-bottom:8px;">تريد المشاركة في الأعداد القادمة؟</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.65);margin-bottom:10px;">أرسل مقالتك أو مشاركتك على</div>
+    <a href="mailto:waraq.adab@gmail.com" style="display:inline-block;color:var(--gold);font-weight:700;font-size:14px;text-decoration:none;direction:ltr;unicode-bidi:embed;letter-spacing:.02em;">waraq.adab@gmail.com</a>
+  </div>
+</div>
+<footer class="footer" data-section="footer"><div class="ft">
+  <div><div class="ft-logo" id="ft-logo">وَرَق</div><div class="ft-tag" id="ft-tag">مجلة مركز الأدب العربي<br>شهرية · رقمية · مجانية</div></div>
+  <div class="ft-col"><h4>أقسام الموقع</h4><a id="fl-home">الرئيسية</a><a id="fl-issue">العدد الحالي</a><a id="fl-books">الكتب</a><a id="fl-arts">مقالات</a><a id="fl-arch">الأرشيف</a></div>
+  <div class="ft-col"><h4>تواصل معنا</h4><a id="ft-ig" href="https://www.instagram.com/servicesbook1" target="_blank" rel="noopener noreferrer">Instagram</a><a id="ft-tt" href="https://www.tiktok.com/@adab_book" target="_blank" rel="noopener noreferrer">TikTok</a><a id="ft-store" href="https://adab-book.com/" target="_blank" rel="noopener noreferrer">المتجر</a></div>
+  <div class="ft-col"><h4>المركز</h4><a href="login.html">دخول المحررين</a><a href="mailto:waraq.adab@gmail.com">راسلنا</a></div>
+</div>
+<div class="ft-btm" style="max-width:1200px;margin:16px auto 0;"><span class="ft-copy" id="ft-copy">© ٢٠٢٦ مركز الأدب العربي للنشر والتوزيع</span><div style="display:flex;gap:6px;"><a class="ft-soc" style="background:#1A7A7A;" href="https://www.instagram.com/servicesbook1" target="_blank" rel="noopener noreferrer">Instagram</a><a class="ft-soc" style="background:#C94B1E;" href="https://www.tiktok.com/@adab_book" target="_blank" rel="noopener noreferrer">TikTok</a><a class="ft-soc" style="background:#412402;" href="https://adab-book.com/" target="_blank" rel="noopener noreferrer">المتجر</a></div></div>
+</footer>
+</div>
+
+<!-- ISSUE -->
+<div class="view" id="v-issue">
+<div class="issue-hd"><div class="issue-hd-in">
+  <div><button type="button" class="ph-back" id="issue-back">← الرئيسية</button><div style="font-family:'Amiri',serif;font-size:28px;color:#fff;margin-top:8px;">وَرَق</div><div style="font-size:11px;color:#666;margin-top:4px;" id="pdf-issue-label"></div></div>
+  <div style="display:flex;gap:8px;align-items:center;"><a id="pdf-dl-btn" href="#" target="_blank" rel="noopener noreferrer" style="display:none;font-size:12px;color:#fff;background:var(--teal);padding:8px 16px;border-radius:6px;text-decoration:none;font-family:'Cairo',sans-serif;">تحميل PDF ↓</a><span id="pdf-no-link" style="font-size:12px;color:#555;font-family:'Cairo',sans-serif;">سيتوفر قريباً</span></div>
+</div></div>
+<div class="issue-pdf-wrap">
+  <div class="pdf-placeholder" id="pdf-placeholder"><div class="pdf-placeholder-icon"><svg width="28" height="36" viewBox="0 0 28 36" fill="none"><rect x="2" y="2" width="24" height="32" rx="3" stroke="#888" stroke-width="2"/><path d="M7 11h14M7 17h14M7 23h9" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg></div><div style="font-family:'Noto Naskh Arabic',serif;font-size:20px;color:#ccc;margin-bottom:10px;">العدد الحالي</div><div style="font-size:13px;color:#888;line-height:1.8;">سيظهر هنا ملف PDF بعد رفعه من لوحة التحكم</div></div>
+  <div id="pdf-viewer-wrap" style="display:none;width:100%;">
+    <div id="pdf-controls">
+      <button type="button" class="pdf-ctrl-btn" id="pdf-prev" onclick="pdfPrevPage()">◄ السابقة</button>
+      <span id="pdf-page-info">-- / --</span>
+      <button type="button" class="pdf-ctrl-btn" id="pdf-next" onclick="pdfNextPage()">التالية ►</button>
+      <span style="color:#555;font-size:12px;">|</span>
+      <button type="button" class="pdf-ctrl-btn" id="pdf-zoom-out" onclick="pdfZoom(-0.2)">−</button>
+      <span id="pdf-zoom-info">100%</span>
+      <button type="button" class="pdf-ctrl-btn" id="pdf-zoom-in" onclick="pdfZoom(0.2)">+</button>
+      <span style="color:#555;font-size:12px;">|</span>
+      <button type="button" class="pdf-ctrl-btn" onclick="pdfZoomFit()">ملاءمة</button>
+    </div>
+    <div id="pdf-canvas-wrap">
+      <div id="pdf-loading">جاري تحميل الملف...</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- BOOKS -->
+<div class="view" id="v-books">
+<div class="page-header"><div class="ph-in"><button type="button" class="ph-back" id="books-back">← الرئيسية</button><div class="ph-title">الكتب</div><div class="ph-sub">إصدارات مركز الأدب العربي</div></div></div>
+<div class="books-page-grid" id="books-pg"></div>
+</div>
+
+<!-- ARTICLES -->
+<div class="view" id="v-articles">
+<div class="page-header"><div class="ph-in"><button type="button" class="ph-back" id="arts-back">← الرئيسية</button><div class="ph-title">مقالات</div><div class="ph-sub">أحدث المقالات الأدبية</div></div></div>
+<div class="arts-page"><div class="apg-grid" id="arts-pg"></div></div>
+</div>
+
+<!-- ARCHIVE -->
+<div class="view" id="v-archive">
+<div class="page-header"><div class="ph-in"><button type="button" class="ph-back" id="arch-back">← الرئيسية</button><div class="ph-title">أرشيف الأعداد</div><div class="ph-sub">كل إصدارات مجلة وَرَق</div></div></div>
+<div class="arch-page"><div class="arch-pg-grid" id="arch-pg">
+  <div class="arch-pg-card" data-goissue="1" id="archpg1"><div class="arch-pg-cover" style="background:#1A7A7A;"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد الأول</div></div><div class="arch-pg-info"><span class="arch-pg-date">أبريل ٢٠٢٥</span><span class="arch-pg-dl">تصفح ←</span></div></div>
+  <div class="arch-pg-card" data-goissue="2"><div class="arch-pg-cover" style="background:#C94B1E;"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد الثاني</div></div><div class="arch-pg-info"><span class="arch-pg-date">مايو ٢٠٢٥</span><span style="font-size:12px;color:var(--light);">قريباً</span></div></div>
+  <div class="arch-pg-card" data-goissue="3"><div class="arch-pg-cover" style="background:#412402;"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد الثالث</div></div><div class="arch-pg-info"><span class="arch-pg-date">يونيو ٢٠٢٥</span><span style="font-size:12px;color:var(--light);">قريباً</span></div></div>
+  <div class="arch-pg-card" data-goissue="4"><div class="arch-pg-cover" style="background:#26215C;"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد الرابع</div></div><div class="arch-pg-info"><span class="arch-pg-date">يوليو ٢٠٢٥</span><span style="font-size:12px;color:var(--light);">قريباً</span></div></div>
+  <div class="arch-pg-card" data-goissue="5"><div class="arch-pg-cover" style="background:#633806;"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد الخامس</div></div><div class="arch-pg-info"><span class="arch-pg-date">أغسطس ٢٠٢٥</span><span style="font-size:12px;color:var(--light);">قريباً</span></div></div>
+  <div class="arch-pg-card" data-goissue="6"><div class="arch-pg-cover" style="background:#085041;"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد السادس</div></div><div class="arch-pg-info"><span class="arch-pg-date">سبتمبر ٢٠٢٥</span><span style="font-size:12px;color:var(--light);">قريباً</span></div></div>
+</div></div>
+</div>
+
+<!-- NEWS PAGE -->
+<div class="view" id="v-news">
+<div class="page-header"><div class="ph-in"><button type="button" class="ph-back" id="news-back">← الرئيسية</button><div class="ph-title">الأخبار </div><div class="ph-sub">آخر الأخبار </div></div></div>
+<div class="arts-page"><div class="apg-grid" id="news-pg"></div></div>
+</div>
+
+<!-- SINGLE ARTICLE -->
+<div class="view" id="v-art-single">
+<div class="single-art-wrap">
+  <button type="button" class="ph-back" id="art-single-back" style="margin-bottom:18px;">← العودة</button>
+  <div class="sa-badge" id="sa-badge"></div>
+  <h1 class="sa-title" id="sa-title"></h1>
+  <div class="sa-meta"><span class="sa-author" id="sa-author"></span><span class="sa-date" id="sa-date"></span><span class="sa-cat" id="sa-cat"></span><span class="read-time" id="read-time"></span><button type="button" class="share-btn" onclick="openShare('art')" aria-label="مشاركة"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>مشاركة</button></div>
+  <div class="font-controls"><button type="button" class="font-btn" onclick="changeFontSize(-1)">A-</button><button type="button" class="font-btn" onclick="changeFontSize(0)">A</button><button type="button" class="font-btn" onclick="changeFontSize(1)">A+</button></div>
+  <div class="sa-body" id="sa-body"></div>
+</div>
+<div class="related-sec"><div class="rel-label">مقالات ذات صلة</div><div class="rel-grid" id="rel-arts"></div></div>
+<!-- COMMENTS -->
+<div class="comments-sec" id="comments-sec">
+  <div class="comments-title">التعليقات (<span id="comments-count">٠</span>)</div>
+  <div class="comment-form">
+    <div class="comment-form-title">اترك تعليقاً</div>
+    <div class="cf-row">
+      <div class="cf-field">
+        <label for="cf-name">الاسم <span>*</span></label>
+        <input class="cf-input" type="text" id="cf-name" placeholder="اسمك" maxlength="60" aria-required="true">
+      </div>
+      <div class="cf-field">
+        <label for="cf-email">البريد الإلكتروني <span style="color:var(--mid);font-weight:400;">(اختياري)</span></label>
+        <input class="cf-input" type="email" id="cf-email" placeholder="لن يُنشر">
+      </div>
+    </div>
+    <div class="cf-field">
+      <label for="cf-body">التعليق <span>*</span></label>
+      <textarea class="cf-textarea" id="cf-body" placeholder="اكتب تعليقك هنا..." maxlength="1000"></textarea>
+    </div>
+    <div class="cf-error" id="cf-error"></div>
+    <button type="button" class="cf-submit" id="cf-submit" onclick="submitComment()">إرسال التعليق</button>
+    <div class="cf-success" id="cf-success">شكراً! تعليقك قيد المراجعة وسيظهر بعد موافقة المحررين.</div>
+    <div class="cf-note">⚠ التعليقات تُراجع قبل النشر · الاسم مطلوب · لا تشارك معلومات شخصية</div>
+  </div>
+  <div id="comments-list"><div class="comments-loading">جاري تحميل التعليقات...</div></div>
+</div>
+</div>
+
+<!-- SINGLE BOOK -->
+<div class="view" id="v-book-single">
+<div class="single-book-wrap">
+  <button type="button" class="ph-back" id="book-single-back" style="margin-bottom:18px;">← العودة</button>
+  <div class="sb-in">
+    <div>
+      <div class="sb-cover" id="sb-cover" style="overflow:hidden;padding:0;position:relative;">
+        <img id="sb-cover-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:10px;">
+        <span id="sb-cover-t" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;font-family:Noto Naskh Arabic,serif;font-size:22px;color:#fff;text-align:center;"></span>
+      </div>
+    </div>
+    <div>
+      <div class="sb-badge" id="sb-badge"></div>
+      <div class="sb-title" id="sb-title"></div>
+      <div class="sb-author" id="sb-author"></div>
+      <div class="sb-pills" id="sb-pills"></div>
+      <div class="sb-desc" id="sb-desc"></div>
+      <div class="sb-quote"><p id="sb-quote"></p></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><button type="button" class="sb-buy" id="sb-buy">احصل على الكتاب</button><button type="button" class="share-btn" onclick="openShare('book')" aria-label="مشاركة"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>مشاركة</button></div>
+    </div>
+  </div>
+</div>
+<div class="related-sec" style="max-width:860px;"><div class="rel-label">كتب مشابهة</div><div class="rel-grid" id="rel-books"></div></div>
+
+<div class="comments-sec" style="max-width:860px;">
+  <div class="comments-title">التعليقات (<span id="book-comments-count">٠</span>)</div>
+  <div class="comment-form">
+    <div class="comment-form-title">اترك تعليقاً على الكتاب</div>
+    <div class="cf-row">
+      <div class="cf-field"><label for="bcf-name">الاسم <span>*</span></label><input class="cf-input" type="text" id="bcf-name" placeholder="اسمك" maxlength="60"></div>
+      <div class="cf-field"><label for="bcf-email">البريد <span style="font-weight:400;color:var(--mid);">(اختياري)</span></label><input class="cf-input" type="email" id="bcf-email" placeholder="لن يُنشر"></div>
+    </div>
+    <div class="cf-field"><label for="bcf-body">التعليق <span>*</span></label><textarea class="cf-textarea" id="bcf-body" placeholder="اكتب تعليقك هنا..." maxlength="1000"></textarea></div>
+    <div class="cf-error" id="bcf-error"></div>
+    <button type="button" class="cf-submit" id="bcf-submit" onclick="submitBookComment()">إرسال التعليق</button>
+    <div class="cf-success" id="bcf-success">شكراً! تعليقك قيد المراجعة وسيظهر بعد موافقة المحررين.</div>
+    <div class="cf-note">⚠ التعليقات تُراجع قبل النشر · الاسم مطلوب</div>
+  </div>
+  <div id="book-comments-list"><div class="comments-loading">جاري تحميل التعليقات...</div></div>
+</div>
+</div>
+
+<script>window._configMissing=true;</script>
+<script src="config.js" onload="window._configMissing=false;"></script>
+<script src="data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var sb = null;
+var _supabaseReady = false;
+var LOCAL_MODE = !!window.WARAQ_DATA;
+function initSupabase() {
+  if (LOCAL_MODE) return false;
+  try {
+    if (typeof SUPABASE_URL === 'undefined' || !SUPABASE_URL || SUPABASE_URL.indexOf('YOUR_PROJECT') >= 0) { console.warn('Supabase not configured — check config.js'); return false; }
+    if (typeof SUPABASE_KEY === 'undefined' || !SUPABASE_KEY) { console.warn('Supabase KEY missing — check config.js'); return false; }
+    if (typeof supabase !== 'undefined' && supabase.createClient) { sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); _supabaseReady = true; return true; }
+    return false;
+  } catch(e) { console.warn('Supabase init failed:', e.message); sb = null; _supabaseReady = false; return false; }
+}
+initSupabase();
+var lA = {}, lB = {}, prevView = 'home';
+var SA = {};
+var SB = {};
+var _dataLoaded = false; // عام — لمنع تحميل البيانات مرتين
+var _pendingPdfUrl = null, _pdfLoaded = false;
+
+function renderLocalData() {
+  var D = window.WARAQ_DATA; if (!D) return;
+  (D.books||[]).forEach(function(b){ lB[b.id]=b; SB[b.id]=b; });
+  (D.articles||[]).forEach(function(a){ lA[a.id]=a; SA[a.id]=a; });
+  (D.news||[]).forEach(function(n){ lA[n.id]=n; SA[n.id]=n; });
+  if (D.books && D.books.length) renderBooks(D.books);
+  if (D.articles && D.articles.length) renderArts(D.articles);
+  if (D.news && D.news.length) renderNews(D.news);
+  if (D.settings) applySettings(D.settings);
+}
+
+function goView(name) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.querySelectorAll('.nav-a').forEach(function(a) { a.classList.remove('on'); });
+  var el = document.getElementById('v-' + name);
+  if (el) el.classList.add('active');
+  var nav = document.getElementById('nav-' + name);
+  if (nav) nav.classList.add('on');
+  window.scrollTo(0, 0);
+  if (name !== 'art-single' && name !== 'book-single') {
+    prevView = name;
+    try {
+      var newHash = name === 'home' ? '' : name;
+      if (window.location.hash.replace('#','').trim() !== newHash.trim()) {
+        history.pushState({view:name}, '', name === 'home' ? window.location.pathname : '#' + name);
+      }
+    } catch(e) {}
+    // تسجيل الزيارة
+    trackView(name, null);
+  } else if (!prevView) { prevView = 'home'; }
+}
+
+function trackView(page, itemId) {
+  if (!sb) return;
+  try {
+    var device = window.innerWidth < 1024 ? 'mobile' : 'desktop';
+    sb.from('page_views').insert({ page: page, item_id: itemId || null, device: device });
+  } catch(e) {}
+}
+window.addEventListener('popstate', function(e) {
+  if (e.state && e.state.view) {
+    if (e.state.view === 'art-single' && e.state.id) { prevView = prevView || 'home'; openArt(e.state.id); }
+    else if (e.state.view === 'book-single' && e.state.id) { prevView = prevView || 'home'; openBook(e.state.id); }
+    else goView(e.state.view);
+  } else {
+    var h = window.location.hash.replace('#','');
+    if (h && h !== 'home') goView(h); else goView(prevView || 'home');
+  }
+});
+window.addEventListener('hashchange', function() {
+  var hash = window.location.hash.replace('#','');
+  if (!hash || hash === 'home') { _origGoView('home'); return; }
+  var views = ['issue','books','articles','archive','news'];
+  if (views.indexOf(hash) > -1) { _origGoView(hash); }
+});
+function goBack() { goView(prevView); }
+function scrollTo2(id) { setTimeout(function() { var e = document.getElementById(id); if (e) e.scrollIntoView({behavior:'smooth'}); }, 60); }
+function toggleMob() {
+  var m = document.getElementById('mob-menu'), h = document.getElementById('ham');
+  var isOpen = m.getAttribute('data-open') === '1';
+  m.style.display = isOpen ? 'none' : 'flex';
+  m.style.flexDirection = 'column';
+  m.setAttribute('data-open', isOpen ? '0' : '1');
+  h.classList.toggle('open', !isOpen);
+  h.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+  h.setAttribute('aria-label', isOpen ? 'فتح القائمة' : 'إغلاق القائمة');
+}
+function closeMob() {
+  var m = document.getElementById('mob-menu'), h = document.getElementById('ham');
+  m.style.display = 'none';
+  m.setAttribute('data-open', '0');
+  h.classList.remove('open');
+  h.setAttribute('aria-expanded', 'false');
+  h.setAttribute('aria-label', 'فتح القائمة');
+}
+function se(id, txt) { if (txt !== undefined && txt !== null) { var e = document.getElementById(id); if (e) e.textContent = txt; } }
+function seH(id, val) { if (val !== undefined && val !== null) { var e = document.getElementById(id); if (e) e.innerHTML = val; } }
+
+function openArt(id) {
+  var a = lA[id] || SA[id];
+  if (!a) { console.warn('Article not found:', id); goView('articles'); return; }
+  var badge = a.badge || a.category || 'مقالة';
+  var bc = badge === 'حوار' ? '#C94B1E' : '#1A7A7A';
+  document.getElementById('sa-badge').textContent = badge;
+  document.getElementById('sa-badge').style.background = bc;
+  se('sa-title', a.title);
+  se('sa-author', a.author_name || '');
+  se('sa-date', a.date || '');
+  se('sa-cat', a.category || '');
+  var rawBody = (a.body && a.body.trim()) ? a.body : '<p>لا يوجد محتوى</p>'; document.getElementById('sa-body').innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(rawBody) : rawBody;
+  var rel = document.getElementById('rel-arts');
+  rel.innerHTML = '';
+  var _relArtsLoaded = false;
+  if (sb) {
+    sb.from('articles').select('id,title,author_name,category').eq('status','published').neq('id',id).limit(3)
+      .then(function(res) {
+        if (_relArtsLoaded) return;
+        _relArtsLoaded = true;
+        rel.innerHTML = '';
+        if (!res.data || !res.data.length) return;
+        res.data.forEach(function(a) {
+          var c = document.createElement('div');
+          c.className = 'rel-card';
+          c.setAttribute('data-aid', a.id);
+          c.innerHTML = '<div class="rel-title">' + escHtml(a.title) + '</div><div class="rel-meta">' + escHtml(a.author_name||'') + '</div>';
+          rel.appendChild(c);
+        });
+      });
+  } else {
+    Object.keys(SA).slice(0,3).forEach(function(k) {
+      if (k === id) return;
+      var c = document.createElement('div');
+      c.className = 'rel-card';
+      c.setAttribute('data-aid', k);
+      c.innerHTML = '<div class="rel-title">' + escHtml(SA[k].title) + '</div><div class="rel-meta">' + escHtml(SA[k].author_name||'') + '</div>';
+      rel.appendChild(c);
+    });
+  }
+  goView('art-single');
+}
+
+var _openingBook = false;
+function openBook(id) {
+  if (_openingBook) return;
+  _openingBook = true;
+  setTimeout(function() { _openingBook = false; }, 300);
+  var b = lB[id] || SB[id];
+  if (!b) { console.warn('Book not found:', id); goView('books'); return; }
+  document.getElementById('sb-badge').textContent = b.genre || 'كتاب';
+  document.getElementById('sb-badge').style.background = b.color || '#1A7A7A';
+  var sbCover = document.getElementById('sb-cover');
+  var sbImg = document.getElementById('sb-cover-img');
+  var sbCoverT = document.getElementById('sb-cover-t');
+  if (sbCover) sbCover.style.background = b.color || '#1A7A7A';
+  var bImg = b.image && b.image.trim();
+  if (bImg && sbImg) {
+    sbImg.src = bImg;
+    sbImg.style.display = 'block';
+    if (sbCoverT) { sbCoverT.textContent = ''; sbCoverT.style.display = 'none'; }
+  } else {
+    if (sbImg) sbImg.style.display = 'none';
+    if (sbCoverT) sbCoverT.style.display = 'flex';
+    se('sb-cover-t', b.title);
+  }
+  se('sb-title', b.title);
+  se('sb-author', b.author || '');
+  se('sb-desc', b.desc || b.description || '');
+  document.getElementById('sb-quote').textContent = '"' + (b.quote || '') + '"';
+  var pills = []; try { pills = b.pills ? (typeof b.pills==='string' ? JSON.parse(b.pills) : b.pills) : []; } catch(e) { pills = []; }
+  document.getElementById('sb-pills').innerHTML = pills.map(function(p) { return '<span class="sb-pill">' + p + '</span>'; }).join('');
+  var buyBtn = document.getElementById('sb-buy');
+  var bUrl = (b.url && typeof b.url==='string' && b.url.trim()) ? b.url.trim() : 'https://adab-book.com/';
+  buyBtn.onclick = function() { window.open(bUrl, '_blank'); };
+  var rel = document.getElementById('rel-books');
+  rel.innerHTML = '';
+  var _relLoaded = false;
+  if (sb) {
+    sb.from('books').select('id,title,author,color,url').neq('archived', true).neq('id', id).limit(3)
+      .then(function(res) {
+        if (_relLoaded) return; // منع التكرار
+        _relLoaded = true;
+        rel.innerHTML = ''; // امسح قبل الإضافة
+        if (!res.data || !res.data.length) return;
+        res.data.forEach(function(rb) {
+          var c = document.createElement('div');
+          c.className = 'rel-card';
+          c.setAttribute('data-bid', rb.id);
+          c.innerHTML = '<div style="height:40px;background:'+(rb.color||'#1A7A7A')+';border-radius:5px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;"><span style="font-size:12px;color:#fff;">'+rb.title+'</span></div><div class="rel-title">'+rb.title+'</div><div class="rel-meta">'+(rb.author||'')+'</div>';
+          rel.appendChild(c);
+        });
+      });
+  } else {
+    var allBooks = [];
+    Object.keys(lB).forEach(function(k) { if (String(k) !== String(id)) allBooks.push([k, lB[k]]); });
+    allBooks.slice(0,3).forEach(function(pair) {
+      var c = document.createElement('div');
+      c.className = 'rel-card';
+      c.setAttribute('data-bid', pair[0]);
+      c.innerHTML = '<div style="height:40px;background:'+(pair[1].color||'#1A7A7A')+';border-radius:5px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;"><span style="font-size:12px;color:#fff;">'+pair[1].title+'</span></div><div class="rel-title">'+pair[1].title+'</div><div class="rel-meta">'+(pair[1].author||'')+'</div>';
+      rel.appendChild(c);
+    });
+  }
+  _currentShareBookId = id;
+  trackView('book', String(id));
+  loadBookComments(id);
+  var bcErr=document.getElementById('bcf-error'); if(bcErr) bcErr.style.display='none';
+  var bcSucc=document.getElementById('bcf-success'); if(bcSucc) bcSucc.style.display='none';
+  goView('book-single');
+}
+
+function doSub() {
+  if (window._brevoUrl) { window.open(window._brevoUrl, '_blank'); return; }
+  var input = document.getElementById('nl-input');
+  var val = input ? input.value.trim() : '';
+  if (!val || val.indexOf('@') < 0) return;
+  input.value = '';
+  var btn = document.getElementById('nl-btn');
+  if (btn) { btn.textContent = 'شكراً! ✓'; setTimeout(function() { btn.textContent = 'اشترك الآن'; }, 3000); }
+}
+
+function renderBooks(books) {
+  var hg = document.getElementById('home-books');
+  var pg = document.getElementById('books-pg');
+  var si = document.getElementById('side-items');
+  function bookCardHTML(b) {
+    var imgHTML = (b.image&&b.image.trim()) ? '<img style="width:100%;height:180px;object-fit:cover;display:block;" src="' + b.image + '" alt="' + b.title + '" loading="lazy">' : '<div class="book-card-strip" style="background:' + (b.color||'#1A7A7A') + ';"></div>';
+    return '<div class="book-card" data-bid="' + b.id + '">' + imgHTML + '<div class="book-card-body"><div class="book-genre">' + (b.genre||'') + '</div><div class="book-title">' + b.title + '</div><div class="book-author">' + (b.author||'') + '</div><div class="book-desc">' + (b.description||b.desc||'') + '</div><div class="book-cta">اقرأ المزيد</div></div></div>';
+  }
+  if (hg) { hg.innerHTML = books.slice(0,4).map(bookCardHTML).join(''); hg.querySelectorAll('.book-card').forEach(function(c) { var bid = c.getAttribute('data-bid'); c.addEventListener('click', function() { openBook(bid); }); }); }
+  if (pg) {
+    pg.innerHTML = books.map(function(b) {
+      var covHTML = b.image ? '<div class="bpg-cover" style="background:' + (b.color||'#1A7A7A') + ';padding:0;"><img alt="" src="' + b.image + '" style="width:100%;height:100%;object-fit:cover;"></div>' : '<div class="bpg-cover" style="background:' + (b.color||'#1A7A7A') + ';"><span>' + b.title + '</span></div>';
+      return '<div class="bpg-card" data-bid="' + b.id + '">' + covHTML + '<div class="bpg-body"><span class="bpg-badge" style="background:' + (b.color||'#1A7A7A') + ';">' + (b.genre||'') + '</span><div class="bpg-title">' + b.title + '</div><div class="bpg-author">' + (b.author||'') + '</div><div class="bpg-desc">' + (b.description||b.desc||'') + '</div><button type="button" class="bpg-btn">اقرأ المزيد</button></div></div>';
+    }).join('');
+    pg.querySelectorAll('.bpg-card').forEach(function(c) { var bid = c.getAttribute('data-bid'); c.addEventListener('click', function() { openBook(bid); }); });
+  }
+  // side-items يُعبَّأ فقط من لوحة التحكم
+}
+
+function renderArts(arts) {
+  var pg = document.getElementById('arts-pg');
+  var icons = {'مقالة':'✍️','حوار':'🎙️','نقد':'📖','تحقيق':'🔍','قصة':'📝','شعر':'🌿','توصية':'⭐'};
+
+  function artCardHTML(a) {
+    var icon = icons[a.badge || a.category] || '✍️';
+    var date = (a.published_at && !isNaN(Date.parse(a.published_at)))
+      ? new Date(a.published_at).toLocaleDateString('ar-SA') : (a.date || '');
+    return '<div class="news-card" data-aid="' + a.id + '">'
+      + '<div class="news-card-icon" style="background:var(--tl);">' + icon + '</div>'
+      + '<div class="news-card-body">'
+      + '<span class="news-badge" style="color:var(--teal);">' + (a.badge || a.category || 'مقالة') + '</span>'
+      + '<div class="news-title">' + a.title + '</div>'
+      + '<div class="news-excerpt">' + (a.excerpt || '') + '</div>'
+      + '<div class="news-meta">' + (a.author_name || '') + (date ? ' · ' + date : '') + '</div>'
+      + '</div></div>';
+  }
+
+  var grid = document.getElementById('arts-grid-home');
+  if (grid) {
+    grid.innerHTML = arts.slice(0, 4).map(artCardHTML).join('');
+    grid.querySelectorAll('.news-card[data-aid]').forEach(function(c) {
+      var aid = c.getAttribute('data-aid');
+      c.addEventListener('click', function() { openArt(aid); });
+    });
+  }
+
+  if (pg) {
+    pg.innerHTML = arts.map(function(a) {
+      var imgHTML = a.image ? '<img class="apg-img" src="' + a.image + '" alt="' + a.title + '" loading="lazy">' : '';
+      var date = (a.published_at && !isNaN(Date.parse(a.published_at))) ? new Date(a.published_at).toLocaleDateString('ar-SA') : '';
+      return '<div class="apg-card" data-aid="' + a.id + '">'
+        + imgHTML
+        + '<span class="apg-badge" style="background:var(--teal);">' + (a.category || '') + '</span>'
+        + '<div class="apg-title">' + a.title + '</div>'
+        + '<div class="apg-excerpt">' + (a.excerpt || '') + '</div>'
+        + '<div class="apg-footer"><span class="apg-author">' + (a.author_name || '') + '</span><span class="apg-date">' + date + '</span></div>'
+        + '</div>';
+    }).join('');
+    pg.querySelectorAll('.apg-card').forEach(function(c) {
+      var aid = c.getAttribute('data-aid');
+      c.addEventListener('click', function() { openArt(aid); });
+    });
+  }
+}
+
+function renderNews(news) {
+  var hg = document.getElementById('home-news');
+  var pg = document.getElementById('news-pg');
+  var icons = {'أخبار':'📰','إعلان':'📢','حدث':'🎉','جائزة':'🏆','إصدار':'📚','ثقافة':'🎭'};
+  function newsCardHTML(n, full) {
+    var icon = icons[n.category] || '📰';
+    var date = (n.published_at && !isNaN(Date.parse(n.published_at))) ? new Date(n.published_at).toLocaleDateString('ar-SA') : '';
+    if (full) {
+      var imgHTML = n.image ? '<img class="apg-img" src="' + n.image + '" alt="' + n.title + '" loading="lazy">' : '';
+      return '<div class="apg-card" data-nid="' + n.id + '">' + imgHTML + '<span class="apg-badge" style="background:#7B2D8B;">' + (n.category||'أخبار') + '</span><div class="apg-title">' + n.title + '</div><div class="apg-excerpt">' + (n.excerpt||'') + '</div><div class="apg-footer"><span class="apg-author">' + (n.author_name||'') + '</span><span class="apg-date">' + date + '</span></div></div>';
+    }
+    return '<div class="news-card" data-nid="' + n.id + '"><div class="news-card-icon">' + icon + '</div><div class="news-card-body"><span class="news-badge">' + (n.category||'أخبار') + '</span><div class="news-title">' + n.title + '</div><div class="news-excerpt">' + (n.excerpt||'') + '</div><div class="news-meta">' + (n.author_name||'') + (date?' · '+date:'') + '</div></div></div>';
+  }
+  if (hg) { hg.innerHTML = news.slice(0,4).map(function(n){return newsCardHTML(n,false);}).join(''); }
+  if (pg) { pg.innerHTML = news.map(function(n){return newsCardHTML(n,true);}).join(''); pg.querySelectorAll('.apg-card').forEach(function(c){var nid=c.getAttribute('data-nid');c.addEventListener('click',function(){openArt(nid);});}); }
+  if (hg) hg.querySelectorAll('.news-card').forEach(function(c){var nid=c.getAttribute('data-nid');c.addEventListener('click',function(){openArt(nid);});});
+}
+
+function renderArchive(items) {
+  var hr = document.getElementById('home-arch');
+  var pg = document.getElementById('arch-pg');
+  if (hr) { hr.innerHTML = ''; if (items && items.length) hr.innerHTML = items.slice(0,5).map(function(i) { return '<div class="arch-mini" data-goissue="'+i.id+'"><div class="arch-mini-cover" style="background:' + (i.color||'#1A7A7A') + ';border-radius:6px 6px 0 0;"><div class="arch-mini-name">وَرَق</div><div class="arch-mini-num">العدد ' + i.num + '</div></div><div class="arch-mini-info"><div class="arch-mini-date">' + (i.date||'') + '</div>' + (i.pdf ? '<a class="arch-mini-dl" href="' + i.pdf + '" target="_blank" rel="noopener noreferrer">تحميل PDF</a>' : '<div class="arch-mini-dl" style="color:var(--light);">قريباً</div>') + '</div></div>'; }).join(''); }
+  if (pg) pg.innerHTML = items.map(function(i) { return '<div class="arch-pg-card" data-goissue="'+i.id+'"><div class="arch-pg-cover" style="background:' + (i.color||'#1A7A7A') + ';"><div class="arch-pg-logo">وَرَق</div><div class="arch-pg-num">العدد ' + i.num + '</div></div><div class="arch-pg-info"><span class="arch-pg-date">' + (i.date||'') + '</span>' + (i.pdf ? '<span class="arch-pg-dl">تصفح ←</span>' : '<span style="font-size:12px;color:var(--light);">قريباً</span>') + '</div></div>'; }).join('');
+}
+
+function parseVal(v){try{return(typeof v==='string')?JSON.parse(v):v;}catch(e){return v;}}
+function applySettings(rows) {
+  if (!rows || !rows.length) return;
+  var s = {};
+  rows.forEach(function(r) { s[r.key] = parseVal(r.value); });
+  if (s.design) { var R = document.documentElement.style; if (s.design.teal) R.setProperty('--teal', s.design.teal); if (s.design.orange) R.setProperty('--orange', s.design.orange); if (s.design.gold) R.setProperty('--gold', s.design.gold); }
+  if (s.issue) { se('hero-title', s.issue.hero_title); se('hero-body', s.issue.hero_body); se('hero-by', s.issue.hero_by); if (s.issue.hero_badge) { var hb = document.getElementById('hero-badge'); if (hb) hb.textContent = s.issue.hero_badge; } if (s.issue.quote) { var qt = document.getElementById('quote-t'); if (qt) qt.textContent = '"' + s.issue.quote + '"'; } if (s.issue.num && s.issue.date) { var ml = document.getElementById('mh-left'); if (ml) ml.innerHTML = 'العدد ' + s.issue.num + '<br>' + s.issue.date + '<br>مجانية'; } }
+  if (s.general) {
+    if (s.general.name) { var nameEls = document.querySelectorAll('#mh-name[data-text-logo], .header-logo-text, #ft-logo-text, .nl-logo-text'); nameEls.forEach(function(el){ if(el) el.textContent = s.general.name; }); }
+    se('mh-tag', s.general.tagline); se('tb-txt', s.general.topbar); seH('ft-tag', s.general.footer_tag); se('ft-copy', s.general.copyright); se('nl-title', s.general.nl_title); se('nl-sub', s.general.nl_desc);
+  }
+  if (s.social) { if (s.social.ig) { document.getElementById('ig-lnk').href = s.social.ig; document.getElementById('ft-ig').href = s.social.ig; } if (s.social.tt) { document.getElementById('tt-lnk').href = s.social.tt; document.getElementById('ft-tt').href = s.social.tt; } if (s.social.store) { document.getElementById('store-lnk').href = s.social.store; document.getElementById('ft-store').href = s.social.store; } if (s.social.brevo) window._brevoUrl = s.social.brevo; }
+  if (s.ticker && s.ticker.length) { var t = document.getElementById('ticker-track'); if (t) t.innerHTML = s.ticker.concat(s.ticker).map(function(x) { return '<span>' + x + '</span>'; }).join(''); }
+  var si = document.getElementById('side-items'); if (si) { if (s.side_items && s.side_items.length) { si.innerHTML = s.side_items.map(function(i) { return '<div class="side-item" data-bid="'+(i.id||'')+'"><div class="si-badge"></div><div class="si-title">' + (i.title||'') + '</div><div class="si-meta">' + (i.meta||'') + '</div></div>'; }).join(''); } else if (Array.isArray(s.side_items)) { si.innerHTML = ''; } }
+  if (s.banner && s.banner.url) {
+    var bn = document.getElementById('site-banner');
+    if (bn && !document.getElementById('banner-close')) {
+      var bc = document.createElement('button');
+      bc.id = 'banner-close';
+      bc.innerHTML = '×';
+      bc.setAttribute('style', 'position:absolute;top:6px;left:8px;background:rgba(0,0,0,.3);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:14px;line-height:1;');
+      bc.onclick = function() { bn.style.display = 'none'; };
+      bn.style.position = 'relative';
+      bn.appendChild(bc);
+    }
+    var bi = document.getElementById('banner-img');
+    if (bn && bi) { bi.src = s.banner.url; bn.style.display = 'block';
+      if (s.banner.link) { bn.removeEventListener('click', bn._bannerClick); bn._bannerClick = function() { window.open(s.banner.link,'_blank'); }; bn.addEventListener('click', bn._bannerClick); }
+    }
+  }
+  if (s.general) {
+    var g = s.general;
+    var li = document.getElementById('header-logo-img');
+    var lt = document.getElementById('header-logo-text');
+    if (g.logo_url) { if (li) { li.src = g.logo_url; li.style.display = 'block'; } if (lt) lt.style.display = 'none'; }
+    else { if (li) li.style.display = 'none'; if (lt) { lt.style.display = 'block'; lt.textContent = g.name || 'وَرَق'; } }
+    if (g.name) { var nt = document.getElementById('header-logo-text'); if (nt && !g.logo_url) nt.textContent = g.name; }
+    var mhName = document.getElementById('mh-name');
+    if (mhName) { if (g.masthead_logo_url) { mhName.innerHTML = '<img src="'+g.masthead_logo_url+'" alt="'+(g.name||'وَرَق')+'" style="max-height:110px;width:auto;object-fit:contain;">'; } else { mhName.innerHTML = ''; mhName.textContent = g.name || 'وَرَق'; } }
+    var ftLogo = document.getElementById('ft-logo');
+    if (ftLogo) { if (g.footer_logo_url) { ftLogo.innerHTML = '<img src="'+g.footer_logo_url+'" alt="'+(g.name||'وَرَق')+'" style="max-height:44px;width:auto;object-fit:contain;">'; } else { ftLogo.innerHTML = ''; ftLogo.textContent = g.name || 'وَرَق'; } }
+    var nlLogo = document.querySelector('.nl-logo');
+    if (nlLogo) { var nlUrl = g.footer_logo_url || g.logo_url; if (nlUrl) { nlLogo.innerHTML = '<img src="'+nlUrl+'" alt="'+(g.name||'وَرَق')+'" style="max-height:48px;width:auto;object-fit:contain;opacity:.5;">'; } else { if (!nlLogo.querySelector('img')) nlLogo.textContent = g.name || 'وَرَق'; } }
+  }
+  if (s.month_pick && s.month_pick.title) {
+    var mp = document.getElementById('month-pick');
+    if (mp) mp.style.display = 'block';
+    se('mp-title', s.month_pick.title); se('mp-author', s.month_pick.author); se('mp-desc', s.month_pick.desc);
+    var mpbtn = document.getElementById('mp-btn');
+    if (mpbtn) { mpbtn.href = (s.month_pick.url && s.month_pick.url.trim()) ? s.month_pick.url : 'https://adab-book.com/'; mpbtn.target = '_blank'; }
+    var mpc = document.getElementById('mp-cover'); var mpct = document.getElementById('mp-cover-t');
+    if (mpc) mpc.style.background = s.month_pick.color || '#412402';
+    if (mpct) mpct.textContent = s.month_pick.title;
+    if (mpc && s.month_pick.image) { mpc.innerHTML = '<img src="' + s.month_pick.image + '" alt="' + s.month_pick.title + '" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">'; }
+  }
+  if (s.archive && s.archive.length) {
+    renderArchive(s.archive);
+    var latest = s.archive[0];
+    if (latest) {
+      // دائماً حدّث عنوان العدد في الهيدر
+      var lbl = document.getElementById('pdf-issue-label');
+      if (lbl) lbl.textContent = 'العدد ' + (latest.num||'') + (latest.date ? ' · ' + latest.date : '');
+
+      if (latest.pdf && latest.pdf.trim()) {
+        // عدد فيه PDF — شغّل العارض
+        var rawPdfUrl = latest.pdf.trim();
+        var pp = document.getElementById('pdf-placeholder'); if (pp) pp.style.display = 'none';
+        var vw = document.getElementById('pdf-viewer-wrap'); if (vw) vw.style.display = 'block';
+        var dl = document.getElementById('pdf-dl-btn'); if (dl) { dl.href = rawPdfUrl; dl.style.display = 'block'; }
+        var nl = document.getElementById('pdf-no-link'); if (nl) nl.style.display = 'none';
+        _pendingPdfUrl = rawPdfUrl;
+      } else {
+        // عدد بدون PDF — اعرض الـ placeholder مع رسالة واضحة
+        var pp = document.getElementById('pdf-placeholder'); if (pp) pp.style.display = 'block';
+        var vw = document.getElementById('pdf-viewer-wrap'); if (vw) vw.style.display = 'none';
+        var dl = document.getElementById('pdf-dl-btn'); if (dl) dl.style.display = 'none';
+        var nl = document.getElementById('pdf-no-link'); if (nl) { nl.style.display = 'block'; nl.textContent = 'العدد ' + (latest.num||'') + ' — سيتوفر PDF قريباً'; }
+      }
+    }
+  }
+}
+
+function initNav() {
+  function nav(id, fn) { var e = document.getElementById(id); if (e) e.addEventListener('click', fn); }
+  nav('logo-home', function() { goView('home'); }); nav('mh-name', function() { goView('home'); }); nav('ft-logo', function() { goView('home'); });
+  nav('nav-home', function() { goView('home'); }); nav('nav-issue', function() { goView('issue'); }); nav('nav-books', function() { goView('books'); }); nav('nav-articles', function() { goView('articles'); }); nav('nav-archive', function() { goView('archive'); });
+  nav('mob-home', function() { goView('home'); closeMob(); }); nav('mob-issue', function() { goView('issue'); closeMob(); }); nav('mob-books', function() { goView('books'); closeMob(); }); nav('mob-articles', function() { goView('articles'); closeMob(); }); nav('mob-archive', function() { goView('archive'); closeMob(); });
+  nav('ham', toggleMob);
+  nav('more-books', function() { goView('books'); }); nav('more-arts', function() { goView('articles'); }); nav('more-news', function() { goView('news'); }); nav('more-arch', function() { goView('archive'); });
+  nav('fl-home', function() { goView('home'); }); nav('fl-issue', function() { goView('issue'); }); nav('fl-books', function() { goView('books'); }); nav('fl-arts', function() { goView('articles'); }); nav('fl-arch', function() { goView('archive'); });
+  nav('sub-btn', function() { goView('home'); scrollTo2('newsletter'); }); nav('mob-sub', function() { goView('home'); scrollTo2('newsletter'); closeMob(); });
+  nav('issue-back', function() { goView('home'); }); nav('books-back', function() { goView('home'); }); nav('arts-back', function() { goView('home'); }); nav('arch-back', function() { goView('home'); }); nav('news-back', function() { goView('home'); });
+  nav('mob-news', function() { goView('news'); closeMob(); }); nav('nav-news', function() { goView('news'); });
+  nav('art-single-back', goBack); nav('book-single-back', goBack);
+  nav('nl-btn', doSub);
+}
+
+var _shareTitle = '', _shareUrl = '', _currentShareId = null, _currentShareBookId = null;
+var _origGoView = goView;
+goView = function(name) {
+  try { _origGoView(name); } catch(e) { console.warn('goView error:', e); }
+  if (name === 'issue' && _pendingPdfUrl && !_pdfLoaded) { _pdfLoaded = true; loadPdfJs(_pendingPdfUrl); }
+  var prog = document.getElementById('read-progress');
+  if (prog) prog.style.display = (name === 'art-single') ? 'block' : 'none';
+  if (name === 'book-single' && prog) prog.style.display = 'none';
+  var bar = document.getElementById('read-bar');
+  if (bar) bar.style.width = '0%';
+  if (name !== 'art-single') _progressInited = false;
+};
+
+var _origOpenArt = openArt;
+openArt = function(id) {
+  _origOpenArt(id);
+  var body = document.getElementById('sa-body');
+  var rt = document.getElementById('read-time');
+  if (body && rt) rt.textContent = '⏱ ' + calcReadTime(body.innerHTML);
+  changeFontSize(_fontSize);
+  initReadProgress();
+  _currentShareId = id;
+  loadComments(id);
+  var errEl = document.getElementById('cf-error');
+  var succ = document.getElementById('cf-success');
+  if (errEl) errEl.style.display = 'none';
+  if (succ) succ.style.display = 'none';
+};
+
+var _currentArticleId = null;
+function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function loadComments(articleId) {
+  _currentArticleId = articleId;
+  var list = document.getElementById('comments-list');
+  var countEl = document.getElementById('comments-count');
+  if (!list) return;
+  if (!sb) { list.innerHTML = '<div class="comments-empty">التعليقات غير متاحة</div>'; return; }
+  list.innerHTML = '<div class="comments-loading">جاري تحميل التعليقات...</div>';
+  sb.from('comments').select('*').eq('article_id', String(articleId)).eq('status', 'approved').order('created_at', {ascending:true})
+    .then(function(res) {
+      if (res.error || !res.data) { list.innerHTML = '<div class="comments-empty">تعذر تحميل التعليقات</div>'; return; }
+      var data = res.data;
+      if (countEl) countEl.textContent = data.length;
+      if (!data.length) { list.innerHTML = '<div class="comments-empty">لا توجد تعليقات بعد — كن أول من يعلق!</div>'; return; }
+      list.innerHTML = '';
+      data.forEach(function(c) {
+        var d = document.createElement('div');
+        d.className = 'comment-item';
+        var date = new Date(c.created_at).toLocaleDateString('ar-SA');
+        d.innerHTML = '<div class="ci-header"><span class="ci-name">' + escHtml(c.name) + '</span><span class="ci-date">' + date + '</span></div><div class="ci-body">' + escHtml(c.body) + '</div>';
+        list.appendChild(d);
+      });
+    }).catch(function() { list.innerHTML = '<div class="comments-empty">تعذر تحميل التعليقات</div>'; });
+}
+async function submitComment() {
+  var name = document.getElementById('cf-name') ? document.getElementById('cf-name').value.trim() : '';
+  var body = document.getElementById('cf-body') ? document.getElementById('cf-body').value.trim() : '';
+  var errEl = document.getElementById('cf-error'); var btn = document.getElementById('cf-submit'); var successEl = document.getElementById('cf-success');
+  if (errEl) errEl.style.display = 'none'; if (successEl) successEl.style.display = 'none';
+  if (document.getElementById('cf-name')) document.getElementById('cf-name').removeAttribute('aria-invalid');
+  if (document.getElementById('cf-body')) document.getElementById('cf-body').removeAttribute('aria-invalid');
+  if (!name) { if (errEl) { errEl.textContent = 'الاسم مطلوب'; errEl.style.display = 'block'; } if (document.getElementById('cf-name')) { document.getElementById('cf-name').setAttribute('aria-invalid','true'); document.getElementById('cf-name').focus(); } return; }
+  if (!body || body.length < 3) { if (errEl) { errEl.textContent = !body ? 'التعليق مطلوب' : 'التعليق قصير جداً'; errEl.style.display = 'block'; } if (document.getElementById('cf-body')) { document.getElementById('cf-body').setAttribute('aria-invalid','true'); document.getElementById('cf-body').focus(); } return; }
+  if (!_currentArticleId) return;
+  if (!sb) { if (errEl) { errEl.textContent = 'خطأ في الاتصال'; errEl.style.display = 'block'; } return; }
+  if (btn) { if(btn.disabled)return; btn.disabled = true; btn.textContent = 'جاري الإرسال...'; }
+  try {
+    var res = await sb.from('comments').insert({ article_id: String(_currentArticleId), name: name, body: body, status: 'pending' });
+    if (res.error) { var errMsg = res.error.message && res.error.message.length < 100 ? res.error.message : 'حدث خطأ — تحقق من الاتصال وحاول مجدداً'; if (errEl) { errEl.textContent = errMsg; errEl.style.display = 'block'; } }
+    else { if (successEl) successEl.style.display = 'block'; if (document.getElementById('cf-name')) document.getElementById('cf-name').value = ''; if (document.getElementById('cf-body')) document.getElementById('cf-body').value = ''; if (document.getElementById('cf-email')) document.getElementById('cf-email').value = ''; }
+  } catch(e) { if (errEl) { errEl.textContent = 'خطأ في الاتصال'; errEl.style.display = 'block'; } }
+  finally { if (btn) { btn.disabled = false; btn.textContent = 'إرسال التعليق'; } }
+}
+
+// ── BOOK COMMENTS ──
+var _currentBookId = null;
+
+function loadBookComments(bookId) {
+  _currentBookId = bookId;
+  var list = document.getElementById('book-comments-list');
+  var countEl = document.getElementById('book-comments-count');
+  if (!list) return;
+  if (!sb) { list.innerHTML = '<div class="comments-empty">التعليقات غير متاحة</div>'; return; }
+  list.innerHTML = '<div class="comments-loading">جاري تحميل التعليقات...</div>';
+  sb.from('comments').select('*').eq('article_id','book_'+String(bookId)).eq('status','approved').order('created_at',{ascending:true})
+    .then(function(res) {
+      if (res.error || !res.data) { list.innerHTML = '<div class="comments-empty">تعذر تحميل التعليقات</div>'; return; }
+      var data = res.data;
+      if (countEl) countEl.textContent = data.length;
+      if (!data.length) { list.innerHTML = '<div class="comments-empty">لا توجد تعليقات بعد — كن أول من يعلق!</div>'; return; }
+      list.innerHTML = '';
+      data.forEach(function(c) {
+        var d = document.createElement('div'); d.className = 'comment-item';
+        d.innerHTML = '<div class="ci-header"><span class="ci-name">'+escHtml(c.name)+'</span><span class="ci-date">'+new Date(c.created_at).toLocaleDateString('ar-SA')+'</span></div><div class="ci-body">'+escHtml(c.body)+'</div>';
+        list.appendChild(d);
+      });
+    }).catch(function() { list.innerHTML = '<div class="comments-empty">تعذر تحميل التعليقات</div>'; });
+}
+
+async function submitBookComment() {
+  var name=(document.getElementById('bcf-name')||{value:''}).value.trim();
+  var body=(document.getElementById('bcf-body')||{value:''}).value.trim();
+  var errEl=document.getElementById('bcf-error'),btn=document.getElementById('bcf-submit'),successEl=document.getElementById('bcf-success');
+  if(errEl)errEl.style.display='none';if(successEl)successEl.style.display='none';
+  if(!name){if(errEl){errEl.textContent='الاسم مطلوب';errEl.style.display='block';}return;}
+  if(!body||body.length<3){if(errEl){errEl.textContent=!body?'التعليق مطلوب':'التعليق قصير جداً';errEl.style.display='block';}return;}
+  if(!_currentBookId||!sb){if(errEl){errEl.textContent='خطأ في الاتصال';errEl.style.display='block';}return;}
+  if(btn){if(btn.disabled)return;btn.disabled=true;btn.textContent='جاري الإرسال...';}
+  try{
+    var res=await sb.from('comments').insert({article_id:'book_'+String(_currentBookId),name,body,status:'pending'});
+    if(res.error){if(errEl){errEl.textContent=res.error.message||'حدث خطأ';errEl.style.display='block';}}
+    else{if(successEl)successEl.style.display='block';['bcf-name','bcf-body','bcf-email'].forEach(function(i){var e=document.getElementById(i);if(e)e.value='';});}
+  }catch(e){if(errEl){errEl.textContent='خطأ في الاتصال';errEl.style.display='block';}}
+  finally{if(btn){btn.disabled=false;btn.textContent='إرسال التعليق';}}
+}
+
+function setupEventDelegation() {
+  document.addEventListener('click', function(e) {
+    var mob = document.getElementById('mob-menu'); var ham = document.getElementById('ham');
+    if (mob && mob.getAttribute('data-open') === '1') { if (!mob.contains(e.target) && e.target !== ham && !ham.contains(e.target)) { closeMob(); } }
+  });
+  document.addEventListener('click', function(e) {
+    var newsItem = e.target.closest('[data-nid]');
+    if (newsItem && !newsItem.closest('.site-header')) { openArt(newsItem.getAttribute('data-nid')); return; }
+    var artItem = e.target.closest('[data-aid]');
+    if (artItem && !artItem.closest('.site-header') && !artItem.closest('.mob-menu')) {
+      var bar = document.getElementById('search-bar'); var results = document.getElementById('search-results');
+      if (bar) bar.classList.remove('show'); if (results) results.classList.remove('show');
+      openArt(artItem.getAttribute('data-aid')); return;
+    }
+    var bookItem = e.target.closest('[data-bid]');
+    if (bookItem && !bookItem.closest('.site-header') && !bookItem.closest('.mob-menu')) {
+      var bar = document.getElementById('search-bar'); var results = document.getElementById('search-results');
+      if (bar) bar.classList.remove('show'); if (results) results.classList.remove('show');
+      openBook(bookItem.getAttribute('data-bid')); return;
+    }
+    var archCard = e.target.closest('[data-goissue]');
+    if (archCard && !archCard.closest('.site-header')) { goView('issue'); return; }
+  });
+  var searchRes = document.getElementById('search-results');
+  if (searchRes) {
+    searchRes.addEventListener('click', function(e) {
+      var item = e.target.closest('.sr-item');
+      if (item) { var sb2 = document.getElementById('search-bar'); if (sb2) sb2.classList.remove('show'); searchRes.classList.remove('show'); var si = document.getElementById('search-input'); if (si) si.value = ''; }
+    });
+  }
+  // pdf-frame removed — using PDF.js viewer
+  var ham = document.getElementById('ham'); if (ham) { ham.setAttribute('aria-label', 'فتح القائمة'); ham.setAttribute('aria-expanded', 'false'); }
+}
+
+var _dark = (function(){ try { return localStorage.getItem('waraq-dark') === '1'; } catch(e) { return false; } })();
+function applyDark(on) {
+  document.body.classList.toggle('dark', on);
+  var btn = document.getElementById('dark-toggle');
+  if (btn) btn.textContent = on ? '☀️' : '🌙';
+  try { localStorage.setItem('waraq-dark', on ? '1' : '0'); } catch(e) {}
+  _dark = on;
+}
+applyDark(_dark);
+
+var _fontSize = (function(){ try { return parseInt(localStorage.getItem('waraq-font') || '0'); } catch(e) { return 0; } })();
+function changeFontSize(dir) {
+  if (dir === 0) _fontSize = 0;
+  else _fontSize = Math.max(-2, Math.min(4, _fontSize + dir));
+  var body = document.getElementById('sa-body');
+  if (body) { var base = 15 + _fontSize; body.style.fontSize = base + 'px'; body.style.lineHeight = (2.1 - _fontSize * 0.05) + ''; }
+  try { localStorage.setItem('waraq-font', _fontSize); } catch(e) {}
+}
+
+function calcReadTime(text) {
+  var clean = (text||'').replace(/<[^>]*>/g,'').replace(/&[a-z]+;/gi,' ').trim(); var words = clean ? clean.split(/\s+/).filter(Boolean).length : 0;
+  var mins = words > 0 ? Math.max(1, Math.ceil(words / 130)) : 1;
+  return mins + (mins === 1 ? ' دقيقة قراءة' : ' دقائق قراءة');
+}
+
+var _progressInited = false;
+function _onReadScroll() {
+  var fill = document.getElementById('read-bar'); if (!fill) return;
+  var total = document.body.scrollHeight - window.innerHeight;
+  var pct = total > 0 ? Math.min(100, (window.scrollY / total) * 100) : 0;
+  fill.style.width = pct + '%';
+}
+function initReadProgress() {
+  if (_progressInited) return; _progressInited = true;
+  window.removeEventListener('scroll', _onReadScroll);
+  window.addEventListener('scroll', _onReadScroll, {passive:true});
+}
+
+window.addEventListener('scroll', function() {
+  var btn = document.getElementById('back-top');
+  if (btn) btn.classList.toggle('show', window.scrollY > 400);
+});
+
+var _searchTimer = null;
+function clearSearch() {
+  var input = document.getElementById('search-input'); var results = document.getElementById('search-results'); var clr = document.getElementById('search-clear');
+  if (input) input.value = ''; if (results) results.classList.remove('show'); if (clr) clr.classList.remove('show'); if (input) input.focus();
+}
+function initSearch() {
+  var toggle = document.getElementById('search-toggle'); var bar = document.getElementById('search-bar'); var input = document.getElementById('search-input'); var results = document.getElementById('search-results'); var clr = document.getElementById('search-clear');
+  if (!toggle || !bar || !input) return;
+  toggle.addEventListener('click', function() {
+    bar.classList.toggle('show');
+    if (bar.classList.contains('show')) { input.focus(); toggle.style.borderColor = 'var(--teal)'; toggle.style.color = 'var(--teal)'; }
+    else { results.classList.remove('show'); input.value = ''; if (clr) clr.classList.remove('show'); toggle.style.borderColor = 'var(--border)'; toggle.style.color = 'var(--mid)'; }
+  });
+  input.addEventListener('input', function() {
+    clearTimeout(_searchTimer); var q = input.value.trim();
+    if (clr) clr.classList.toggle('show', q.length > 0);
+    if (!q || q.length < 2) { results.classList.remove('show'); return; }
+    _searchTimer = setTimeout(function() { doSearch(q); }, 200);
+  });
+  input.addEventListener('keydown', function(e) { if (e.key === 'Escape') { bar.classList.remove('show'); results.classList.remove('show'); input.value = ''; if (clr) clr.classList.remove('show'); } });
+  document.addEventListener('click', function(e) {
+    var searchToggle = document.getElementById('search-toggle');
+    if (!bar.contains(e.target) && e.target !== searchToggle && !(searchToggle && searchToggle.contains(e.target))) { bar.classList.remove('show'); results.classList.remove('show'); }
+  });
+  var mobInput = document.getElementById('mob-search-input'); var mobResults = document.getElementById('mob-search-results');
+  if (mobInput && mobResults) {
+    var mobTimer = null;
+    mobInput.addEventListener('keydown', function(e) { if (e.key === 'Escape') { mobResults.style.display = 'none'; mobInput.value = ''; } });
+    mobInput.addEventListener('input', function() {
+      clearTimeout(mobTimer); var q = mobInput.value.trim();
+      if (!q || q.length < 2) { mobResults.style.display = 'none'; return; }
+      mobTimer = setTimeout(function() {
+        var qq = q.toLowerCase(); var hits = [];
+        Object.keys(SA).forEach(function(k) { var a = SA[k]; if ((a.title||'').toLowerCase().indexOf(qq)>-1) hits.push({type:'art',id:k,cat:a.badge||'مقالة',title:a.title}); });
+        Object.keys(lA).forEach(function(k) { if (!SA[k]) { var a = lA[k]; if ((a.title||'').toLowerCase().indexOf(qq)>-1) hits.push({type:'art',id:k,cat:a.category||'مقالة',title:a.title}); } });
+        Object.keys(SB).forEach(function(k) { var b = SB[k]; if ((b.title||'').toLowerCase().indexOf(qq)>-1) hits.push({type:'book',id:k,cat:b.genre||'كتاب',title:b.title}); });
+        Object.keys(lB).forEach(function(k) { if (!SB[k]) { var b = lB[k]; if ((b.title||'').toLowerCase().indexOf(qq)>-1) hits.push({type:'book',id:k,cat:b.genre||'كتاب',title:b.title}); } });
+        if (!hits.length) { mobResults.innerHTML = '<div class="sr-empty">لا توجد نتائج</div>'; mobResults.style.display = 'block'; return; }
+        mobResults.innerHTML = hits.slice(0,5).map(function(h) { var dtype2 = h.type==='art' ? 'aid' : 'bid'; return '<div class=sr-item data-'+dtype2+'='+h.id+'><div class=sr-cat>'+h.cat+'</div><div class=sr-title>'+h.title+'</div></div>'; }).join('');
+        mobResults.style.display = 'block';
+        mobResults.querySelectorAll('.sr-item').forEach(function(item) { item.addEventListener('click', function() { var aid = item.getAttribute('data-aid'); var bid = item.getAttribute('data-bid'); if (aid) openArt(aid); else if (bid) openBook(bid); closeMob(); mobResults.style.display = 'none'; if (mobInput) mobInput.value = ''; }); });
+      }, 200);
+    });
+  }
+}
+
+function doSearch(q) {
+  var results = document.getElementById('search-results'); var qq = q.toLowerCase(); var hits = [];
+  Object.keys(lA).forEach(function(k) { var a = lA[k]; if ((a.title||'').toLowerCase().indexOf(qq) > -1 || (a.excerpt||'').toLowerCase().indexOf(qq) > -1) { hits.push({type:'art', id:k, cat:a.category||'مقالة', title:a.title}); } });
+  Object.keys(SA).forEach(function(k) { if (!lA[k]) { var a = SA[k]; if ((a.title||'').toLowerCase().indexOf(qq) > -1) { hits.push({type:'art', id:k, cat:a.badge||'مقالة', title:a.title}); } } });
+  Object.keys(lB).forEach(function(k) { var b = lB[k]; if ((b.title||'').toLowerCase().indexOf(qq) > -1 || (b.author||'').toLowerCase().indexOf(qq) > -1) { hits.push({type:'book', id:k, cat:b.genre||'كتاب', title:b.title}); } });
+  Object.keys(SB).forEach(function(k) { if (!lB[k]) { var b = SB[k]; if ((b.title||'').toLowerCase().indexOf(qq) > -1 || (b.author||'').toLowerCase().indexOf(qq) > -1) { hits.push({type:'book', id:k, cat:b.genre||'كتاب', title:b.title}); } } });
+  if (!hits.length) { results.innerHTML = '<div class=sr-empty>لا توجد نتائج لـ &ldquo;' + q + '&rdquo;</div>'; results.classList.add('show'); return; }
+  results.innerHTML = hits.slice(0,6).map(function(h) { var dtype = h.type==='art' ? 'aid' : 'bid'; return '<div class=sr-item data-' + dtype + '=' + escHtml(h.id) + '><div class=sr-cat>' + escHtml(h.cat) + '</div><div class=sr-title>' + escHtml(h.title) + '</div></div>'; }).join('');
+  results.classList.add('show');
+}
+
+function openShare(type) {
+  var title = type === 'art' ? (document.getElementById('sa-title') ? document.getElementById('sa-title').textContent : '') : (document.getElementById('sb-title') ? document.getElementById('sb-title').textContent : '');
+  var id = type === 'art' ? _currentShareId : _currentShareBookId;
+  var hash = type === 'art' ? '#art/' : '#book/';
+  _shareTitle = title + ' — وَرَق | مركز الأدب العربي';
+  _shareUrl = window.location.origin + window.location.pathname + hash + (id||'');
+  var input = document.getElementById('share-url-input'); if (input) input.value = _shareUrl;
+  var popup = document.getElementById('share-popup'); if (popup) popup.classList.add('on');
+}
+function closeShare() { var p = document.getElementById('share-popup'); if (p) p.classList.remove('on'); }
+function shareX() { window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(_shareTitle)+'&url='+encodeURIComponent(_shareUrl),'_blank'); closeShare(); }
+function shareWA() { window.open('https://wa.me/?text='+encodeURIComponent(_shareTitle+'\n'+_shareUrl),'_blank'); closeShare(); }
+function shareNative() { if(navigator.share){navigator.share({title:_shareTitle,url:_shareUrl}).then(closeShare).catch(function(){});}else{copyShareUrl();closeShare();} }
+function copyShareUrl() {
+  var input = document.getElementById('share-url-input');
+  var btn = document.querySelector('.share-url button');
+  var txt = input ? input.value : _shareUrl;
+  if (navigator.clipboard && txt) {
+    navigator.clipboard.writeText(txt).catch(function() {
+      if (input) { input.select(); try { document.execCommand('copy'); } catch(e) {} }
+    });
+  } else if (input) {
+    input.select(); try { document.execCommand('copy'); } catch(e) {}
+  }
+  if (btn) { btn.textContent = 'تم النسخ ✓'; setTimeout(function() { btn.textContent = 'نسخ'; }, 2000); }
+}
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeShare(); });
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.location.hash === '#home') { window.history.replaceState({}, '', window.location.pathname); }
+  if (!_supabaseReady) {
+    setTimeout(function() { if (!_supabaseReady && initSupabase()) { var evt = new Event('supabase-ready'); document.dispatchEvent(evt); } }, 600);
+  }
+  initNav();
+  setupEventDelegation();
+  if (window.WARAQ_DATA) renderLocalData();
+  var hash = window.location.hash.replace('#', '');
+  var validViews = ['home','issue','books','articles','archive','news'];
+  if (hash.indexOf('art/') === 0) { var artId = hash.replace('art/', ''); if (artId) setTimeout(function() { openArt(artId); }, 500); }
+  else if (hash.indexOf('book/') === 0) { var bookId = hash.replace('book/', ''); if (bookId) setTimeout(function() { openBook(bookId); }, 500); }
+  else if (hash && validViews.indexOf(hash) > -1) { goView(hash); }
+  if (window._configMissing) { console.warn('config.js not loaded — static content only'); }
+  // تحميل البيانات — مرة واحدة فقط بـ flag لمنع التكرار (عام خارج DOMContentLoaded)
+  function loadAllData() {
+    if (_dataLoaded) return;
+    if (!sb) return;
+    _dataLoaded = true;
+    sb.from('settings').select('*').then(function(st) {
+      if (st.data && st.data.length) applySettings(st.data);
+      sb.from('articles').select('*').eq('status','published').neq('category','أخبار').order('published_at',{ascending:false})
+        .then(function(ar) { if (ar.data && ar.data.length) { ar.data.forEach(function(a){lA[a.id]=a;}); renderArts(ar.data); } });
+      sb.from('articles').select('*').eq('status','published').eq('category','أخبار').order('published_at',{ascending:false})
+        .then(function(nw) { if (nw.data && nw.data.length) { nw.data.forEach(function(n){lA[n.id]=n;}); renderNews(nw.data); } });
+      sb.from('books').select('*').neq('archived',true).order('created_at',{ascending:false})
+        .then(function(bk) { if (bk.data && bk.data.length) { bk.data.forEach(function(b){lB[b.id]=b;}); renderBooks(bk.data); } });
+    }).catch(function(e){ _dataLoaded=false; console.warn('Data load failed:', e.message||e); });
+  }
+  try {
+    if (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL && SUPABASE_URL.indexOf('YOUR_PROJECT') < 0) {
+      loadAllData();
+    }
+  } catch(e) { console.warn('Config error, using static content'); }
+  document.addEventListener('supabase-ready', function() { loadAllData(); });
+  var bt = document.getElementById('back-top'); if (bt) bt.addEventListener('click', function() { window.scrollTo({top:0,behavior:'smooth'}); });
+  var dt = document.getElementById('dark-toggle'); if (dt) dt.addEventListener('click', function() { applyDark(!_dark); });
+  initSearch();
+});
+</script>
+
+<!-- SHARE POPUP -->
+<div class="share-popup" id="share-popup" onclick="if(event.target===this)closeShare()">
+  <div class="share-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="margin:0;">مشاركة</h3>
+      <button type="button" class="share-close" onclick="closeShare()">×</button>
+    </div>
+    <div class="share-options">
+      <button type="button" class="share-opt" onclick="shareX()"><div class="share-opt-icon" style="background:#000;color:#fff;">𝕏</div><span>مشاركة على X / Twitter</span></button>
+      <button type="button" class="share-opt" onclick="shareWA()"><div class="share-opt-icon" style="background:#25D366;color:#fff;">📱</div><span>مشاركة عبر WhatsApp</span></button>
+      <button type="button" class="share-opt" onclick="shareNative()"><div class="share-opt-icon" style="background:var(--teal);color:#fff;">↑</div><span>مشاركة...</span></button>
+    </div>
+    <div class="share-url">
+      <input type="text" id="share-url-input" readonly>
+      <button type="button" onclick="copyShareUrl()">نسخ</button>
+    </div>
+  </div>
+</div>
+
+<!-- PDF.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+// ── PDF.js VIEWER ──
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+var _pdfDoc = null;
+var _pdfPage = 1;
+var _pdfTotal = 0;
+var _pdfScale = 1.2;
+var _pdfRendering = false;
+var _pdfUrl = '';
+
+function loadPdfJs(url) {
+  if (typeof pdfjsLib === 'undefined') {
+    document.getElementById('pdf-loading').textContent = 'تعذر تحميل المكتبة — حاول تحديث الصفحة';
+    return;
+  }
+  _pdfUrl = url;
+  _pdfPage = 1;
+  var _initWrap = document.getElementById('pdf-canvas-wrap');
+  var _initW = (_initWrap && _initWrap.clientWidth > 0) ? _initWrap.clientWidth : window.innerWidth;
+  _initW = Math.min(_initW, 860) - 32;
+  // سيتم تعديله تلقائياً بعد تحميل الصفحة الأولى
+  _pdfScale = Math.max(0.8, Math.min(1.5, _initW / 595));
+  var wrap = document.getElementById('pdf-canvas-wrap');
+  if (wrap) wrap.innerHTML = '<div id="pdf-loading">جاري تحميل الملف...</div>';
+  pdfjsLib.getDocument({ url: url, cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/', cMapPacked: true })
+    .promise.then(function(doc) {
+      _pdfDoc = doc;
+      _pdfTotal = doc.numPages;
+      updatePdfInfo();
+      // ملاءمة تلقائية للعرض — نستخدم requestAnimationFrame لنضمن حساب clientWidth
+      requestAnimationFrame(function() {
+        doc.getPage(1).then(function(pg) {
+          var wrap = document.getElementById('pdf-canvas-wrap');
+          var w = (wrap && wrap.clientWidth > 0) ? wrap.clientWidth - 16 : window.innerWidth - 16;
+          var vp0 = pg.getViewport({ scale: 1 });
+          _pdfScale = Math.max(0.5, Math.min(2.5, w / vp0.width));
+          renderAllPages();
+        });
+      });
+    }).catch(function(err) {
+      var lo = document.getElementById('pdf-loading');
+      if (lo) lo.textContent = 'تعذر تحميل الملف — ' + (err.message || '');
+    });
+}
+
+function renderAllPages() {
+  if (!_pdfDoc) return;
+  var wrap = document.getElementById('pdf-canvas-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var availW = wrap.clientWidth - 16;
+  var promises = [];
+  for (var i = 1; i <= _pdfTotal; i++) {
+    (function(pageNum) {
+      var canvas = document.createElement('canvas');
+      canvas.className = 'pdf-page-canvas';
+      canvas.id = 'pdf-canvas-' + pageNum;
+      wrap.appendChild(canvas);
+      var p = _pdfDoc.getPage(pageNum).then(function(page) {
+        var vp0 = page.getViewport({ scale: 1 });
+        var fitScale = (availW > 0) ? Math.min(_pdfScale, availW / vp0.width) : _pdfScale;
+        var vp = page.getViewport({ scale: fitScale * dpr });
+        canvas.width = vp.width;
+        canvas.height = vp.height;
+        var displayW = Math.min(Math.floor(vp.width / dpr), availW > 0 ? availW : 9999);
+        var displayH = Math.round(displayW * vp.height / vp.width);
+        canvas.style.width = displayW + 'px';
+        canvas.style.height = displayH + 'px';
+        return page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+      });
+      promises.push(p);
+    })(i);
+  }
+  Promise.allSettled(promises).then(function() {
+    updatePdfInfo();
+    setupScrollSpy();
+  });
+}
+
+
+function renderSinglePage(pageNum) {
+  if (!_pdfDoc) return;
+  var canvas = document.getElementById('pdf-canvas-' + pageNum);
+  if (!canvas) return;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  _pdfDoc.getPage(pageNum).then(function(page) {
+    var vp = page.getViewport({ scale: _pdfScale * dpr });
+    canvas.width = vp.width;
+    canvas.height = vp.height;
+    canvas.style.width = Math.floor(vp.width / dpr) + 'px';
+    canvas.style.height = Math.floor(vp.height / dpr) + 'px';
+    page.render({ canvasContext: canvas.getContext('2d'), viewport: vp });
+  });
+}
+
+var _pdfObserver = null;
+function setupScrollSpy() {
+  var wrap = document.getElementById('pdf-canvas-wrap');
+  if (!wrap) return;
+  // افصل الـ observer القديم قبل إنشاء جديد
+  if (_pdfObserver) { _pdfObserver.disconnect(); _pdfObserver = null; }
+  _pdfObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        var num = parseInt(id.replace('pdf-canvas-', ''));
+        if (num && num !== _pdfPage) { _pdfPage = num; updatePdfInfo(); }
+      }
+    });
+  }, { threshold: 0.4 });
+  wrap.querySelectorAll('.pdf-page-canvas').forEach(function(c) { _pdfObserver.observe(c); });
+}
+
+function updatePdfInfo() {
+  var el = document.getElementById('pdf-page-info');
+  if (el) el.textContent = _pdfPage + ' / ' + _pdfTotal;
+  var zi = document.getElementById('pdf-zoom-info');
+  if (zi) zi.textContent = Math.round(_pdfScale * 100) + '%';
+  var prev = document.getElementById('pdf-prev');
+  var next = document.getElementById('pdf-next');
+  if (prev) prev.disabled = (_pdfPage <= 1);
+  if (next) next.disabled = (_pdfPage >= _pdfTotal);
+}
+
+function pdfPrevPage() {
+  if (_pdfPage <= 1) return;
+  _pdfPage--;
+  var c = document.getElementById('pdf-canvas-' + _pdfPage);
+  if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  updatePdfInfo();
+}
+
+function pdfNextPage() {
+  if (_pdfPage >= _pdfTotal) return;
+  _pdfPage++;
+  var c = document.getElementById('pdf-canvas-' + _pdfPage);
+  if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  updatePdfInfo();
+}
+
+function pdfZoom(delta) {
+  _pdfScale = Math.max(0.5, Math.min(3, _pdfScale + delta));
+  renderAllPages();
+}
+
+function pdfZoomFit() {
+  var wrap = document.getElementById('pdf-canvas-wrap');
+  if (!wrap || !_pdfDoc) return;
+  _pdfDoc.getPage(1).then(function(page) {
+    var vp = page.getViewport({ scale: 1 });
+    var w = (wrap.clientWidth > 0 ? wrap.clientWidth : window.innerWidth) - 16;
+    _pdfScale = Math.max(0.4, Math.min(3, w / vp.width));
+    renderAllPages();
+  });
+}
+
+// Touch/swipe support
+(function() {
+  var startX = 0, startY = 0;
+  document.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (!_pdfDoc) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = Math.abs(e.changedTouches[0].clientY - startY);
+    if (Math.abs(dx) > 60 && dy < 60) {
+      if (dx < 0) pdfNextPage(); else pdfPrevPage();
+    }
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>

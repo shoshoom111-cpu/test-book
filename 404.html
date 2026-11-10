@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+  // Redirect to home preserving the path for SPA routing
+  var path = window.location.pathname;
+  var hash = window.location.hash;
+  var search = window.location.search;
+  // Store intended destination
+  sessionStorage.setItem('redirect', path + search + hash);
+  window.location.replace('/');
+</script>
+</head>
+<body></body>
+</html>

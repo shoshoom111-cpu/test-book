@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com https://*.supabase.co; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co;">
+<title>وَرَق | الدخول</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cairo',sans-serif,system-ui,Arial;background:#F0EFEB;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;direction:rtl;padding:20px;}
+.logo-wrap{text-align:center;margin-bottom:32px;}
+.logo{font-family:'Amiri',serif,Georgia;font-size:56px;color:#0E0E0E;line-height:1;}
+.logo-sub{font-size:11px;color:#888;margin-top:5px;letter-spacing:.1em;}
+.card{background:#fff;border-radius:14px;border:1px solid #E2DFD8;padding:32px;width:100%;max-width:390px;box-shadow:0 4px 24px rgba(0,0,0,.06);}
+.card-title{font-size:17px;font-weight:600;margin-bottom:24px;color:#0E0E0E;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+label{font-size:11px;color:#6B6860;font-weight:600;letter-spacing:.02em;}
+.pass-wrap{position:relative;}
+.pass-wrap input{padding-left:40px;}
+.pass-toggle{position:absolute;left:12px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer;color:#888;font-size:16px;padding:0;line-height:1;}
+.pass-toggle:hover{color:#1A7A7A;}
+input{font-family:'Cairo',sans-serif,Arial;font-size:14px;padding:11px 14px;border:1px solid #E2DFD8;border-radius:8px;background:#FAF9F7;color:#0E0E0E;width:100%;transition:all .2s;direction:rtl;}
+input:focus{outline:none;border-color:#1A7A7A;box-shadow:0 0 0 3px rgba(26,122,122,.1);}
+input[aria-invalid="true"]{border-color:#C94B1E;}
+.btn{width:100%;background:#1A7A7A;color:#fff;border:none;padding:12px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn:hover:not(:disabled){background:#0f5555;}
+.btn:disabled{background:#aaa;cursor:not-allowed;}
+.btn-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error{background:#FDF0EC;border:1px solid #C94B1E;border-radius:8px;padding:10px 14px;font-size:12px;color:#712B13;margin-bottom:14px;display:none;align-items:center;gap:8px;}
+.error.show{display:flex;}
+.success{background:#E8F5F2;border:1px solid #1A7A7A;border-radius:8px;padding:10px 14px;font-size:12px;color:#085041;margin-bottom:14px;display:none;}
+.success.show{display:block;}
+.rate-warn{font-size:11px;color:#856404;background:#FFF3CD;padding:8px 12px;border-radius:6px;margin-bottom:12px;display:none;text-align:center;}
+.rate-warn.show{display:block;}
+.divider{height:.5px;background:#E2DFD8;margin:20px 0;}
+.links-row{display:flex;justify-content:space-between;align-items:center;}
+.footer-link{font-size:12px;color:#888;}
+.footer-link a{color:#1A7A7A;text-decoration:none;font-weight:500;}
+.footer-link a:hover{color:#C94B1E;}
+.forgot-link{font-size:12px;color:#1A7A7A;cursor:pointer;border:none;background:none;font-family:'Cairo',sans-serif;text-decoration:underline;}
+.forgot-link:hover{color:#C94B1E;}
+.remember-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.remember-row input[type=checkbox]{width:auto;accent-color:#1A7A7A;}
+.remember-row label{font-size:12px;color:#6B6860;font-weight:400;cursor:pointer;}
+.reset-form{display:none;}
+.reset-form.show{display:block;}
+.back-link{font-size:12px;color:#888;cursor:pointer;background:none;border:none;font-family:'Cairo',sans-serif;margin-bottom:16px;display:inline-flex;align-items:center;gap:4px;}
+.back-link:hover{color:#1A7A7A;}
+</style>
+</head>
+<body>
+<div class="logo-wrap">
+  <div class="logo" aria-label="وَرَق">وَرَق</div>
+  <div class="logo-sub">نظام إدارة مركز الأدب العربي</div>
+</div>
+<div class="card" role="main">
+
+  <!-- LOGIN FORM -->
+  <div id="login-form">
+    <div class="card-title">تسجيل الدخول</div>
+    <div class="error" id="err" role="alert" aria-live="polite">
+      <span>⚠</span><span id="err-text"></span>
+    </div>
+    <div class="success" id="success" role="status"></div>
+    <div class="rate-warn" id="rate-warn" aria-live="polite"></div>
+
+    <div class="fg">
+      <label for="email">البريد الإلكتروني</label>
+      <input type="email" id="email" placeholder="example@email.com"
+        autocomplete="username email" aria-label="البريد الإلكتروني" aria-required="true">
+    </div>
+    <div class="fg">
+      <label for="pass">كلمة المرور</label>
+      <div class="pass-wrap">
+        <input type="password" id="pass" placeholder="••••••••"
+          autocomplete="current-password" aria-label="كلمة المرور" aria-required="true">
+        <button class="pass-toggle" onclick="togglePass()" type="button" aria-label="إظهار كلمة المرور" id="pass-toggle-btn">👁</button>
+      </div>
+    </div>
+    <div class="remember-row">
+      <input type="checkbox" id="remember" name="remember">
+      <label for="remember">تذكرني</label>
+    </div>
+    <button class="btn" id="btn" onclick="doLogin()" aria-label="دخول">
+      <span id="btn-text">دخول</span>
+      <div class="btn-spinner" id="btn-spinner"></div>
+    </button>
+    <div class="divider"></div>
+    <div class="links-row">
+      <div class="footer-link"><a href="index.html">← العودة للموقع</a></div>
+      <button class="forgot-link" onclick="showReset()">نسيت كلمة المرور؟</button>
+    </div>
+  </div>
+
+  <!-- RESET FORM -->
+  <div class="reset-form" id="reset-form">
+    <button class="back-link" onclick="showLogin()">← العودة للدخول</button>
+    <div class="card-title">إعادة تعيين كلمة المرور</div>
+    <div class="error" id="reset-err" role="alert" aria-live="polite">
+      <span>⚠</span><span id="reset-err-text"></span>
+    </div>
+    <div class="success" id="reset-success" role="status"></div>
+    <div class="fg">
+      <label for="reset-email">البريد الإلكتروني</label>
+      <input type="email" id="reset-email" placeholder="example@email.com"
+        autocomplete="email" aria-label="البريد الإلكتروني">
+    </div>
+    <button class="btn" id="reset-btn" onclick="doReset()">
+      <span id="reset-btn-text">إرسال رابط إعادة التعيين</span>
+      <div class="btn-spinner" id="reset-spinner"></div>
+    </button>
+  </div>
+</div>
+
+<script>window._configMissing = true;</script>
+<script src="config.js" onload="window._configMissing=false;"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── INIT ──
+var sb = null;
+try {
+  if (window._configMissing || typeof SUPABASE_URL === 'undefined' || !SUPABASE_URL) {
+    console.warn('config.js not loaded');
+  } else if (typeof supabase !== 'undefined' && supabase.createClient) {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+} catch(e) {
+  console.warn('Supabase init failed:', e.message);
+}
+if (!sb) {
+  document.addEventListener('DOMContentLoaded', function() {
+    showErr('خطأ في تهيئة النظام — تحققي من ملف config.js');
+  });
+}
+
+// Rate limiting
+var attempts = 0;
+var lastAttempt = 0;
+var MAX_ATTEMPTS = 5;
+var COOLDOWN_MS = 60000; // 1 minute
+
+// Check existing session
+if (sb && !window._configMissing) {
+  sb.auth.getSession().then(function(res) {
+    if (res && res.data && res.data.session) {
+      redirect(res.data.session.user);
+    }
+  }).catch(function() {
+    // Silent fail - user just needs to login
+  });
+}
+
+// ── LOGIN ──
+async function doLogin() {
+  if (!sb) { showErr('خطأ في الاتصال — تحققي من ملف config.js'); return; }
+  var email = document.getElementById('email').value.trim();
+  var pass = document.getElementById('pass').value;
+  var remember = document.getElementById('remember').checked;
+
+  hideErr();
+
+  // Client-side rate limiting
+  var now = Date.now();
+  if (attempts >= MAX_ATTEMPTS && (now - lastAttempt) < COOLDOWN_MS) {
+    var wait = Math.ceil((COOLDOWN_MS - (now - lastAttempt)) / 1000);
+    showRateWarn('كثرة المحاولات — انتظري ' + wait + ' ثانية');
+    return;
+  }
+  if ((now - lastAttempt) >= COOLDOWN_MS) { attempts = 0; }
+
+  // Validation
+  if (!email || !pass) { showErr('يرجى إدخال البريد وكلمة المرور'); return; }
+  if (!email.includes('@') || !email.includes('.')) { showErr('يرجى إدخال بريد إلكتروني صالح'); return; }
+  if (pass.length < 6) { showErr('كلمة المرور قصيرة جداً'); return; }
+
+  setLoading(true);
+
+  try {
+    var res = await sb.auth.signInWithPassword({ email: email, password: pass });
+
+    if (res.error) {
+      attempts++;
+      lastAttempt = Date.now();
+      setLoading(false);
+      // Specific error messages
+      var msg = res.error.message || '';
+      if (msg.includes('Invalid login') || msg.includes('invalid_credentials')) {
+        showErr('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      } else if (msg.includes('Email not confirmed') || msg.includes('email_not_confirmed')) {
+        showErr('يرجى تأكيد بريدك الإلكتروني أولاً — تحققي من صندوق الوارد');
+      } else if (msg.includes('Too many requests') || msg.includes('rate_limit')) {
+        showErr('كثرة المحاولات — انتظري دقيقة ثم حاولي مجدداً');
+      } else {
+        showErr('خطأ في تسجيل الدخول — حاولي مرة أخرى');
+      }
+      if (attempts >= MAX_ATTEMPTS) showRateWarn('تحذير: ' + attempts + ' محاولات فاشلة');
+      return;
+    }
+
+    // Reset rate limit on success
+    attempts = 0;
+    document.getElementById('btn-text').textContent = 'جاري الدخول...';
+    await redirect(res.data.user);
+
+  } catch(e) {
+    setLoading(false);
+    showErr('خطأ في الاتصال — تحققي من الإنترنت');
+  }
+}
+
+// ── REDIRECT ──
+async function redirect(user) {
+  try {
+    if (!sb) { showErr('خطأ في الاتصال'); return; }
+    var res = await sb.from('profiles').select('role').eq('id', user.id).single();
+    // Only navigate to known safe pages
+    var ALLOWED = { 'admin': 'admin.html', 'writer': 'writer.html' };
+    var role = res.data && res.data.role ? res.data.role : 'writer';
+    var dest = ALLOWED[role] || 'writer.html';
+    window.location.href = dest;
+  } catch(e) {
+    setLoading(false);
+    showErr('حدث خطأ في تحميل بيانات المستخدم');
+  }
+}
+
+// ── RESET PASSWORD ──
+async function doReset() {
+  if (!sb) { document.getElementById('reset-err-text').textContent = 'خطأ في الاتصال'; document.getElementById('reset-err').classList.add('show'); return; }
+  var email = document.getElementById('reset-email').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('reset-err-text').textContent = 'يرجى إدخال بريد إلكتروني صالح';
+    document.getElementById('reset-err').classList.add('show');
+    return;
+  }
+  document.getElementById('reset-btn').disabled = true;
+  document.getElementById('reset-spinner').style.display = 'block';
+  document.getElementById('reset-btn-text').textContent = 'جاري الإرسال...';
+  try {
+    await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/login.html'
+    });
+    document.getElementById('reset-success').textContent = 'تم الإرسال! تحققي من بريدك الإلكتروني';
+    document.getElementById('reset-success').classList.add('show');
+    document.getElementById('reset-err').classList.remove('show');
+  } catch(e) {
+    document.getElementById('reset-err-text').textContent = 'خطأ في الإرسال — حاولي مرة أخرى';
+    document.getElementById('reset-err').classList.add('show');
+  }
+  document.getElementById('reset-btn').disabled = false;
+  document.getElementById('reset-spinner').style.display = 'none';
+  document.getElementById('reset-btn-text').textContent = 'إرسال رابط إعادة التعيين';
+}
+
+// ── UI HELPERS ──
+function setLoading(on) {
+  var btn = document.getElementById('btn');
+  var spinner = document.getElementById('btn-spinner');
+  btn.disabled = on;
+  spinner.style.display = on ? 'block' : 'none';
+  document.getElementById('btn-text').textContent = on ? 'جاري التحقق...' : 'دخول';
+}
+
+function showErr(msg) {
+  document.getElementById('err-text').textContent = msg;
+  document.getElementById('err').classList.add('show');
+  document.getElementById('email').setAttribute('aria-invalid', 'true');
+}
+
+function hideErr() {
+  document.getElementById('err').classList.remove('show');
+  document.getElementById('email').removeAttribute('aria-invalid');
+  document.getElementById('rate-warn').classList.remove('show');
+}
+
+function showRateWarn(msg) {
+  document.getElementById('rate-warn').textContent = msg;
+  document.getElementById('rate-warn').classList.add('show');
+}
+
+function togglePass() {
+  var input = document.getElementById('pass');
+  var btn = document.getElementById('pass-toggle-btn');
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+    btn.setAttribute('aria-label', 'إخفاء كلمة المرور');
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁';
+    btn.setAttribute('aria-label', 'إظهار كلمة المرور');
+  }
+}
+
+function showReset() {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('reset-form').classList.add('show');
+  document.getElementById('reset-email').focus();
+}
+
+function showLogin() {
+  document.getElementById('reset-form').classList.remove('show');
+  document.getElementById('login-form').style.display = 'block';
+  document.getElementById('email').focus();
+}
+
+// Enter key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    if (document.getElementById('reset-form').classList.contains('show')) {
+      doReset();
+    } else {
+      doLogin();
+    }
+  }
+});
+</script>
+</body>
+</html>
