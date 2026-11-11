@@ -1,9 +1,34 @@
-const { createClient } = require('@supabase/supabase-js');
-const ws = require('ws');
+// يقرأ المقالات المنشورة والكتب من Firestore (قراءة عامة — لا يحتاج مفاتيح سرية)
 const fs = require('fs');
 const path = require('path');
 
-const sb = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, { realtime: { transport: ws } });
+const PROJECT = process.env.FIREBASE_PROJECT_ID || 'test-book-2eb74';
+const API_KEY = process.env.FIREBASE_API_KEY || 'AIzaSyC3-hqM2iYAH4LqaAyOm_Wwo2_jxBS_yh4';
+const BASE = `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents`;
+
+function fromValue(v) {
+  if (!v) return null;
+  if ('stringValue' in v) return v.stringValue;
+  if ('integerValue' in v) return Number(v.integerValue);
+  if ('doubleValue' in v) return v.doubleValue;
+  if ('booleanValue' in v) return v.booleanValue;
+  if ('timestampValue' in v) return v.timestampValue;
+  if ('nullValue' in v) return null;
+  if ('arrayValue' in v) return (v.arrayValue.values || []).map(fromValue);
+  if ('mapValue' in v) return fromFields(v.mapValue.fields || {});
+  return null;
+}
+function fromFields(f) { const o = {}; for (const k in f) o[k] = fromValue(f[k]); return o; }
+
+async function queryCollection(collection, where) {
+  const body = { structuredQuery: { from: [{ collectionId: collection }] } };
+  if (where) body.structuredQuery.where = { fieldFilter: { field: { fieldPath: where[0] }, op: 'EQUAL', value: { stringValue: where[1] } } };
+  const res = await fetch(`${BASE}:runQuery?key=${API_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error(`Firestore ${collection}: HTTP ${res.status} ${await res.text()}`);
+  const rows = await res.json();
+  return rows.filter((r) => r.document).map((r) => ({ id: r.document.name.split('/').pop(), ...fromFields(r.document.fields || {}) }));
+}
+const byDesc = (k) => (a, b) => String(b[k] || '').localeCompare(String(a[k] || ''));
 
 function slug(text) {
   return (text || '').replace(/\s+/g, '-').replace(/[^\u0600-\u06FFa-zA-Z0-9-]/g, '').slice(0, 60);
@@ -76,7 +101,7 @@ async function generate() {
   const urls = ['<url><loc>https://waraq-adab.com/</loc></url>'];
 
   // مقالات
-  const { data: arts } = await sb.from('articles').select('*').eq('status', 'published').order('published_at', { ascending: false });
+  const arts = (await queryCollection('articles', ['status', 'published'])).sort(byDesc('published_at'));
   if (arts && arts.length) {
     fs.mkdirSync('articles', { recursive: true });
     for (const a of arts) {
@@ -91,7 +116,7 @@ async function generate() {
   }
 
   // كتب
-  const { data: books } = await sb.from('books').select('*').neq('archived', true).order('created_at', { ascending: false });
+  const books = (await queryCollection('books')).filter((b) => b.archived !== true).sort(byDesc('created_at'));
   if (books && books.length) {
     fs.mkdirSync('books', { recursive: true });
     for (const b of books) {
