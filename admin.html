@@ -351,6 +351,11 @@ input[type=color]{border-radius:2px;}
   #sec-homepage.on{display:block;}
   .hp-preview{position:relative;height:460px;margin-bottom:18px;}
 }
+
+.marble-row{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;}
+.marble-swatch{width:180px;height:90px;border-radius:2px;border:1px solid var(--border);background-size:cover;background-position:center;flex-shrink:0;}
+.mb-colors{display:flex;gap:6px;margin-top:8px;}
+.mb-colors input{width:40px;height:34px;padding:2px;border:1px solid var(--border);border-radius:2px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -664,7 +669,7 @@ input[type=color]{border-radius:2px;}
           <div class="two">
             <div class="fg"><label>رقم العدد</label><input type="text" id="ar-num" placeholder="الخامس"></div>
             <div class="fg"><label>الشهر والسنة</label><input type="text" id="ar-date" placeholder="أغسطس ٢٠٢٥"></div>
-            <div class="fg"><label>رابط PDF (من Google Drive)</label><input type="url" id="ar-pdf" placeholder="https://drive.google.com/..."></div>
+            <div class="fg"><label>ملف PDF <span class="sub">(رابط كامل، أو مسار ملف رفعتِه في المستودع مثل issues/waraq-5.pdf)</span></label><input type="text" id="ar-pdf" placeholder="issues/waraq-5.pdf" style="direction:ltr;text-align:left;"></div>
             <div class="fg"><label>لون الغلاف</label><select id="ar-color"><option value="#4E151C">عنابي جلدي</option><option value="#22305E">كحلي</option><option value="#2E6B64">زمردي</option><option value="#6B4A2B">بني جلدي</option><option value="#B8893B">ذهبي مذهّب</option><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option></select></div>
           </div>
           <div style="display:flex;gap:8px;margin-top:8px;"><button class="btn p" onclick="addArchive()">إضافة</button><button class="btn o" onclick="archFormReset();toggleIF('add-arch')">إلغاء</button></div>
@@ -934,6 +939,12 @@ input[type=color]{border-radius:2px;}
               <div class="fg"><label>النص يسار الشعار <span class="sub">(سطر لكل سطر)</span></label><textarea id="cv-right" rows="3" placeholder="رقمية&#10;شهرية&#10;مجانية"></textarea></div>
             </div>
             <div class="hint" style="margin-top:-4px;">لحذف أي منهما: من بطاقة «الأزرار والقائمة وإظهار العناصر» أزيلي التأشير عن «النص يمين الشعار» أو «النص يسار الشعار».</div>
+            <div class="fg"><label>ألوان الورق المجزّع <span class="sub">(في خلفية الاشتراك وحواف الغلاف والفوتر)</span></label>
+              <div class="marble-row"><div class="marble-swatch" id="mb-swatch"></div><div style="flex:1;min-width:220px;">
+                <select id="mb-mode" onchange="mbUI()"><option value="classic">الألوان الأصلية</option><option value="theme">من ألوان هوية الموقع</option><option value="custom">ألواني الخاصة</option></select>
+                <div class="mb-colors" id="mb-colors"><input type="color" value="#22305E"><input type="color" value="#E9E2D3"><input type="color" value="#7A1F2B"><input type="color" value="#B8893B"><input type="color" value="#2E6B64"></div>
+              </div></div>
+            </div>
             <div class="fg"><label>خلفية قسم الاشتراك</label><select id="cv-nlbg" onchange="cvPreview()"><option value="marble">ورق مجزّع (الحالية)</option><option value="leather">جلد (لون الغلاف)</option><option value="paper">ورق أبيض</option><option value="leaf">رمادي فاتح</option><option value="image">صورة من اختياري</option></select></div>
             <div class="cb-img-row" id="cv-img-row" style="display:none;"><img class="cb-thumb" id="cv-thumb" alt=""><div class="fg"><label>رابط صورة الخلفية</label><input type="text" id="cv-nlimg" placeholder="https://..." oninput="cvPreview()"><label class="cb-upload">⬆ رفع صورة من جهازي<input type="file" accept="image/*" onchange="cvUpload(this)"></label></div></div>
             <div style="display:flex;gap:8px;margin-top:10px;"><button class="btn p" onclick="saveCover()">حفظ</button></div>
@@ -1051,6 +1062,19 @@ input[type=color]{border-radius:2px;}
 
 <div class="toast" id="toast"></div>
 
+<script>
+/* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
+var WARAQ_BUILD = '20261111223946';
+(function(){
+  if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
+  fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+    if (!j || !j.v || j.v === WARAQ_BUILD) return;
+    var k = 'waraq-reload-' + j.v; try { if (sessionStorage.getItem(k)) return; sessionStorage.setItem(k, '1'); } catch(e) {}
+    var q = location.search.replace(/([?&])v=[^&]*&?/, '$1').replace(/[?&]$/, '');
+    location.replace(location.pathname + (q ? q + '&' : '?') + 'v=' + encodeURIComponent(j.v) + location.hash);
+  }).catch(function(){});
+})();
+</script>
 <script>window._configMissing=true;</script>
 <script src="config.js" onload="window._configMissing=false;"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -1389,7 +1413,7 @@ async function loadArchive(){
 function renderArchiveList(items){
   var el=document.getElementById('arch-list');
   if(!items.length){el.innerHTML='<div class="empty">لا توجد أعداد — أضيفي أول عدد</div>';return;}
-  el.innerHTML='';items.forEach(function(i,idx){var d=document.createElement('div');d.className='irow';var safePdf=i.pdf&&i.pdf.toLowerCase().startsWith('http')?escH(i.pdf):'';var pdfBtn=safePdf?'<button class="bsm t" onclick="window.open(&quot;'+safePdf+'&quot;,&quot;_blank&quot;)">فتح PDF</button>':'';d.innerHTML='<div class="icolor" style="background:'+escH(i.color||'#1A7A7A')+'">وَرَق</div><div class="iinfo"><div class="ititle">العدد '+escH(String(i.num||''))+'</div><div class="imeta">'+escH(i.date||'')+' '+(i.pdf?'· PDF متاح ✓':'· لا يوجد PDF')+'</div></div><div class="iacts">'+pdfBtn+'<button class="bsm g" title="لأعلى" onclick="moveArchive('+idx+',-1)"'+(idx===0?' disabled':'')+'>▲</button><button class="bsm g" title="لأسفل" onclick="moveArchive('+idx+',1)"'+(idx===items.length-1?' disabled':'')+'>▼</button><button class="bsm t" onclick="editArchive('+idx+')">تعديل</button><button class="bsm r" onclick="delArchive('+idx+')">حذف</button></div>';el.appendChild(d);});
+  el.innerHTML='';items.forEach(function(i,idx){var d=document.createElement('div');d.className='irow';var safePdf=i.pdf&&/^(https?:\/\/|[\w\-./]+\.pdf$)/i.test(i.pdf)?escH(i.pdf):'';var pdfBtn=safePdf?'<button class="bsm t" onclick="window.open(&quot;'+safePdf+'&quot;,&quot;_blank&quot;)">فتح PDF</button>':'';d.innerHTML='<div class="icolor" style="background:'+escH(i.color||'#1A7A7A')+'">وَرَق</div><div class="iinfo"><div class="ititle">العدد '+escH(String(i.num||''))+'</div><div class="imeta">'+escH(i.date||'')+' '+(i.pdf?'· PDF متاح ✓':'· لا يوجد PDF')+'</div></div><div class="iacts">'+pdfBtn+'<button class="bsm g" title="لأعلى" onclick="moveArchive('+idx+',-1)"'+(idx===0?' disabled':'')+'>▲</button><button class="bsm g" title="لأسفل" onclick="moveArchive('+idx+',1)"'+(idx===items.length-1?' disabled':'')+'>▼</button><button class="bsm t" onclick="editArchive('+idx+')">تعديل</button><button class="bsm r" onclick="delArchive('+idx+')">حذف</button></div>';el.appendChild(d);});
 }
 async function addArchive(){
   var num=v('ar-num'),date=v('ar-date');
@@ -1776,6 +1800,7 @@ function idFill(src){
 function idSync(){ ID_KEYS.forEach(function(k){ sv('idt-'+k, v('idc-'+k)); }); idPreview(); }
 function idSyncText(k){ var t=v('idt-'+k).trim(); if (idHex(t)) { sv('idc-'+k, t); idPreview(); } }
 function idPreview(){
+  if (window.mbUI && v('mb-mode')==='theme') setTimeout(mbUI, 0);
   var p = document.getElementById('id-preview'); if (!p) return;
   var d = idGet();
   ID_KEYS.forEach(function(k){ p.style.setProperty('--pv-'+k, d[k]); });
@@ -2186,10 +2211,34 @@ async function loadVisits(){
 }
 
 // ══ الغلاف والخلفيات ══
+
+// ── ألوان الورق المجزّع ──
+function mbMarbleURI(colors){
+  var a=7; function rnd(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }
+  var widths=[10,16,24,36,52,80], x=-300, i=0, bands='';
+  while(x<1200){ var bw=widths[Math.floor(rnd()*6)]; bands+="<rect x='"+x+"' y='-300' width='"+bw+"' height='1200' fill='"+colors[i%colors.length]+"'/>"; x+=bw; i++; }
+  var svg="<svg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600' preserveAspectRatio='xMidYMid slice'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='turbulence' baseFrequency='.003 .007' numOctaves='2' seed='23' result='t'/><feDisplacementMap in='SourceGraphic' in2='t' scale='260' xChannelSelector='R' yChannelSelector='B'/></filter><g filter='url(#f)'><rect x='-300' y='-300' width='1500' height='1200' fill='"+colors[0]+"'/>"+bands+"</g></svg>";
+  return 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
+}
+function mbGet(){ return {mode:v('mb-mode')||'classic', colors:[].map.call(document.querySelectorAll('#mb-colors input'),function(x){return x.value;})}; }
+function mbUI(){
+  var m=mbGet(), box=document.getElementById('mb-colors'), sw=document.getElementById('mb-swatch'); if(!sw) return;
+  if (box) box.style.display = m.mode==='custom' ? 'flex' : 'none';
+  var c;
+  if (m.mode==='custom') { var k=m.colors; c=[k[0],k[1],k[2],k[3],k[1],k[4],k[0],k[3]]; }
+  else if (m.mode==='theme') { var d=idGet(); c=[d.teal,d.paper,d.orange,d.gold,d.paper,d.leather,d.teal,'#C9B48A']; }
+  else c=['#22305E','#E9E2D3','#7A1F2B','#B8893B','#E9E2D3','#2E6B64','#22305E','#C9B48A'];
+  sw.style.backgroundImage = mbMarbleURI(c);
+}
+document.addEventListener('input', function(e){ if (e.target.closest && e.target.closest('#mb-colors')) mbUI(); });
+
 async function coverLoad(s){
   var g = s.general || {}, d = s.design || {};
   sv('cv-left', g.mh_left || ''); sv('cv-right', g.mh_right || '');
   sv('cv-nlbg', d.nl_bg || 'marble');
+  sv('mb-mode', d.marble_mode || 'classic');
+  if (Array.isArray(d.marble_colors)) [].forEach.call(document.querySelectorAll('#mb-colors input'), function(x, i){ if (d.marble_colors[i]) x.value = d.marble_colors[i]; });
+  mbUI();
   window._nlBgImage = d.nl_bg_image || '';
   sv('cv-nlimg', String(d.nl_bg_image||'').indexOf('media:')===0 ? '' : (d.nl_bg_image||''));
   cvPreview();
@@ -2203,6 +2252,7 @@ async function cvUpload(input){ var ref = await cbUploadFile(input.files && inpu
 async function saveCover(){
   var g = await getCurSettings('general') || {}, d = await getCurSettings('design') || {};
   g.mh_left = v('cv-left'); g.mh_right = v('cv-right');
+  var mb = mbGet(); d.marble_mode = mb.mode; d.marble_colors = mb.colors;
   d.nl_bg = v('cv-nlbg'); var url = v('cv-nlimg').trim(); d.nl_bg_image = url || window._nlBgImage || '';
   var r1 = await sb.from('settings').upsert({key:'general', value:g});
   var r2 = await sb.from('settings').upsert({key:'design', value:d});
@@ -2213,7 +2263,10 @@ async function saveCover(){
 // ══ الأزرار والقائمة وإظهار العناصر ══
 var UI_LABELS = [
   ['nav_home','القائمة: الرئيسية','الرئيسية'],['nav_issue','القائمة: العدد الحالي','العدد الحالي'],['nav_books','القائمة: الكتب','الكتب'],
-  ['nav_articles','القائمة: مقالات','مقالات'],['nav_archive','القائمة: الأرشيف','الأرشيف'],['nav_news','القائمة: أخبار','أخبار'],
+  ['nav_articles','القائمة: مقالات','مقالات'],['nav_archive','القائمة: الأرشيف','الأرشيف'],['nav_news','القائمة: أخبار','أخبار'],['nav_writers','القائمة: الكتّاب','الكتّاب'],
+  ['page_books','عنوان صفحة الكتب','الكتب'],['page_books_sub','وصف صفحة الكتب','إصدارات مركز الأدب العربي'],['page_arts','عنوان صفحة المقالات','مقالات'],['page_arts_sub','وصف صفحة المقالات','أحدث المقالات الأدبية'],
+  ['page_news','عنوان صفحة الأخبار','الأخبار'],['page_news_sub','وصف صفحة الأخبار','آخر الأخبار'],['page_arch','عنوان صفحة الأرشيف','أرشيف الأعداد'],['page_arch_sub','وصف صفحة الأرشيف','كل إصدارات مجلة وَرَق'],
+  ['page_writers','عنوان صفحة الكتّاب','الكتّاب'],['page_writers_sub','وصف صفحة الكتّاب','كتّاب مركز الأدب العربي ومجلة وَرَق'],
   ['sub_btn','زر الاشتراك في الأعلى','اشترك مجاناً'],['login_btn','زر دخول المحررين','دخول المحررين'],['nl_btn','زر الاشتراك في الأسفل','اشترك الآن'],
   ['hero_badge','شارة كتاب الشهر','كتاب الشهر'],['side_hd','عنوان «جديد المركز»','جديد المركز'],['quote_attr','توقيع الاقتباس','— اقتباس الشهر'],
   ['mp_label','عنوان توصية الشهر','توصية الشهر'],['mp_btn','زر توصية الشهر','احصل على الكتاب'],['more_books','رابط «كل الكتب»','الكتب كلها ←'],
@@ -2222,7 +2275,7 @@ var UI_LABELS = [
 ];
 var UI_HIDE = [
   ['topbar','الشريط العلوي (روابط التواصل)'],['search','زر البحث'],['dark','زر الوضع الليلي'],['login_btn','زر دخول المحررين'],['sub_btn','زر الاشتراك في الأعلى'],
-  ['nav_issue','رابط «العدد الحالي»'],['nav_books','رابط «الكتب»'],['nav_articles','رابط «مقالات»'],['nav_archive','رابط «الأرشيف»'],['nav_news','رابط «أخبار»'],
+  ['nav_issue','رابط «العدد الحالي»'],['nav_books','رابط «الكتب»'],['nav_articles','رابط «مقالات»'],['nav_archive','رابط «الأرشيف»'],['nav_news','رابط «أخبار»'],['nav_writers','رابط «الكتّاب»'],
   ['mh_meta','النصان بجانب الشعار (الاثنان)'],['mh_left','النص يمين الشعار (العدد والتاريخ)'],['mh_right','النص يسار الشعار (رقمية/شهرية)'],['mh_tag','وصف المجلة تحت الشعار'],['hero_side','الصفحة اليسرى (جديد المركز والاقتباس)'],['side_list','قائمة «جديد المركز»'],['quote','اقتباس الشهر'],
   ['more_links','روابط «عرض الكل» في الأقسام'],['nl_contact','فقرة «تريد المشاركة»'],['ft_social','أزرار التواصل أسفل الفوتر'],['back_top','زر العودة للأعلى']
 ];
@@ -2477,7 +2530,7 @@ async function adminPreview(){
 async function buildDraft(){
   var draft = {};
   try{ draft.design = Object.assign({}, window._curDesign || {}, idGet()); }catch(e){}
-  try{ var cd=v('cv-nlbg'); if(cd && draft.design){ draft.design.nl_bg=cd; draft.design.nl_bg_image=v('cv-nlimg').trim()||window._nlBgImage||''; } }catch(e){}
+  try{ var cd=v('cv-nlbg'); if(cd && draft.design){ draft.design.nl_bg=cd; draft.design.nl_bg_image=v('cv-nlimg').trim()||window._nlBgImage||''; var mb=mbGet(); draft.design.marble_mode=mb.mode; draft.design.marble_colors=mb.colors; } }catch(e){}
   try{ if(_layout){ layRead(); draft.layout=JSON.parse(JSON.stringify(_layout)); } }catch(e){}
   try{ BE_home.read(); draft.blocks=cbClean(BE_home.items); }catch(e){}
   try{ var labels={},hide=[]; document.querySelectorAll('#ui-labels [data-ui]').forEach(function(f){ if(f.value.trim()) labels[f.getAttribute('data-ui')]=f.value.trim(); }); document.querySelectorAll('#ui-hide [data-hide]').forEach(function(f){ if(!f.checked) hide.push(f.getAttribute('data-hide')); }); if(document.getElementById('ui-labels') && document.getElementById('ui-labels').childElementCount) draft.ui={labels:labels,hide:hide}; }catch(e){}
