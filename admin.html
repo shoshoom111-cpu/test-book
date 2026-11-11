@@ -278,6 +278,29 @@ input[type=color]{border-radius:2px;}
 .lay-show input{width:17px;height:17px;accent-color:var(--orange);}
 @media(max-width:900px){.color-grid{grid-template-columns:1fr 1fr;}.idp-page{grid-template-columns:1fr;}.idp-book{display:none;}}
 @media(max-width:600px){.color-grid{grid-template-columns:1fr;}.lay-row{grid-template-columns:auto 1fr;}.lay-show{grid-column:1/-1;}.content{padding:18px;}.pg-title{font-size:32px;}}
+
+.add-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.cb-item{background:#fff;border:1px solid var(--border);border-right:3px solid var(--gold);border-radius:2px;margin-bottom:12px;}
+.cb-head{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;}
+.cb-head .cb-type{font-size:12px;color:var(--gold);font-weight:600;white-space:nowrap;}
+.cb-head .cb-name{flex:1;font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cb-head .cb-toggle{font-size:12px;color:var(--mid);}
+.cb-body-ed{padding:0 14px 16px;display:none;border-top:1px solid var(--border);}
+.cb-item.open .cb-body-ed{display:block;padding-top:14px;}
+.cb-img-row{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;}
+.cb-img-row .fg{flex:1;min-width:220px;}
+.cb-thumb{width:120px;height:84px;object-fit:cover;border-radius:2px;border:1px solid var(--border);background:var(--cream);}
+.cb-upload{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--teal);cursor:pointer;font-weight:600;margin-top:6px;}
+.cb-upload input{display:none;}
+.ui-sub{font-family:'Aref Ruqaa',serif;font-size:22px;font-weight:700;color:var(--ink);margin:6px 0 12px;}
+.ui-sub .sub{font-family:'Readex Pro',sans-serif;font-size:12px;font-weight:400;color:var(--light);}
+.ui-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 16px;margin-bottom:22px;}
+.ui-grid .fg{margin:0;}
+.ui-checks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;}
+.ui-checks label{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink);font-weight:400;cursor:pointer;}
+.ui-checks input{width:17px;height:17px;accent-color:var(--orange);}
+@media(max-width:900px){.ui-grid,.ui-checks{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.ui-grid,.ui-checks{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -738,6 +761,35 @@ input[type=color]{border-radius:2px;}
             <div class="hint">رتّبي الأقسام بالأسهم، وأخفي ما لا تحتاجينه، وغيّري عناوين الأقسام وعدد ما يظهر فيها. الهيدر والفوتر ثابتان دائماً.</div>
             <div id="layout-list"></div>
             <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"><button class="btn p" onclick="saveLayout()">حفظ الأقسام</button><button class="btn o" onclick="resetLayout()">الترتيب الافتراضي</button></div>
+          </div>
+        </div>
+
+        <!-- CUSTOM BLOCKS -->
+        <div class="card" id="blocks-card">
+          <div class="card-hd"><span class="card-title">أقسام مخصصة — أضيفي ما تريدين للصفحة الرئيسية</span><button class="btn p sm" onclick="saveBlocks()">حفظ الأقسام المخصصة</button></div>
+          <div class="card-body">
+            <div class="hint">أضيفي قسماً جديداً من أي نوع، ثم رتّبيه أو أخفيه من بطاقة «أقسام الصفحة الرئيسية» فوق. الصور: الصقي رابطاً أو ارفعي صورة من جهازك مباشرة.</div>
+            <div class="add-row">
+              <button type="button" class="btn o" onclick="cbAdd('text')">＋ نص</button>
+              <button type="button" class="btn o" onclick="cbAdd('image')">＋ صورة</button>
+              <button type="button" class="btn o" onclick="cbAdd('imagetext')">＋ صورة مع نص</button>
+              <button type="button" class="btn o" onclick="cbAdd('cta')">＋ دعوة بزر</button>
+            </div>
+            <div id="blocks-list"></div>
+            <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;"><button class="btn p" onclick="saveBlocks()">حفظ الأقسام المخصصة</button></div>
+          </div>
+        </div>
+
+        <!-- UI: BUTTONS, MENU, SHOW/HIDE -->
+        <div class="card" id="ui-card">
+          <div class="card-hd"><span class="card-title">الأزرار والقائمة وإظهار العناصر</span><button class="btn p sm" onclick="saveUI()">حفظ</button></div>
+          <div class="card-body">
+            <div class="hint">غيّري نص أي زر أو رابط في الموقع (اتركي الخانة فارغة لإبقاء النص الافتراضي)، وأخفي أي عنصر لا تحتاجينه.</div>
+            <div class="ui-sub">نصوص الأزرار والقائمة</div>
+            <div class="ui-grid" id="ui-labels"></div>
+            <div class="ui-sub">إظهار وإخفاء العناصر <span class="sub">(المؤشَّر ظاهر)</span></div>
+            <div class="ui-checks" id="ui-hide"></div>
+            <div style="display:flex;gap:8px;margin-top:16px;"><button class="btn p" onclick="saveUI()">حفظ</button></div>
           </div>
         </div>
 
@@ -1645,6 +1697,151 @@ async function moveArchive(idx, dir){
   toast('تم تحديث ترتيب الأعداد'); renderArchiveList(items);
 }
 
+
+// ══ أقسام مخصصة ══
+var CB_TYPES = {text:'نص', image:'صورة', imagetext:'صورة مع نص', cta:'دعوة بزر'};
+var _blocks = [], _media = {};
+function cbId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function cbLoad(s){
+  _blocks = Array.isArray(s.blocks) ? JSON.parse(JSON.stringify(s.blocks)) : [];
+  _media = {}; Object.keys(s).forEach(function(k){ if (k.indexOf('media_')===0) _media[k.slice(6)] = s[k]; });
+  cbRender();
+}
+function cbSrc(v){ if(!v) return ''; v=String(v); if(v.indexOf('media:')===0) return _media[v.slice(6)]||''; return v; }
+function cbAdd(type){
+  cbRead();
+  _blocks.push({id:cbId(), type:type, title:'', text:'', image:'', btn_label:'', btn_url:'', style: type==='cta'?'leather':'paper', align:'center', width: type==='imagetext'?'wide':'narrow', image_side:'start'});
+  cbRender(_blocks.length-1);
+  toast('تمت إضافة قسم «'+CB_TYPES[type]+'» — املئي بياناته ثم اضغطي حفظ');
+}
+function cbField(b, i, key, label, kind, opts){
+  var val = b[key]==null ? '' : b[key];
+  if (kind==='select') return '<div class="fg"><label>'+label+'</label><select data-i="'+i+'" data-k="'+key+'">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(val===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
+  if (kind==='textarea') return '<div class="fg"><label>'+label+'</label><textarea rows="4" data-i="'+i+'" data-k="'+key+'">'+escH(String(val))+'</textarea></div>';
+  return '<div class="fg"><label>'+label+'</label><input type="text" data-i="'+i+'" data-k="'+key+'" value="'+escH(String(val))+'"></div>';
+}
+function cbRender(openIdx){
+  var el = document.getElementById('blocks-list'); if(!el) return;
+  if (!_blocks.length) { el.innerHTML = '<div class="empty" style="padding:24px;">لا توجد أقسام مخصصة بعد — اختاري نوعاً من الأزرار فوق</div>'; return; }
+  el.innerHTML = '';
+  _blocks.forEach(function(b, i){
+    var hasImg = b.type==='image' || b.type==='imagetext';
+    var d = document.createElement('div'); d.className = 'cb-item' + (i===openIdx ? ' open' : '');
+    var src = cbSrc(b.image);
+    d.innerHTML = '<div class="cb-head"><span class="cb-type">'+CB_TYPES[b.type||'text']+'</span><span class="cb-name">'+escH(b.title||'(بدون عنوان)')+'</span><span class="cb-toggle">تعديل ▾</span>'
+      + '<button type="button" class="bsm g" data-act="up" title="لأعلى"'+(i===0?' disabled':'')+'>▲</button><button type="button" class="bsm g" data-act="down" title="لأسفل"'+(i===_blocks.length-1?' disabled':'')+'>▼</button><button type="button" class="bsm r" data-act="del">حذف</button></div>'
+      + '<div class="cb-body-ed">'
+      + '<div class="two">' + cbField(b,i,'type','نوع القسم','select',[['text','نص'],['image','صورة'],['imagetext','صورة مع نص'],['cta','دعوة بزر']]) + cbField(b,i,'title','العنوان') + '</div>'
+      + (b.type!=='image' || true ? cbField(b,i,'text','النص (اتركي سطراً فارغاً بين الفقرات)','textarea') : '')
+      + (hasImg ? '<div class="cb-img-row"><img class="cb-thumb" src="'+escH(src)+'" alt="" '+(src?'':'style="visibility:hidden"')+'><div class="fg"><label>الصورة — رابط</label><input type="text" data-i="'+i+'" data-k="image" value="'+escH(String(b.image||'').indexOf('media:')===0?'':(b.image||''))+'" placeholder="https://...">'
+          + '<label class="cb-upload">⬆ رفع صورة من جهازي<input type="file" accept="image/*" data-up="'+i+'"></label>'+(String(b.image||'').indexOf('media:')===0?' <span style="font-size:12px;color:var(--mid);">(صورة مرفوعة)</span>':'')+'</div></div>' : '')
+      + '<div class="two">' + cbField(b,i,'btn_label','نص الزر (اختياري)') + cbField(b,i,'btn_url','رابط الزر') + '</div>'
+      + '<div class="three">' + cbField(b,i,'style','الخلفية','select',[['paper','ورق أبيض'],['leaf','رمادي فاتح'],['leather','جلد (لون الغلاف)'],['marble','ورق مجزّع']])
+      + cbField(b,i,'align','المحاذاة','select',[['center','في الوسط'],['start','يمين']])
+      + cbField(b,i,'width','العرض','select',[['narrow','ضيق'],['wide','عريض']]) + '</div>'
+      + (b.type==='imagetext' ? cbField(b,i,'image_side','مكان الصورة','select',[['start','يمين النص'],['end','يسار النص']]) : '')
+      + '</div>';
+    d.querySelector('.cb-head').addEventListener('click', function(e){
+      var act = e.target.getAttribute && e.target.getAttribute('data-act');
+      if (act==='del') { if(!confirm('حذف هذا القسم؟')) return; cbRead(); _blocks.splice(i,1); cbRender(); toast('حُذف — اضغطي «حفظ الأقسام المخصصة» لتطبيقه'); return; }
+      if (act==='up' || act==='down') { cbRead(); var j = act==='up'?i-1:i+1; var t=_blocks[i]; _blocks[i]=_blocks[j]; _blocks[j]=t; cbRender(j); return; }
+      d.classList.toggle('open');
+    });
+    d.querySelector('select[data-k=type]').addEventListener('change', function(){ cbRead(); cbRender(i); });
+    var up = d.querySelector('input[data-up]'); if (up) up.addEventListener('change', function(){ cbUpload(this, i); });
+    el.appendChild(d);
+  });
+}
+function cbRead(){
+  document.querySelectorAll('#blocks-list [data-i][data-k]').forEach(function(f){
+    var b = _blocks[+f.getAttribute('data-i')]; if (!b) return;
+    var k = f.getAttribute('data-k'), v = f.value;
+    if (k==='image') { if (v.trim()) b.image = v.trim(); else if (String(b.image||'').indexOf('media:')!==0) b.image = ''; return; }
+    b[k] = v;
+  });
+}
+function cbUpload(input, i){
+  var file = input.files && input.files[0]; if (!file) return;
+  if (!/^image\//.test(file.type)) { toast('اختاري ملف صورة'); return; }
+  toast('جاري تجهيز الصورة...');
+  var img = new Image(), url = URL.createObjectURL(file);
+  img.onload = async function(){
+    var max = 1600, w = img.naturalWidth, h = img.naturalHeight;
+    if (w > max) { h = Math.round(h*max/w); w = max; }
+    var c = document.createElement('canvas'), q = 0.85, data;
+    for (var tries=0; tries<8; tries++) {
+      c.width = w; c.height = h; var ctx = c.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h); ctx.drawImage(img,0,0,w,h);
+      data = c.toDataURL('image/jpeg', q);
+      if (data.length < 900000) break;
+      q = Math.max(0.5, q-0.1); w = Math.round(w*0.85); h = Math.round(h*0.85);
+    }
+    URL.revokeObjectURL(url);
+    if (data.length >= 900000) { toast('الصورة كبيرة جداً — جربي صورة أصغر'); return; }
+    var id = cbId();
+    var res = await sb.from('settings').upsert({key:'media_'+id, value:data});
+    if (res.error) { toast('تعذر رفع الصورة: '+res.error.message); return; }
+    cbRead(); _media[id] = data; _blocks[i].image = 'media:'+id; cbRender(i);
+    toast('تم رفع الصورة ✓ — اضغطي «حفظ الأقسام المخصصة»');
+  };
+  img.onerror = function(){ toast('تعذر قراءة الصورة'); };
+  img.src = url;
+}
+async function saveBlocks(){
+  cbRead();
+  var clean = _blocks.map(function(b){ var o={}; ['id','type','title','text','image','btn_label','btn_url','style','align','width','image_side'].forEach(function(k){ if(b[k]!==undefined&&b[k]!==null) o[k]=String(b[k]); }); return o; });
+  var res = await sb.from('settings').upsert({key:'blocks', value:clean});
+  if (res.error) { toast('خطأ في الحفظ: '+res.error.message); return; }
+  _settingsCache = null;
+  // أضيفي الأقسام الجديدة لقائمة الترتيب
+  layExtra(clean); layRender();
+  toast('تم حفظ الأقسام المخصصة ✓');
+}
+
+// ══ الأزرار والقائمة وإظهار العناصر ══
+var UI_LABELS = [
+  ['nav_home','القائمة: الرئيسية','الرئيسية'],['nav_issue','القائمة: العدد الحالي','العدد الحالي'],['nav_books','القائمة: الكتب','الكتب'],
+  ['nav_articles','القائمة: مقالات','مقالات'],['nav_archive','القائمة: الأرشيف','الأرشيف'],['nav_news','القائمة: أخبار','أخبار'],
+  ['sub_btn','زر الاشتراك في الأعلى','اشترك مجاناً'],['login_btn','زر دخول المحررين','دخول المحررين'],['nl_btn','زر الاشتراك في الأسفل','اشترك الآن'],
+  ['hero_badge','شارة كتاب الشهر','كتاب الشهر'],['side_hd','عنوان «جديد المركز»','جديد المركز'],['quote_attr','توقيع الاقتباس','— اقتباس الشهر'],
+  ['mp_label','عنوان توصية الشهر','توصية الشهر'],['mp_btn','زر توصية الشهر','احصل على الكتاب'],['more_books','رابط «كل الكتب»','الكتب كلها ←'],
+  ['more_arts','رابط «كل المقالات»','كل المقالات ←'],['more_news','رابط «كل الأخبار»','كل الأخبار ←'],['more_arch','رابط «كل الأعداد»','عرض الكل ←'],
+  ['nl_contact_title','عنوان «تريد المشاركة»','تريد المشاركة في الأعداد القادمة؟'],['nl_contact_sub','نص «أرسل مقالتك»','أرسل مقالتك أو مشاركتك على']
+];
+var UI_HIDE = [
+  ['topbar','الشريط العلوي (روابط التواصل)'],['search','زر البحث'],['dark','زر الوضع الليلي'],['login_btn','زر دخول المحررين'],['sub_btn','زر الاشتراك في الأعلى'],
+  ['nav_issue','رابط «العدد الحالي»'],['nav_books','رابط «الكتب»'],['nav_articles','رابط «مقالات»'],['nav_archive','رابط «الأرشيف»'],['nav_news','رابط «أخبار»'],
+  ['mh_meta','معلومات العدد بجانب الشعار'],['mh_tag','وصف المجلة تحت الشعار'],['hero_side','الصفحة اليسرى (جديد المركز والاقتباس)'],['side_list','قائمة «جديد المركز»'],['quote','اقتباس الشهر'],
+  ['more_links','روابط «عرض الكل» في الأقسام'],['nl_contact','فقرة «تريد المشاركة»'],['ft_social','أزرار التواصل أسفل الفوتر'],['back_top','زر العودة للأعلى']
+];
+function uiLoad(s){
+  var ui = s.ui || {}, L = ui.labels || {}, H = ui.hide || [];
+  var g = document.getElementById('ui-labels'), c = document.getElementById('ui-hide'); if (!g || !c) return;
+  g.innerHTML = UI_LABELS.map(function(x){ var val = L[x[0]] || (x[0]==='nl_btn' && s.general && s.general.nl_btn) || ''; return '<div class="fg"><label>'+x[1]+'</label><input type="text" data-ui="'+x[0]+'" placeholder="'+escH(x[2])+'" value="'+escH(val)+'"></div>'; }).join('');
+  c.innerHTML = UI_HIDE.map(function(x){ return '<label><input type="checkbox" data-hide="'+x[0]+'"'+(H.indexOf(x[0])>-1?'':' checked')+'>'+x[1]+'</label>'; }).join('');
+}
+async function saveUI(){
+  var labels = {}, hide = [];
+  document.querySelectorAll('#ui-labels [data-ui]').forEach(function(f){ if (f.value.trim()) labels[f.getAttribute('data-ui')] = f.value.trim(); });
+  document.querySelectorAll('#ui-hide [data-hide]').forEach(function(f){ if (!f.checked) hide.push(f.getAttribute('data-hide')); });
+  var res = await sb.from('settings').upsert({key:'ui', value:{labels:labels, hide:hide}});
+  if (res.error) { toast('خطأ في الحفظ: '+res.error.message); return; }
+  _settingsCache = null;
+  toast('تم حفظ الأزرار والقائمة ✓');
+}
+
+// ══ الأقسام المخصصة داخل قائمة الترتيب ══
+var LAY_BASE = ['hero','ticker','books','articles','news','archive','monthpick','newsletter'];
+function layExtra(blocks){
+  LAY_KEYS = LAY_BASE.slice();
+  (blocks||[]).forEach(function(b){ var k='block-'+b.id; LAY_KEYS.push(k); LAY_NAMES[k] = 'قسم مخصص: ' + (b.title || CB_TYPES[b.type] || ''); });
+  if (_layout) {
+    var o = _layout.order.filter(function(k){ return LAY_KEYS.indexOf(k)>-1; });
+    LAY_KEYS.forEach(function(k){ if (o.indexOf(k)<0) o.push(k); });
+    _layout.order = o;
+    _layout.hidden = _layout.hidden.filter(function(k){ return LAY_KEYS.indexOf(k)>-1; });
+  }
+}
+
 async function loadHomepageSettings() {
   // Use cached settings if available
   var data = _settingsCache;
@@ -1692,7 +1889,7 @@ async function loadHomepageSettings() {
       });
     }
   }
-  idRenderThemes(); idFill(s.design); layLoad(s);
+  idRenderThemes(); idFill(s.design); layExtra(s.blocks); layLoad(s); cbLoad(s); uiLoad(s);
   if (s.design) {
     if(s.design.teal){sv('hp-c-teal',s.design.teal);sv('hp-ct-teal',s.design.teal);}
     if(s.design.orange){sv('hp-c-orange',s.design.orange);sv('hp-ct-orange',s.design.orange);}
