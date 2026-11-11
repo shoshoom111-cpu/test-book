@@ -29,6 +29,16 @@ async function queryCollection(collection, where) {
   return rows.filter((r) => r.document).map((r) => ({ id: r.document.name.split('/').pop(), ...fromFields(r.document.fields || {}) }));
 }
 const byDesc = (k) => (a, b) => String(b[k] || '').localeCompare(String(a[k] || ''));
+const esc = (t) => String(t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const httpImg = (u) => (/^https?:\/\//i.test(String(u || '')) ? String(u) : '');
+const jsonLd = (o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`;
+async function getSetting(key) {
+  const res = await fetch(`${BASE}/settings/${key}?key=${API_KEY}`);
+  if (!res.ok) return null;
+  const d = await res.json();
+  return d.fields ? fromFields(d.fields).value : null;
+}
+
 
 function slug(text) {
   return (text || '').replace(/\s+/g, '-').replace(/[^\u0600-\u06FFa-zA-Z0-9-]/g, '').slice(0, 60);
@@ -46,7 +56,10 @@ function articleHTML(a) {
 <meta property="og:description" content="${(a.excerpt || '').replace(/"/g, '&quot;')}">
 <meta property="og:url" content="https://waraq-adab.com/articles/${slug(a.title)}/">
 <meta property="og:type" content="article">
+${httpImg(a.image) ? `<meta property="og:image" content="${esc(a.image)}">
+<meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">'}
 <link rel="canonical" href="https://waraq-adab.com/articles/${slug(a.title)}/">
+${jsonLd({ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.excerpt || '', author: { '@type': 'Person', name: a.author_name || 'وَرَق' }, datePublished: a.published_at || undefined, image: httpImg(a.image) || undefined, publisher: { '@type': 'Organization', name: 'مركز الأدب العربي' }, inLanguage: 'ar', mainEntityOfPage: `https://waraq-adab.com/articles/${slug(a.title)}/` })}
 <meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#art/${a.id}">
 <style>
 body{font-family:Cairo,sans-serif;direction:rtl;max-width:800px;margin:40px auto;padding:0 20px;color:#111;}
@@ -78,6 +91,8 @@ function bookHTML(b) {
 <meta property="og:description" content="${(b.description || b.desc || '').replace(/"/g, '&quot;')}">
 <meta property="og:url" content="https://waraq-adab.com/books/${slug(b.title)}/">
 <meta property="og:type" content="book">
+${httpImg(b.image) ? `<meta property="og:image" content="${esc(b.image)}">` : ''}
+${jsonLd({ '@context': 'https://schema.org', '@type': 'Book', name: b.title, author: { '@type': 'Person', name: b.author || '' }, genre: b.genre || undefined, description: b.description || b.desc || '', image: httpImg(b.image) || undefined, publisher: { '@type': 'Organization', name: 'مركز الأدب العربي' }, inLanguage: 'ar', url: b.url || undefined })}
 <link rel="canonical" href="https://waraq-adab.com/books/${slug(b.title)}/">
 <meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#book/${b.id}">
 <style>
@@ -101,7 +116,8 @@ async function generate() {
   const urls = ['<url><loc>https://waraq-adab.com/</loc></url>'];
 
   // مقالات
-  const arts = (await queryCollection('articles', ['status', 'published'])).sort(byDesc('published_at'));
+  const now = new Date();
+  const arts = (await queryCollection('articles', ['status', 'published'])).filter((a) => !a.published_at || new Date(a.published_at) <= now).sort(byDesc('published_at'));
   if (arts && arts.length) {
     fs.mkdirSync('articles', { recursive: true });
     for (const a of arts) {
@@ -129,6 +145,17 @@ async function generate() {
     }
     console.log(`✓ ${books.length} كتاب`);
   }
+
+  // صفحات مخصصة من لوحة التحكم
+  const pages = (await getSetting('pages')) || [];
+  for (const pg of pages) {
+    if (!pg || !pg.id || pg.hidden) continue;
+    const dir = path.join('pages', String(pg.id).replace(/[^a-z0-9_-]/gi, ''));
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(pg.title)} | وَرَق</title><meta name="description" content="${esc(pg.subtitle || pg.title)}"><meta property="og:title" content="${esc(pg.title)} | وَرَق"><link rel="canonical" href="https://waraq-adab.com/pages/${pg.id}/"><meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#p-${pg.id}"></head><body><h1>${esc(pg.title)}</h1><p>${esc(pg.subtitle || '')}</p><p><a href="https://waraq-adab.com/#p-${pg.id}">افتح الصفحة على وَرَق</a></p></body></html>`);
+    urls.push(`<url><loc>https://waraq-adab.com/pages/${pg.id}/</loc></url>`);
+  }
+  if (pages.length) console.log(`✓ ${pages.length} صفحة مخصصة`);
 
   // sitemap
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

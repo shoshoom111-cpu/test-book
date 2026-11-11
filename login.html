@@ -220,7 +220,7 @@ async function redirect(user) {
     if (!sb) { showErr('خطأ في الاتصال'); return; }
     var res = await sb.from('profiles').select('role').eq('id', user.id).single();
     // Only navigate to known safe pages
-    var ALLOWED = { 'admin': 'admin.html', 'writer': 'writer.html' };
+    var ALLOWED = { 'admin': 'admin.html', 'editor': 'admin.html', 'writer': 'writer.html' };
     var role = res.data && res.data.role ? res.data.role : 'writer';
     var dest = ALLOWED[role] || 'writer.html';
     window.location.href = dest;
