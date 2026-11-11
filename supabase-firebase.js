@@ -14,6 +14,8 @@
   }
   var app = firebase.apps.length ? firebase.app() : firebase.initializeApp(FIREBASE_CONFIG);
   var db = app.firestore();
+  // اتصال بديل تلقائي عند حجب الاتصال العادي (موانع الإعلانات، الشبكات المقيّدة، أخطاء QUIC)
+  try { db.settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
   var auth = app.auth();
 
   // primary key per table (document id)
