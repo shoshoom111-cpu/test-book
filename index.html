@@ -485,6 +485,23 @@ body.no-hero-side .hero-grid::after{display:none;}
 /* ── custom pages + newsletter backgrounds ── */
 .page-blocks .cblock:first-child{padding-top:72px;}
 .page-empty{text-align:center;color:var(--mid);padding:96px 24px;font-size:17px;}
+.cblock.cb-has-ft .cb-title,.cblock.cb-has-ft .cb-q figcaption{font-family:var(--cb-ft);}
+.cblock.cb-has-fb .cb-text,.cblock.cb-has-fb .cb-q blockquote,.cblock.cb-has-fb .cb-btn{font-family:var(--cb-fb);}
+.cblock.cb-has-ts .cb-title{font-size:var(--cb-ts);}
+.cblock.cb-has-ts .cb-q figcaption{font-size:var(--cb-ts);}
+.cblock.cb-has-bs .cb-text,.cblock.cb-has-bs .cb-q blockquote{font-size:var(--cb-bs);}
+.cblock.cb-has-c,.cblock.cb-has-c .cb-title,.cblock.cb-has-c .cb-text,.cblock.cb-has-c .cb-q blockquote,.cblock.cb-has-c .cb-q figcaption{color:var(--cb-c);}
+.cblock.cb-has-bg{background:var(--cb-bg);}
+.cblock.cb-has-mw .cb-in{max-width:var(--cb-mw);}
+.cblock.cb-has-mw .cb-text{max-width:none;}
+.page-blocks .cblock.cb-has-pad,.cblock.cb-has-pad{padding-top:var(--cb-pad);padding-bottom:var(--cb-pad);}
+.cblock.cb-has-ih .cb-img,.cblock.cb-has-ih .cb-gallery img{height:var(--cb-ih);max-height:none;aspect-ratio:auto;object-fit:cover;}
+@media(max-width:768px){
+  .cblock.cb-has-ts .cb-title{font-size:min(var(--cb-ts),40px);}
+  .cblock.cb-has-bs .cb-text,.cblock.cb-has-bs .cb-q blockquote{font-size:min(var(--cb-bs),18px);}
+  .page-blocks .cblock.cb-has-pad,.cblock.cb-has-pad{padding-top:min(var(--cb-pad),64px);padding-bottom:min(var(--cb-pad),64px);}
+  .cblock.cb-has-ih .cb-img{height:min(var(--cb-ih),75vw);}
+}
 .newsletter.nlbg-leather{background:var(--grain),var(--leather);}
 .newsletter.nlbg-paper{background:var(--paper);}
 .newsletter.nlbg-leaf{background:var(--leaf);}
@@ -1037,7 +1054,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112160024';
+var WARAQ_BUILD = '20261112165135';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1514,7 +1531,28 @@ function waraqBlockEl(b, s, key) {
     inner = media + (body ? '<div class="cb-body">' + body + '</div>' : '');
   }
   el.innerHTML = '<div class="cb-in">' + inner + '</div>';
+  if (b.id) el.setAttribute('data-blk', b.id);
+  waraqBlockStyle(el, b);
   return el;
+}
+var WARAQ_FONT_LOADED = {};
+function waraqLoadFont(f) {
+  if (!WARAQ_FONTS[f] || WARAQ_FONT_LOADED[f]) return; WARAQ_FONT_LOADED[f] = 1;
+  var l = document.createElement('link'); l.rel = 'stylesheet';
+  l.href = 'https://fonts.googleapis.com/css2?family=' + WARAQ_FONTS[f] + '&display=swap';
+  document.head.appendChild(l);
+}
+var WARAQ_BSTYLE = { font_t: 'ft', font_b: 'fb', size_t: 'ts', size_b: 'bs', color: 'c', bg: 'bg', maxw: 'mw', pad: 'pad', img_h: 'ih' };
+function waraqBlockStyle(el, b) {
+  Object.keys(WARAQ_BSTYLE).forEach(function(k) { el.classList.remove('cb-has-' + WARAQ_BSTYLE[k]); el.style.removeProperty('--cb-' + WARAQ_BSTYLE[k]); });
+  function set(c, v) { if (v == null) return; el.classList.add('cb-has-' + c); el.style.setProperty('--cb-' + c, v); }
+  function num(v, lo, hi) { v = parseInt(v, 10); return (v >= lo && v <= hi) ? v + 'px' : null; }
+  function col(v) { return /^#[0-9a-f]{3,8}$/i.test(String(v || '')) ? String(v) : null; }
+  if (WARAQ_FONTS[b.font_t]) { waraqLoadFont(b.font_t); set('ft', "'" + b.font_t + "',serif"); }
+  if (WARAQ_FONTS[b.font_b]) { waraqLoadFont(b.font_b); set('fb', "'" + b.font_b + "',sans-serif"); }
+  set('ts', num(b.size_t, 12, 140)); set('bs', num(b.size_b, 10, 64));
+  set('c', col(b.color)); set('bg', col(b.bg));
+  set('mw', num(b.maxw, 200, 1800)); set('pad', num(b.pad, 0, 400)); set('ih', num(b.img_h, 60, 1400));
 }
 function fillDynBlocks() {
   document.querySelectorAll('.cb-dyn').forEach(function(box) {
@@ -1545,6 +1583,7 @@ function renderBlocks(blocks, s) {
 }
 /* ── صفحات مخصصة ── */
 function renderPages(pages, s) {
+  if (WARAQ_EDIT && ED.page) { pages = [Object.assign({}, ED.page, { hidden: false })]; s = Object.assign({}, s, ED.media); }
   document.querySelectorAll('.view[data-page]').forEach(function(v) { v.remove(); });
   document.querySelectorAll('[data-page-link]').forEach(function(a) { a.remove(); });
   if (!Array.isArray(pages)) return;
@@ -1574,6 +1613,7 @@ function renderPages(pages, s) {
   });
   var h = window.location.hash.replace('#', '');
   if (h.indexOf('p-') === 0 && document.getElementById('v-' + h) && !document.getElementById('v-' + h).classList.contains('active')) goView(h);
+  if (WARAQ_EDIT && ED.page) waraqEditDecorate();
 }
 function applyContacts(so) {
   var col = document.querySelector('#ft-store') && document.querySelector('#ft-store').parentNode;
@@ -1814,6 +1854,304 @@ window.addEventListener('message', function(e) {
   window.scrollTo(0, y);
 });
 if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add('embed-preview');
+/* ══ المحرر المرئي للصفحات (داخل لوحة التحكم فقط) ══ */
+var WARAQ_EDIT = WARAQ_IS_PREVIEW && /[?&]edit=1/.test(location.search);
+var ED = { page: null, media: {}, sel: null, hist: [], fut: [] };
+var ED_TYPES = { text: 'نص', image: 'صورة', imagetext: 'صورة مع نص', cta: 'دعوة بزر', quote: 'اقتباس', video: 'فيديو', gallery: 'معرض صور', books: 'رف كتب', articles: 'قائمة مقالات', spacer: 'فاصل' };
+function edPost(t, extra) { try { parent.postMessage(Object.assign({ type: t }, extra || {}), location.origin); } catch (e) {} }
+function edBlocks() { return ED.page.blocks || (ED.page.blocks = []); }
+function edFind(id) { var bl = edBlocks(); for (var i = 0; i < bl.length; i++) if (bl[i].id === id) return i; return -1; }
+function edId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function edSnap() { ED.hist.push(JSON.stringify(ED.page)); if (ED.hist.length > 80) ED.hist.shift(); ED.fut = []; }
+var _edPT = null, _edSrc = null;
+function edPostChange(src) {
+  src = src || 'site';
+  if (!_edSrc || _edSrc === 'panel') _edSrc = src;
+  clearTimeout(_edPT);
+  _edPT = setTimeout(function() { edPost('waraq-edit-change', { page: ED.page, sel: ED.sel, src: _edSrc, undo: ED.hist.length, redo: ED.fut.length }); _edSrc = null; }, 90);
+}
+function edRender() {
+  if (!ED.page) return;
+  var y = window.scrollY;
+  renderPages([], WARAQ_S);
+  try { fillDynBlocks(); } catch (e) {}
+  window.scrollTo(0, y);
+}
+function edChanged(src) { edRender(); edPostChange(src || 'site'); }
+function edSelect(id) {
+  ED.sel = id || null;
+  document.querySelectorAll('.ed-block').forEach(function(x) { x.classList.toggle('ed-sel', x.getAttribute('data-blk') === ED.sel); });
+  edPostChange('select');
+}
+function edNew(type) {
+  var nb = { id: edId(), type: type, title: '', text: '', image: '', btn_label: '', btn_url: '', style: type === 'cta' ? 'leather' : 'paper', align: 'center', width: (type === 'imagetext' || type === 'gallery' || type === 'video') ? 'wide' : 'narrow', image_side: 'start', count: '4' };
+  if (/^(text|image|imagetext|cta)$/.test(type)) { nb.title = 'عنوان جديد'; nb.text = 'اكتبي النص هنا…'; }
+  if (type === 'quote') nb.text = 'نص الاقتباس هنا…';
+  if (type === 'cta') { nb.btn_label = 'اضغطي هنا'; nb.btn_url = '#'; }
+  return nb;
+}
+function edOp(d) {
+  var bl = edBlocks(), i = d.id ? edFind(d.id) : -1, b = bl[i];
+  if (d.op === 'set' && b) {
+    if (d.snap) edSnap();
+    var styleOnly = Object.keys(d.patch || {}).every(function(k) { return WARAQ_BSTYLE[k]; });
+    Object.assign(b, d.patch || {});
+    if (styleOnly) { var el = document.querySelector('.ed-block[data-blk="' + b.id + '"]'); if (el) waraqBlockStyle(el, b); edPostChange('panel'); }
+    else { edRender(); edPostChange('panel'); }
+  } else if (d.op === 'page') {
+    if (d.snap) edSnap(); Object.assign(ED.page, d.patch || {}); edRender(); edPostChange('panel');
+  } else if (d.op === 'add') {
+    edSnap(); var nb = edNew(d.btype || 'text'), at = (d.at == null || d.at > bl.length) ? bl.length : d.at;
+    bl.splice(at, 0, nb); ED.sel = nb.id; edChanged('op');
+    setTimeout(function() { var el = document.querySelector('.ed-block[data-blk="' + nb.id + '"]'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+  } else if (d.op === 'del' && b) {
+    edSnap(); bl.splice(i, 1); ED.sel = null; edChanged('op');
+  } else if (d.op === 'dup' && b) {
+    edSnap(); var c = JSON.parse(JSON.stringify(b)); c.id = edId(); bl.splice(i + 1, 0, c); ED.sel = c.id; edChanged('op');
+  } else if (d.op === 'move' && b) {
+    var j = i + (d.dir < 0 ? -1 : 1); if (j < 0 || j >= bl.length) return;
+    edSnap(); bl.splice(j, 0, bl.splice(i, 1)[0]); edChanged('op');
+  } else if (d.op === 'undo' && ED.hist.length) {
+    ED.fut.push(JSON.stringify(ED.page)); ED.page = JSON.parse(ED.hist.pop()); edChanged('op');
+  } else if (d.op === 'redo' && ED.fut.length) {
+    ED.hist.push(JSON.stringify(ED.page)); ED.page = JSON.parse(ED.fut.pop()); edChanged('op');
+  } else if (d.op === 'select') {
+    edSelect(d.id);
+    var se = d.id && document.querySelector('.ed-block[data-blk="' + d.id + '"]'); if (se) se.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+function edEditable(node, apply) {
+  node.setAttribute('contenteditable', 'plaintext-only');
+  if (node.contentEditable !== 'plaintext-only') node.setAttribute('contenteditable', 'true');
+  node.spellcheck = false;
+  node.addEventListener('focus', function() { node._before = node.innerText; });
+  node.addEventListener('paste', function(e) {
+    if (node.contentEditable === 'plaintext-only') return;
+    e.preventDefault(); document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text'));
+  });
+  node.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { node.innerText = node._before || ''; node.blur(); }
+    if (e.key === 'Enter' && /^(H2|FIGCAPTION|DIV)$/.test(node.tagName) && !node.classList.contains('cb-text')) { e.preventDefault(); node.blur(); }
+  });
+  node.addEventListener('blur', function() {
+    var val = node.innerText.replace(/ /g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+    if (val === String(node._before || '').trim()) return;
+    edSnap(); apply(val);
+    if (!val) edRender();
+    edPostChange('inline');
+  });
+}
+function edDrag(handle, start, move, end) {
+  handle.addEventListener('pointerdown', function(e) {
+    if (e.button) return;
+    e.preventDefault(); e.stopPropagation();
+    var sx = e.clientX, sy = e.clientY, st = start(e);
+    var tip = document.createElement('div'); tip.className = 'ed-tip'; document.body.appendChild(tip);
+    function mv(ev) { var t = move(ev.clientX - sx, ev.clientY - sy, st, ev); tip.textContent = t; tip.style.left = (ev.clientX + 14) + 'px'; tip.style.top = (ev.clientY + 14) + 'px'; }
+    function up(ev) { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); document.removeEventListener('pointercancel', up); tip.remove(); end(st); }
+    document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
+  });
+}
+function edClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, Math.round(v))); }
+function edNum(n) { return Number(n).toLocaleString('ar-EG'); }
+function edReorder(e, el, id) {
+  if (e.button) return;
+  e.preventDefault(); e.stopPropagation();
+  var holder = el.parentNode, blocks = [].slice.call(holder.querySelectorAll(':scope > .ed-block'));
+  var from = blocks.indexOf(el), to = from, lastY = e.clientY;
+  var line = document.createElement('div'); line.className = 'ed-line'; document.body.appendChild(line);
+  el.classList.add('ed-dragging'); document.body.classList.add('ed-grabbing');
+  function place(y) {
+    to = blocks.length;
+    for (var i = 0; i < blocks.length; i++) { var r = blocks[i].getBoundingClientRect(); if (y < r.top + r.height / 2) { to = i; break; } }
+    var top = blocks[to] ? blocks[to].getBoundingClientRect().top : blocks[blocks.length - 1].getBoundingClientRect().bottom;
+    var hr = holder.getBoundingClientRect();
+    line.style.top = (top - 3) + 'px'; line.style.left = hr.left + 'px'; line.style.width = hr.width + 'px';
+  }
+  function mv(ev) { lastY = ev.clientY; place(lastY); }
+  var tick = setInterval(function() { var h = window.innerHeight; if (lastY < 70) window.scrollBy(0, -16); else if (lastY > h - 70) window.scrollBy(0, 16); else return; place(lastY); }, 16);
+  function up() {
+    document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); document.removeEventListener('pointercancel', up);
+    clearInterval(tick); line.remove(); el.classList.remove('ed-dragging'); document.body.classList.remove('ed-grabbing');
+    var dest = to > from ? to - 1 : to;
+    if (dest !== from) { edSnap(); var bl = edBlocks(); bl.splice(dest, 0, bl.splice(from, 1)[0]); ED.sel = id; edChanged('op'); }
+  }
+  document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
+  place(e.clientY);
+}
+function edAddMenu(btn, at) {
+  document.querySelectorAll('.ed-menu').forEach(function(m) { m.remove(); });
+  var m = document.createElement('div'); m.className = 'ed-menu';
+  m.innerHTML = Object.keys(ED_TYPES).map(function(k) { return '<button type="button" data-t="' + k + '">' + ED_TYPES[k] + '</button>'; }).join('');
+  m.addEventListener('click', function(e) { var t = e.target.getAttribute('data-t'); if (!t) return; m.remove(); edOp({ op: 'add', btype: t, at: at }); });
+  btn.parentNode.appendChild(m);
+  setTimeout(function() { document.addEventListener('pointerdown', function off(ev) { if (!m.contains(ev.target)) { m.remove(); document.removeEventListener('pointerdown', off, true); } }, true); }, 0);
+}
+function edAddRow(at) {
+  var row = document.createElement('div'); row.className = 'ed-add';
+  var bt = document.createElement('button'); bt.type = 'button'; bt.textContent = '＋ أضيفي قسماً هنا'; row.appendChild(bt);
+  bt.addEventListener('click', function(e) { e.stopPropagation(); edAddMenu(bt, at); });
+  return row;
+}
+function waraqEditDecorate() {
+  var v = document.getElementById('v-p-' + ED.page.id); if (!v) return;
+  document.body.classList.add('ed-on');
+  if (!v.classList.contains('active')) goView('p-' + ED.page.id);
+  var back = v.querySelector('.ph-back'); if (back) back.remove();
+  var t = v.querySelector('.ph-title'), sub = v.querySelector('.ph-sub');
+  if (!sub) { sub = document.createElement('div'); sub.className = 'ph-sub'; t.parentNode.appendChild(sub); }
+  t.classList.add('ed-ph'); t.setAttribute('data-ph', 'عنوان الصفحة');
+  sub.classList.add('ed-ph'); sub.setAttribute('data-ph', 'وصف تحت العنوان (اختياري)');
+  edEditable(t, function(val) { ED.page.title = val; });
+  edEditable(sub, function(val) { ED.page.subtitle = val; });
+  var holder = v.querySelector('.page-blocks'), empty = holder.querySelector('.page-empty'); if (empty) empty.remove();
+  var els = [].slice.call(holder.querySelectorAll(':scope > .cblock'));
+  holder.insertBefore(edAddRow(0), holder.firstChild);
+  els.forEach(function(el, i) {
+    var b = edBlocks()[i]; if (!b) return;
+    el.classList.add('ed-block'); el.setAttribute('data-blk', b.id);
+    if (ED.sel === b.id) el.classList.add('ed-sel');
+    var type = b.type || 'text', inn = el.querySelector('.cb-in');
+    // نصوص قابلة للكتابة مباشرة
+    if (type === 'quote') {
+      var fig = el.querySelector('.cb-q'), bq = fig.querySelector('blockquote'), cap = fig.querySelector('figcaption');
+      if (!cap) { cap = document.createElement('figcaption'); fig.appendChild(cap); }
+      cap.textContent = b.title || ''; cap.classList.add('ed-ph'); cap.setAttribute('data-ph', 'القائل (اختياري)');
+      bq.classList.add('ed-ph'); bq.setAttribute('data-ph', 'نص الاقتباس');
+      edEditable(bq, function(val) { b.text = val; });
+      edEditable(cap, function(val) { b.title = val; });
+    } else if (type !== 'spacer') {
+      var body = inn.querySelector('.cb-body');
+      if (!body) { body = document.createElement('div'); body.className = 'cb-body'; if (/^(text|cta|image|imagetext)$/.test(type)) inn.appendChild(body); else inn.insertBefore(body, inn.firstChild); }
+      var h = body.querySelector('.cb-title');
+      if (!h) { h = document.createElement('h2'); h.className = 'cb-title'; body.insertBefore(h, body.firstChild); }
+      var tx = body.querySelector('.cb-text');
+      if (!tx) { tx = document.createElement('div'); tx.className = 'cb-text'; h.parentNode.insertBefore(tx, h.nextSibling); }
+      h.classList.add('ed-ph'); h.setAttribute('data-ph', 'اكتبي العنوان');
+      tx.classList.add('ed-ph'); tx.setAttribute('data-ph', 'اكتبي النص (اختياري)');
+      edEditable(h, function(val) { b.title = val; });
+      edEditable(tx, function(val) { b.text = val; });
+      var cbtn = body.querySelector('.cb-btn');
+      if (cbtn) edEditable(cbtn, function(val) { b.btn_label = val; });
+      if (/^(image|imagetext)$/.test(type) && !inn.querySelector('.cb-img')) {
+        var ph = document.createElement('div'); ph.className = 'cb-media'; ph.innerHTML = '<div class="ed-noimg">🖼 اضغطي لاختيار صورة</div>';
+        inn.insertBefore(ph, inn.firstChild);
+      }
+      if (type === 'gallery' && !inn.querySelector('.cb-gallery img')) { var g = inn.querySelector('.cb-gallery'); if (g) g.innerHTML = '<div class="ed-noimg">🖼 اضغطي لإضافة صور للمعرض</div>'; }
+      if (type === 'video' && !inn.querySelector('.cb-video')) { var vp = document.createElement('div'); vp.className = 'ed-noimg'; vp.textContent = '▶ ضعي رابط الفيديو من لوحة التنسيق'; inn.appendChild(vp); }
+    }
+    inn.querySelectorAll('.ed-noimg, .cb-img, .cb-gallery').forEach(function(x) {
+      x.addEventListener('dblclick', function() { edPost('waraq-edit-pick', { id: b.id, mode: type === 'gallery' ? 'gallery' : 'image' }); });
+    });
+    inn.querySelectorAll('.ed-noimg').forEach(function(x) { x.addEventListener('click', function() { edSelect(b.id); edPost('waraq-edit-pick', { id: b.id, mode: type === 'gallery' ? 'gallery' : 'image' }); }); });
+    // شريط الأدوات
+    var bar = document.createElement('div'); bar.className = 'ed-bar';
+    bar.innerHTML = '<span class="ed-drag" title="اسحبي لتغيير الترتيب">⠿ ' + (ED_TYPES[type] || type) + '</span><button type="button" data-ed="up" title="تحريك لأعلى">▲</button><button type="button" data-ed="down" title="تحريك لأسفل">▼</button><button type="button" data-ed="dup" title="نسخ القسم">⧉</button><button type="button" data-ed="del" title="حذف القسم">🗑</button>';
+    el.appendChild(bar);
+    bar.querySelector('.ed-drag').addEventListener('pointerdown', function(e) { edSelect(b.id); edReorder(e, el, b.id); });
+    bar.addEventListener('click', function(e) {
+      var a = e.target.getAttribute('data-ed'); if (!a) return; e.stopPropagation();
+      if (a === 'del') { if (confirm('حذف هذا القسم؟ (يمكن التراجع)')) edOp({ op: 'del', id: b.id }); }
+      else if (a === 'dup') edOp({ op: 'dup', id: b.id });
+      else edOp({ op: 'move', id: b.id, dir: a === 'up' ? -1 : 1 });
+    });
+    // مقابض تغيير الحجم
+    ['l', 'r'].forEach(function(side) {
+      var hw = document.createElement('div'); hw.className = 'ed-hw ' + side; hw.title = 'اسحبي لتغيير العرض'; inn.appendChild(hw);
+      edDrag(hw, function() { edSelect(b.id); return { w: inn.getBoundingClientRect().width, max: el.getBoundingClientRect().width }; }, function(dx, dy, st) {
+        var w = edClamp(st.w + (side === 'r' ? dx : -dx) * 2, 200, Math.max(220, Math.min(1800, st.max))); st.v = w;
+        el.classList.add('cb-has-mw'); el.style.setProperty('--cb-mw', w + 'px'); return 'العرض: ' + edNum(w) + 'px';
+      }, function(st) { if (st.v == null) return; edSnap(); b.maxw = String(st.v); edPostChange('drag'); });
+    });
+    var hp = document.createElement('div'); hp.className = 'ed-hp'; hp.title = 'اسحبي لتغيير المسافة فوق وتحت'; el.appendChild(hp);
+    edDrag(hp, function() { edSelect(b.id); return { p: parseFloat(getComputedStyle(el).paddingBottom) || 0 }; }, function(dx, dy, st) {
+      var p = edClamp(st.p + dy / 2, 0, 400); st.v = p;
+      el.classList.add('cb-has-pad'); el.style.setProperty('--cb-pad', p + 'px'); return 'المسافة: ' + edNum(p) + 'px';
+    }, function(st) { if (st.v == null) return; edSnap(); b.pad = String(st.v); edPostChange('drag'); });
+    var img = inn.querySelector('.cb-img') || inn.querySelector('.cb-gallery img');
+    if (img) {
+      var box = img.closest('.cb-media') || inn.querySelector('.cb-gallery');
+      box.style.position = 'relative';
+      var hi = document.createElement('div'); hi.className = 'ed-hi'; hi.title = 'اسحبي لتغيير ارتفاع الصورة'; box.appendChild(hi);
+      edDrag(hi, function() { edSelect(b.id); return { h: img.getBoundingClientRect().height }; }, function(dx, dy, st) {
+        var hh = edClamp(st.h + dy, 60, 1400); st.v = hh;
+        el.classList.add('cb-has-ih'); el.style.setProperty('--cb-ih', hh + 'px'); return 'ارتفاع الصورة: ' + edNum(hh) + 'px';
+      }, function(st) { if (st.v == null) return; edSnap(); b.img_h = String(st.v); edPostChange('drag'); });
+    }
+    el.addEventListener('pointerdown', function(e) { if (!e.target.closest('.ed-bar,.ed-add,.ed-menu')) { if (ED.sel !== b.id) edSelect(b.id); } });
+    holder.insertBefore(edAddRow(i + 1), el.nextSibling);
+  });
+  if (!els.length) { var hint = document.createElement('div'); hint.className = 'page-empty'; hint.textContent = 'الصفحة فارغة — اضغطي «＋ أضيفي قسماً هنا» لتبدئي'; holder.appendChild(hint); }
+}
+if (WARAQ_EDIT) {
+  var edCss = document.createElement('style');
+  edCss.textContent = [
+    'body.ed-on .ed-block{position:relative;outline:1px dashed transparent;outline-offset:-1px;transition:outline-color .15s;}',
+    'body.ed-on .ed-block:hover{outline-color:color-mix(in srgb,var(--teal) 60%,transparent);}',
+    'body.ed-on .ed-block.ed-sel{outline:2px solid var(--teal);outline-offset:-2px;}',
+    'body.ed-on .cb-in{position:relative;}',
+    '.ed-bar{position:absolute;top:10px;right:10px;z-index:40;display:none;gap:2px;align-items:center;background:#211b18;color:#fff;border-radius:7px;padding:3px;font:600 12px "Readex Pro",sans-serif;box-shadow:0 8px 22px rgba(0,0,0,.35);direction:rtl;}',
+    '.ed-block:hover>.ed-bar,.ed-block.ed-sel>.ed-bar{display:flex;}',
+    '.ed-bar button,.ed-drag{background:none;border:0;color:#fff;padding:6px 9px;border-radius:5px;cursor:pointer;font:inherit;line-height:1;}',
+    '.ed-bar button:hover{background:rgba(255,255,255,.16);}',
+    '.ed-drag{cursor:grab;touch-action:none;background:var(--teal);user-select:none;}',
+    'body.ed-grabbing,body.ed-grabbing *{cursor:grabbing !important;user-select:none;}',
+    '.ed-dragging{opacity:.35;}',
+    '.ed-line{position:fixed;height:6px;border-radius:3px;background:var(--orange);z-index:99;pointer-events:none;box-shadow:0 0 0 3px rgba(255,255,255,.7);}',
+    '.ed-hw{position:absolute;top:0;bottom:0;width:16px;cursor:ew-resize;z-index:35;display:none;touch-action:none;}',
+    '.ed-hw::after{content:"";position:absolute;top:50%;left:5px;width:6px;height:54px;margin-top:-27px;border-radius:4px;background:var(--teal);box-shadow:0 0 0 2px #fff;}',
+    '.ed-hw.l{left:-20px;}.ed-hw.r{right:-20px;}',
+    '.ed-block:hover .ed-hw,.ed-sel .ed-hw{display:block;}',
+    '.ed-hp,.ed-hi{position:absolute;left:50%;width:84px;margin-left:-42px;height:16px;cursor:ns-resize;z-index:35;display:none;touch-action:none;}',
+    '.ed-hp{bottom:-8px;}.ed-hi{bottom:-8px;}',
+    '.ed-hp::after,.ed-hi::after{content:"";position:absolute;left:0;right:0;top:5px;height:6px;border-radius:4px;background:var(--orange);box-shadow:0 0 0 2px #fff;}',
+    '.ed-hi::after{background:var(--gold);}',
+    '.ed-block:hover>.ed-hp,.ed-sel>.ed-hp,.ed-block:hover .ed-hi,.ed-sel .ed-hi{display:block;}',
+    '.ed-tip{position:fixed;z-index:100;background:#211b18;color:#fff;font:600 12px "Readex Pro",sans-serif;padding:5px 9px;border-radius:5px;pointer-events:none;direction:rtl;}',
+    '.ed-add{position:relative;height:0;display:flex;justify-content:center;z-index:45;}',
+    '.ed-add>button{transform:translateY(-50%);opacity:0;transition:opacity .15s;background:var(--teal);color:#fff;border:2px solid #fff;border-radius:99px;padding:6px 16px;font:600 13px "Readex Pro",sans-serif;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.25);}',
+    '.page-blocks:hover .ed-add>button{opacity:.55;}.ed-add>button:hover,.ed-add>button:focus{opacity:1 !important;}',
+    '.page-blocks>.ed-add:first-child>button{transform:translateY(-110%);}',
+    '.ed-menu{position:absolute;top:14px;z-index:60;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;box-shadow:0 14px 34px rgba(0,0,0,.25);direction:rtl;width:260px;}',
+    '.ed-menu button{background:#f6f1e7;border:0;border-radius:5px;padding:9px 6px;font:600 13px "Readex Pro",sans-serif;color:#2a2421;cursor:pointer;}',
+    '.ed-menu button:hover{background:var(--teal);color:#fff;}',
+    'body.ed-on [contenteditable]{cursor:text;outline:none;border-radius:2px;}',
+    'body.ed-on [contenteditable]:hover{box-shadow:0 0 0 1px color-mix(in srgb,var(--orange) 45%,transparent);}',
+    'body.ed-on [contenteditable]:focus{box-shadow:0 0 0 2px var(--orange);}',
+    'body.ed-on .ed-ph:empty{min-height:1.2em;min-width:4em;}',
+    'body.ed-on .ed-ph:empty::before{content:attr(data-ph);opacity:.38;}',
+    'body.ed-on .ph-title.ed-ph:empty,body.ed-on .ph-sub.ed-ph:empty{display:block;}',
+    '.ed-noimg{display:flex;align-items:center;justify-content:center;min-height:220px;border:2px dashed color-mix(in srgb,var(--ink) 25%,transparent);border-radius:4px;color:var(--mid);font:600 15px "Readex Pro",sans-serif;cursor:pointer;background:color-mix(in srgb,var(--paper) 70%,#fff);grid-column:1/-1;}',
+    '.ed-noimg:hover{border-color:var(--teal);color:var(--teal);}',
+    'body.ed-on .cb-btn,body.ed-on .book-card,body.ed-on .news-card{cursor:default;}'
+  ].join('\n');
+  document.head.appendChild(edCss);
+  document.addEventListener('click', function(e) {
+    if (!document.body.classList.contains('ed-on')) return;
+    if (e.target.closest('.ed-bar,.ed-add,.ed-menu,.ed-noimg')) return;
+    var a = e.target.closest('a,.book-card,.news-card,button,.nav-a');
+    if (a) { e.preventDefault(); if (!e.target.closest('[contenteditable]')) e.stopPropagation(); }
+    if (!e.target.closest('.ed-block') && !e.target.closest('[contenteditable]') && ED.sel) edSelect(null);
+  }, true);
+  document.addEventListener('keydown', function(e) {
+    var typing = e.target.closest && e.target.closest('[contenteditable],input,textarea,select');
+    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) { e.preventDefault(); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); setTimeout(function() { edPost('waraq-edit-save'); }, 150); return; }
+    if (typing) return;
+    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) { e.preventDefault(); edOp({ op: 'undo' }); }
+    else if ((e.ctrlKey || e.metaKey) && ((e.shiftKey && (e.key === 'z' || e.key === 'Z')) || e.key === 'y' || e.key === 'Y')) { e.preventDefault(); edOp({ op: 'redo' }); }
+    else if (e.key === 'Escape' && ED.sel) edSelect(null);
+  });
+  window.addEventListener('message', function(e) {
+    if (e.origin !== location.origin || e.source !== parent || !e.data) return;
+    var d = e.data;
+    if (d.type === 'waraq-edit' && d.page) { ED.page = JSON.parse(JSON.stringify(d.page)); ED.media = d.media || {}; ED.hist = []; ED.fut = []; ED.sel = null; edRender(); edPostChange('init'); }
+    else if (d.type === 'waraq-edit-media' && d.id) { ED.media['media_' + d.id] = d.data; }
+    else if (d.type === 'waraq-edit-op' && ED.page) edOp(d);
+    else if (d.type === 'waraq-edit-flush') { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); setTimeout(function() { edPost('waraq-edit-change', { page: ED.page, sel: ED.sel, src: 'flush', undo: ED.hist.length, redo: ED.fut.length }); }, 30); }
+  });
+  edPost('waraq-edit-ready');
+}
+
 
 // ── معاينة قبل الحفظ (من لوحة التحكم) ──
 function waraqPreview(rows) {
