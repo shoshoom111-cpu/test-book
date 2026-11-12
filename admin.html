@@ -1182,7 +1182,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112192940';
+var WARAQ_BUILD = '20261112193529';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1718,17 +1718,27 @@ async function loadComments(){
     if(badge){badge.textContent=pending;badge.style.display=pending?'inline':'none';}
   });
   if(!el)return;
+  // أسماء المقالات والكتب لعرضها مع كل تعليق
+  var [ra, rb] = await Promise.all([sb.from('articles').select('id,title,type'), sb.from('books').select('id,title,author')]);
+  var AT = {}, BT = {};
+  (ra.data||[]).forEach(function(x){ AT[String(x.id)] = x; });
+  (rb.data||[]).forEach(function(x){ BT[String(x.id)] = x; });
   el.innerHTML='';
   data.forEach(function(c){
     var d=document.createElement('div');
     d.className='irow';
     d.style.flexDirection='column';
     d.style.alignItems='stretch';
-    var dateStr=new Date(c.created_at).toLocaleDateString('ar-SA');
+    var dt=new Date(c.created_at), dateStr=isNaN(dt)?'':dt.toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+' — '+dt.toLocaleTimeString('ar-SA',{hour:'numeric',minute:'2-digit'});
+    var ref=String(c.article_id||''), isBook=ref.indexOf('book_')===0, rid=isBook?ref.slice(5):ref, item=isBook?BT[rid]:AT[rid];
+    var where=isBook
+      ? '📚 على كتاب: '+(item?'<b>'+escH(item.title||'')+'</b>'+(item.author?' <span style="color:var(--mid)">— '+escH(item.author)+'</span>':''):'<i>كتاب محذوف</i>')
+      : (item&&item.type==='news'?'🗞 على خبر: ':'📰 على مقالة: ')+(item?'<b>'+escH(item.title||'')+'</b>':'<i>مقالة محذوفة أو غير منشورة</i>');
+    var link=item?'<a href="index.html#'+(isBook?'book/':'art/')+encodeURIComponent(rid)+'" target="_blank" rel="noopener" style="font-size:11px;color:var(--teal);margin-right:8px;">فتح ↗</a>':'';
     var btns=c.status==='pending'
       ?'<button class="bsm t" onclick="approveCmt(\''+c.id+'\')">موافقة</button><button class="bsm r" onclick="rejectCmt(\''+c.id+'\')">رفض</button>'
       :'<button class="bsm r" onclick="rejectCmt(\''+c.id+'\')">حذف</button>';
-    d.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div><span style="font-weight:600;font-size:13px;">'+escH(c.name)+'</span><span style="font-size:11px;color:var(--mid);margin-right:10px;">'+dateStr+'</span><span class="spill '+(c.status==='approved'?'sp-pub':'sp-pend')+'">'+( c.status==='approved'?'معتمد':'قيد المراجعة')+'</span></div><div style="display:flex;gap:6px;">'+btns+'</div></div><div style="font-size:12px;color:var(--mid);margin-bottom:4px;">معرف المقالة: '+escH(String(c.article_id||'').substring(0,8))+'...</div><div style="font-size:13px;color:#333;background:var(--bg);padding:10px 12px;border-radius:6px;">'+escH(c.body)+'</div>';
+    d.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div><span style="font-weight:600;font-size:13px;">'+escH(c.name)+'</span><span style="font-size:11px;color:var(--mid);margin-right:10px;">'+dateStr+'</span><span class="spill '+(c.status==='approved'?'sp-pub':'sp-pend')+'">'+( c.status==='approved'?'معتمد':'قيد المراجعة')+'</span></div><div style="display:flex;gap:6px;">'+btns+'</div></div><div style="font-size:13px;margin-bottom:6px;">'+where+link+'</div><div style="font-size:13px;color:#333;background:var(--bg);padding:10px 12px;border-radius:6px;">'+escH(c.body)+'</div>';
     el.appendChild(d);
   });
 }
