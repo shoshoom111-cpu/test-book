@@ -114,6 +114,8 @@ a{color:#1A7A7A;}
 
 async function generate() {
   const urls = ['<url><loc>https://waraq-adab.com/</loc></url>'];
+  // remove old generated pages so hidden/archived/deleted items disappear from the site and the sitemap
+  ['articles', 'books', 'pages'].forEach((d) => { if (fs.existsSync(d)) fs.rmSync(d, { recursive: true, force: true }); });
 
   // مقالات
   const now = new Date();
@@ -156,6 +158,19 @@ async function generate() {
     urls.push(`<url><loc>https://waraq-adab.com/pages/${pg.id}/</loc></url>`);
   }
   if (pages.length) console.log(`✓ ${pages.length} صفحة مخصصة`);
+
+  // data.js: نسخة محلية محدّثة للعرض الفوري (بدون المخفي والمؤرشف والمجدول)
+  const clean = (o, keys) => { const r = {}; keys.forEach((k) => { if (o[k] !== undefined && o[k] !== null) r[k] = typeof o[k] === 'string' && k !== 'body' && k !== 'image' ? o[k].replace(/</g, '‹').replace(/>/g, '›').replace(/"/g, '”') : o[k]; }); return r; };
+  const artKeys = ['id', 'title', 'author_name', 'category', 'badge', 'published_at', 'excerpt', 'body', 'image', 'status'];
+  const settingsRows = (await queryCollection('settings')).filter((r) => !String(r.id).startsWith('media_')).map((r) => ({ key: r.id, value: r.value }));
+  const snapshot = {
+    articles: arts.filter((a) => a.category !== 'أخبار').map((a) => clean(a, artKeys)),
+    news: arts.filter((a) => a.category === 'أخبار').map((a) => clean(a, artKeys)),
+    books: books.map((b) => clean(b, ['id', 'title', 'author', 'genre', 'stars', 'description', 'quote', 'url', 'color', 'image', 'created_at'])),
+    settings: settingsRows,
+  };
+  fs.writeFileSync('data.js', '/* وَرَق — نسخة محلية تُحدَّث يومياً تلقائياً من قاعدة البيانات. لا تعدّلها يدوياً. */\nwindow.WARAQ_DATA = ' + JSON.stringify(snapshot, null, 1).replace(/<\/script/gi, '<\/script') + ';\n');
+  console.log(`✓ data.js: ${snapshot.articles.length} مقالة، ${snapshot.news.length} خبر، ${snapshot.books.length} كتاب`);
 
   // sitemap
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

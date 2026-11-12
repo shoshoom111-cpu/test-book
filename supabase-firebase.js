@@ -96,8 +96,20 @@
       return out;
     });
   };
+  // حماية: نصوص المقالات والكتب تُنظَّف من رموز HTML قبل أن تصل للصفحة (نص المقالة نفسه يُنظَّف بـ DOMPurify عند العرض)
+  var SAFE_TEXT = ['title', 'excerpt', 'author_name', 'author', 'category', 'genre', 'description', 'desc', 'badge', 'quote', 'stars', 'pen_name', 'name'];
+  var SAFE_URL = ['image', 'url'];
+  function safeRow(t, r) {
+    if (!r || (t !== 'articles' && t !== 'books')) return r;
+    var o = Object.assign({}, r);
+    SAFE_TEXT.forEach(function (k) { if (typeof o[k] === 'string') o[k] = o[k].replace(/</g, '‹').replace(/>/g, '›').replace(/"/g, '”'); });
+    SAFE_URL.forEach(function (k) { if (typeof o[k] === 'string' && o[k] && (!/^(https?:\/\/|data:image\/|[\w\-./]+$)/i.test(o[k]) || /["'<>\s]/.test(o[k]))) o[k] = ''; });
+    if (typeof o.color === 'string' && o.color && !/^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\))$/i.test(o.color.trim())) o.color = '';
+    return o;
+  }
   Query.prototype._shape = function (rows) {
     var self = this;
+    rows = rows.map(function (r) { return safeRow(self.t, r); });
     if (this.ord.length) {
       rows.sort(function (a, b) {
         for (var i = 0; i < self.ord.length; i++) {

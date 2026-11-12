@@ -51,7 +51,7 @@ img{max-width:100%;}
 
 /* ── header: centered title page ── */
 .site-header{background:var(--paper);border-bottom:1px solid var(--border);position:relative;z-index:200;}
-.header-in{max-width:1200px;margin:0 auto;padding:16px 24px 0;display:grid;grid-template-columns:1fr auto 1fr;grid-template-areas:". logo actions" "nav nav nav";align-items:center;}
+.header-in{max-width:1200px;margin:0 auto;padding:16px 24px 0;display:grid;grid-template-columns:1fr auto 1fr;grid-template-areas:"extra logo actions" "nav nav nav";align-items:center;}
 .header-logo-wrap{grid-area:logo;display:flex;align-items:center;gap:10px;justify-content:center;}
 .header-logo{font-family:var(--display);font-size:48px;font-weight:700;color:var(--orange);text-decoration:none;line-height:1.2;}
 .header-logo-img{height:48px;width:auto;object-fit:contain;}
@@ -589,6 +589,21 @@ mark{background:color-mix(in srgb,var(--gold) 38%,transparent);color:inherit;pad
 @media(max-width:768px){.apg-grid.view-g3,.apg-grid.view-g4{grid-template-columns:1fr 1fr;gap:14px;}.list-tools{margin-inline-start:0;width:100%;justify-content:space-between;}.au-books{grid-template-columns:1fr 1fr;}}
 @media(max-width:480px){.apg-grid.view-g3,.apg-grid.view-g4{grid-template-columns:1fr;}}
 
+/* ── header extra button ── */
+.header-extra{grid-area:extra;justify-self:start;display:flex;align-items:center;}
+.hdr-extra{display:inline-flex;align-items:center;font-size:14px;font-weight:600;padding:9px 18px;border-radius:2px;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,border-color .2s;}
+.hdr-extra.filled{background:var(--teal);color:#fff;border:1px solid var(--teal);}
+.hdr-extra.filled:hover{background:var(--td);}
+.hdr-extra.outline{background:none;color:var(--ink);border:1px solid var(--ink);}
+.hdr-extra.outline:hover{background:var(--ink);color:var(--paper);}
+.hdr-extra.text{background:none;border:1px solid transparent;color:var(--orange);text-decoration:underline;text-underline-offset:5px;}
+.mob-menu > .hdr-extra{display:flex;justify-content:center;margin:4px 0 10px;padding:12px;border-bottom-width:1px;}
+@media(max-width:768px){.header-extra{display:none;}}
+
+/* ── public read counts ── */
+.sa-reads{font-size:14px;color:var(--mid);}
+.apg-reads{font-size:13px;color:var(--light);margin-inline-start:auto;}
+
 /* ── night reading ── */
 body.dark{--paper:#17120F;--leaf:#211A16;--cream:#211A16;--ink:#EEE5D6;--mid:#B9AC9C;--light:#8B7F72;--border:#352A23;--teal:#9DAAE6;--td:#B5BFEE;--tl:#26233A;--orange:#E08A93;--gold:#D2A75A;}
 body.dark .site-header{background:#17120F;}
@@ -710,6 +725,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
   <img id="banner-img" src="" alt="إعلان">
 </div>
 <header class="site-header"><div class="header-in">
+  <div class="header-extra"><a class="hdr-extra outline" id="hdr-extra" style="display:none;"></a></div>
   <a class="header-logo header-logo-wrap" id="logo-home">
   <img id="header-logo-img" src="" alt="وَرَق" class="header-logo-img" style="display:none;">
   <span id="header-logo-text">وَرَق</span>
@@ -745,6 +761,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
   </div>
 </div>
 <div class="mob-menu" id="mob-menu"  style="display:none;flex-direction:column;">
+  <a class="hdr-extra mob outline" id="mob-extra" style="display:none;"></a>
   <div style="padding:8px 0 12px;">
     <input id="mob-search-input" type="text" placeholder="ابحث في المقالات والكتب..." autocomplete="off"
       style="width:100%;padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px;direction:rtl;background:var(--cream);color:var(--ink);">
@@ -1020,7 +1037,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261111223946';
+var WARAQ_BUILD = '20261112160024';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1048,8 +1065,34 @@ function waraqPdfUrl(u) {
   if (!m) return u; var name = decodeURIComponent(m[1]);
   return name === 'waraq-issues.pdf' ? 'waraq-issues.pdf' : 'issues/' + name;
 }
+var _fileUrls = {};
+function waraqFileUrl(id) {
+  if (_fileUrls[id]) return Promise.resolve(_fileUrls[id]);
+  return sb.from('files').select('*').eq('id', id).maybeSingle().then(function(m) {
+    if (!m.data || !m.data.parts) throw new Error('missing');
+    var ps = []; for (var i = 0; i < m.data.parts; i++) ps.push(sb.from('files').select('*').eq('id', id + '_' + i).maybeSingle());
+    return Promise.all(ps).then(function(rs) {
+      var chunks = rs.map(function(r) { if (!r.data) throw new Error('missing part'); var b = atob(r.data.data), u = new Uint8Array(b.length); for (var j = 0; j < b.length; j++) u[j] = b.charCodeAt(j); return u; });
+      _fileUrls[id] = { url: URL.createObjectURL(new Blob(chunks, { type: 'application/pdf' })), name: m.data.name || 'waraq.pdf' };
+      return _fileUrls[id];
+    });
+  });
+}
 function waraqLoadIssue(url) {
   _pdfLoaded = true;
+  if (String(url).indexOf('file:') === 0) {
+    var wrap = document.getElementById('pdf-canvas-wrap'); if (wrap) wrap.innerHTML = '<div id="pdf-loading">جاري تحميل العدد...</div>';
+    var dl0 = document.getElementById('pdf-dl-btn'); if (dl0) dl0.style.display = 'none';
+    waraqFileUrl(String(url).slice(5)).then(function(f) {
+      var dl = document.getElementById('pdf-dl-btn'); if (dl) { dl.href = f.url; dl.setAttribute('download', f.name); dl.style.display = 'block'; }
+      loadPdfJs(f.url);
+    }).catch(function() {
+      var pp = document.getElementById('pdf-placeholder'), vw = document.getElementById('pdf-viewer-wrap'), nl = document.getElementById('pdf-no-link');
+      if (pp) pp.style.display = 'block'; if (vw) vw.style.display = 'none';
+      if (nl) { nl.style.display = 'block'; nl.textContent = 'ملف هذا العدد غير متاح حالياً — سيتوفر قريباً'; }
+    });
+    return;
+  }
   if (/^https?:/i.test(url)) { loadPdfJs(url); return; }
   fetch(url, { method: 'HEAD', cache: 'no-store' }).then(function(r) {
     if (r.ok) { loadPdfJs(url); return; }
@@ -1590,13 +1633,38 @@ async function waraqSubscribe(email) {
 function waraqCount(kind, id) {
   try {
     var fb = window.waraqDB && waraqDB._firebase; if (!fb || !id || WARAQ_IS_PREVIEW) return;
-    fb.db.collection('view_counts').doc(kind + '_' + id).set({ views: firebase.firestore.FieldValue.increment(1), kind: kind, ref: String(id) }, { merge: true }).catch(function() {});
+    return fb.db.collection('view_counts').doc(kind + '_' + id).set({ views: firebase.firestore.FieldValue.increment(1), kind: kind, ref: String(id) }, { merge: true }).catch(function() {});
   } catch (e) {}
 }
 var _viewCounts = null;
+function waraqReadsText(n) { n = Number(n) || 0; if (n === 1) return '👁 قراءة واحدة'; if (n === 2) return '👁 قراءتان'; return '👁 ' + n.toLocaleString('ar-EG') + ' ' + (n >= 3 && n <= 10 ? 'قراءات' : 'قراءة'); }
+function waraqShowReads(id, pending) {
+  var meta = document.querySelector('#v-art-single .sa-meta'); if (!meta) return;
+  var el = document.getElementById('sa-reads');
+  if (!el) { el = document.createElement('span'); el.id = 'sa-reads'; el.className = 'sa-reads'; var rt = document.getElementById('read-time'); meta.insertBefore(el, rt ? rt.nextSibling : null); }
+  el.style.visibility = 'hidden';
+  Promise.resolve(pending).then(function() { return sb ? sb.from('view_counts').select('*').eq('id', 'article_' + id).maybeSingle() : null; }).then(function(r) {
+    var n = r && r.data ? r.data.views : 0;
+    if (!n && _viewCounts) { var c = _viewCounts.filter(function(v) { return v.kind === 'article' && String(v.ref) === String(id); })[0]; n = c ? c.views : 0; }
+    if (!n) return;
+    el.textContent = waraqReadsText(n); el.style.visibility = 'visible';
+    if (_viewCounts) { var cc = _viewCounts.filter(function(v) { return v.kind === 'article' && String(v.ref) === String(id); })[0]; if (cc) cc.views = n; }
+  });
+}
+function waraqCardReads() {
+  if (!_viewCounts) return;
+  var m = {}; _viewCounts.forEach(function(v) { if (v.kind === 'article') m[String(v.ref)] = v.views || 0; });
+  document.querySelectorAll('.apg-card[data-aid], .apg-card[data-nid]').forEach(function(c) {
+    var id = c.getAttribute('data-aid') || c.getAttribute('data-nid'), n = m[id], f = c.querySelector('.apg-footer'); if (!f) return;
+    var b = f.querySelector('.apg-reads');
+    if (!n) { if (b) b.remove(); return; }
+    if (!b) { b = document.createElement('span'); b.className = 'apg-reads'; f.appendChild(b); }
+    b.textContent = waraqReadsText(n);
+  });
+}
 function loadViewCounts() {
   if (!sb) return;
-  sb.from('view_counts').select('*').then(function(r) { if (r.data) { _viewCounts = r.data; renderMostRead(); listApply('arts'); listApply('news'); } });
+  sb.from('view_counts').select('*').then(function(r) { if (r.data) { _viewCounts = r.data; renderMostRead(); listApply('arts'); listApply('news'); waraqCardReads(); } });
 }
 function renderMostRead() {
   var el = document.getElementById('most-list'); if (!el || !_viewCounts) return;
@@ -1874,8 +1942,16 @@ function listInit(kind) {
 
 // ── 5) الأرشيف: فتح العدد الذي ضغطتِ عليه ──
 var _archItems = [];
+function openLatestIssue() { if (_archItems.length) openIssue(0); else goView('issue'); }
+function markIssueNav(idx) {
+  var ni = document.getElementById('nav-issue'), na = document.getElementById('nav-archive');
+  if (ni) ni.classList.toggle('on', !(idx > 0)); if (na) na.classList.toggle('on', idx > 0);
+}
+var _shownIssue = -1;
 function openIssue(idx) {
   var it = _archItems[idx]; if (!it) { goView('issue'); return; }
+  if (idx === _shownIssue && _pdfLoaded && String(it.pdf || '').trim()) { goView('issue'); markIssueNav(idx); return; }
+  _shownIssue = idx;
   var lbl = document.getElementById('pdf-issue-label'); if (lbl) lbl.textContent = 'العدد ' + (it.num || '') + (it.date ? ' · ' + it.date : '');
   var pdf = String(it.pdf || '').trim();
   var pp = document.getElementById('pdf-placeholder'), vw = document.getElementById('pdf-viewer-wrap'), dl = document.getElementById('pdf-dl-btn'), nl = document.getElementById('pdf-no-link');
@@ -1888,6 +1964,34 @@ function openIssue(idx) {
     _pendingPdfUrl = null;
   }
   goView('issue');
+  markIssueNav(idx);
+}
+
+// ── الزر الإضافي في الهيدر ──
+function applyHeaderBtn(h) {
+  h = h || {};
+  var els = [document.getElementById('hdr-extra'), document.getElementById('mob-extra')];
+  var label = String(h.label || '').trim();
+  var on = h.enabled && label && (h.type === 'url' ? /^(https?:|mailto:|tel:)/i.test(String(h.url || '')) : !!h.target);
+  els.forEach(function(el, i) {
+    if (!el) return;
+    el.style.display = on ? '' : 'none';
+    if (!on) return;
+    el.textContent = label;
+    el.className = (i === 0 ? 'hdr-extra ' : 'hdr-extra mob ') + (h.style === 'filled' ? 'filled' : h.style === 'text' ? 'text' : 'outline');
+    el.onclick = function(e) {
+      e.preventDefault();
+      if (i === 1 && typeof closeMob === 'function') closeMob();
+      if (h.type === 'url') { if (h.new_tab) window.open(h.url, '_blank', 'noopener'); else location.href = h.url; return; }
+      var t = String(h.target);
+      if (t.indexOf('section:') === 0) { goView('home'); var key = t.slice(8); setTimeout(function() { var sec = document.querySelector('#v-home [data-section="' + key + '"]'); if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY - 10, behavior: 'smooth' }); }, 120); return; }
+      if (t === 'issue') { openLatestIssue(); return; }
+      if (t === 'writers') { goView('writers'); if (typeof renderWriters === 'function') renderWriters(); return; }
+      goView(t);
+    };
+    if (h.type === 'url') { el.href = h.url; if (h.new_tab) { el.target = '_blank'; el.rel = 'noopener noreferrer'; } else { el.removeAttribute('target'); } }
+    else { el.href = '#' + String(h.target).replace(/^section:/, ''); el.removeAttribute('target'); }
+  });
 }
 
 function applySettings(rows) {
@@ -1974,6 +2078,7 @@ function applySettings(rows) {
   // ── لوحة التحكم الكاملة ──
   renderBlocks(s.blocks, s);
   renderPages(s.pages, s);
+  applyHeaderBtn(s.header_btn);
   fillDynBlocks();
   applyHero(s);
   renderMostRead();
@@ -2000,11 +2105,11 @@ function applySettings(rows) {
 function initNav() {
   function nav(id, fn) { var e = document.getElementById(id); if (e) e.addEventListener('click', fn); }
   nav('logo-home', function() { goView('home'); }); nav('mh-name', function() { goView('home'); }); nav('ft-logo', function() { goView('home'); });
-  nav('nav-home', function() { goView('home'); }); nav('nav-issue', function() { goView('issue'); }); nav('nav-books', function() { goView('books'); }); nav('nav-articles', function() { goView('articles'); }); nav('nav-archive', function() { goView('archive'); });
-  nav('mob-home', function() { goView('home'); closeMob(); }); nav('mob-issue', function() { goView('issue'); closeMob(); }); nav('mob-books', function() { goView('books'); closeMob(); }); nav('mob-articles', function() { goView('articles'); closeMob(); }); nav('mob-archive', function() { goView('archive'); closeMob(); });
+  nav('nav-home', function() { goView('home'); }); nav('nav-issue', openLatestIssue); nav('nav-books', function() { goView('books'); }); nav('nav-articles', function() { goView('articles'); }); nav('nav-archive', function() { goView('archive'); });
+  nav('mob-home', function() { goView('home'); closeMob(); }); nav('mob-issue', function() { openLatestIssue(); closeMob(); }); nav('mob-books', function() { goView('books'); closeMob(); }); nav('mob-articles', function() { goView('articles'); closeMob(); }); nav('mob-archive', function() { goView('archive'); closeMob(); });
   nav('ham', toggleMob);
   nav('more-books', function() { goView('books'); }); nav('more-arts', function() { goView('articles'); }); nav('more-news', function() { goView('news'); }); nav('more-arch', function() { goView('archive'); });
-  nav('fl-home', function() { goView('home'); }); nav('fl-issue', function() { goView('issue'); }); nav('fl-books', function() { goView('books'); }); nav('fl-arts', function() { goView('articles'); }); nav('fl-arch', function() { goView('archive'); });
+  nav('fl-home', function() { goView('home'); }); nav('fl-issue', openLatestIssue); nav('fl-books', function() { goView('books'); }); nav('fl-arts', function() { goView('articles'); }); nav('fl-arch', function() { goView('archive'); });
   nav('sub-btn', function() { goView('home'); scrollTo2('newsletter'); }); nav('mob-sub', function() { goView('home'); scrollTo2('newsletter'); closeMob(); });
   nav('issue-back', function() { goView('home'); }); nav('books-back', function() { goView('home'); }); nav('arts-back', function() { goView('home'); }); nav('arch-back', function() { goView('home'); }); nav('news-back', function() { goView('home'); });
   nav('mob-news', function() { goView('news'); closeMob(); }); nav('nav-news', function() { goView('news'); });
@@ -2029,7 +2134,8 @@ var _origOpenArt = openArt;
 openArt = function(id) {
   _origOpenArt(id);
   trackView('article', String(id));
-  waraqCount('article', id);
+  var _cp = waraqCount('article', id);
+  waraqShowReads(id, _cp);
   var _a = lA[id] || {}; if (!_a.date && _a.published_at) se('sa-date', new Date(_a.published_at).toLocaleDateString('ar-SA'));
   if (_artWord.trim()) waraqHighlightIn(document.getElementById('sa-body'), _artWord);
   var body = document.getElementById('sa-body');
@@ -2246,7 +2352,7 @@ function initSearch() {
         Object.keys(SB).forEach(function(k) { var b = SB[k]; if ((b.title||'').toLowerCase().indexOf(qq)>-1) hits.push({type:'book',id:k,cat:b.genre||'كتاب',title:b.title}); });
         Object.keys(lB).forEach(function(k) { if (!SB[k]) { var b = lB[k]; if ((b.title||'').toLowerCase().indexOf(qq)>-1) hits.push({type:'book',id:k,cat:b.genre||'كتاب',title:b.title}); } });
         if (!hits.length) { mobResults.innerHTML = '<div class="sr-empty">لا توجد نتائج</div>'; mobResults.style.display = 'block'; return; }
-        mobResults.innerHTML = hits.slice(0,5).map(function(h) { var dtype2 = h.type==='art' ? 'aid' : 'bid'; return '<div class=sr-item data-'+dtype2+'='+h.id+'><div class=sr-cat>'+h.cat+'</div><div class=sr-title>'+h.title+'</div></div>'; }).join('');
+        mobResults.innerHTML = hits.slice(0,5).map(function(h) { var dtype2 = h.type==='art' ? 'aid' : 'bid'; return '<div class=sr-item data-'+dtype2+'="'+escHtml(String(h.id))+'"><div class=sr-cat>'+escHtml(h.cat)+'</div><div class=sr-title>'+escHtml(h.title)+'</div></div>'; }).join('');
         mobResults.style.display = 'block';
         mobResults.querySelectorAll('.sr-item').forEach(function(item) { item.addEventListener('click', function() { var aid = item.getAttribute('data-aid'); var bid = item.getAttribute('data-bid'); if (aid) openArt(aid); else if (bid) openBook(bid); closeMob(); mobResults.style.display = 'none'; if (mobInput) mobInput.value = ''; }); });
       }, 200);
@@ -2319,12 +2425,30 @@ document.addEventListener('DOMContentLoaded', function() {
       if (st.data && st.data.length) applySettings(st.data);
       waraqPreview(st.data);
       loadViewCounts();
-      sb.from('articles').select('*').eq('status','published').neq('category','أخبار').order('published_at',{ascending:false})
-        .then(function(ar) { if (ar.data && ar.data.length) { ar.data = ar.data.filter(waraqVisible); ar.data.forEach(function(a){lA[a.id]=a;}); renderArts(ar.data); artsCats(); artsFilter(); renderMostRead(); fillDynBlocks(); } });
-      sb.from('articles').select('*').eq('status','published').eq('category','أخبار').order('published_at',{ascending:false})
-        .then(function(nw) { if (nw.data && nw.data.length) { nw.data = nw.data.filter(waraqVisible); nw.data.forEach(function(n){lA[n.id]=n;}); renderNews(nw.data); listApply('news'); } });
+      // data.js is only a first-paint snapshot: once the database answers, anything hidden/archived/deleted there disappears everywhere
+      var pArts = sb.from('articles').select('*').eq('status','published').neq('category','أخبار').order('published_at',{ascending:false});
+      var pNews = sb.from('articles').select('*').eq('status','published').eq('category','أخبار').order('published_at',{ascending:false});
+      Promise.all([pArts, pNews]).then(function(res) {
+        var ar = res[0], nw = res[1];
+        if (ar.error || nw.error) return;
+        var keep = {};
+        ar.data = (ar.data || []).filter(waraqVisible); nw.data = (nw.data || []).filter(waraqVisible);
+        ar.data.concat(nw.data).forEach(function(a) { keep[a.id] = 1; lA[a.id] = a; SA[a.id] = a; });
+        Object.keys(lA).forEach(function(k) { if (!keep[k]) delete lA[k]; });
+        Object.keys(SA).forEach(function(k) { if (!keep[k]) delete SA[k]; });
+        renderArts(ar.data); artsCats(); artsFilter(); renderMostRead(); fillDynBlocks();
+        renderNews(nw.data); listApply('news'); waraqCardReads();
+        if (document.getElementById('v-writers').classList.contains('active')) renderWriters();
+      });
       sb.from('books').select('*').neq('archived',true).order('created_at',{ascending:false})
-        .then(function(bk) { if (bk.data && bk.data.length) { bk.data.forEach(function(b){lB[b.id]=b;}); renderBooks(bk.data); booksFilter(); applyHero(WARAQ_S); fillDynBlocks(); } });
+        .then(function(bk) {
+          if (bk.error) return;
+          var keepB = {}; (bk.data || []).forEach(function(b) { keepB[b.id] = 1; lB[b.id] = b; SB[b.id] = b; });
+          Object.keys(lB).forEach(function(k) { if (!keepB[k]) delete lB[k]; });
+          Object.keys(SB).forEach(function(k) { if (!keepB[k]) delete SB[k]; });
+          renderBooks(bk.data || []); booksFilter(); applyHero(WARAQ_S); fillDynBlocks();
+          if (document.getElementById('v-writers').classList.contains('active')) renderWriters();
+        });
     }).catch(function(e){ _dataLoaded=false; console.warn('Data load failed:', e.message||e); });
   }
   try {

@@ -356,6 +356,16 @@ input[type=color]{border-radius:2px;}
 .marble-swatch{width:180px;height:90px;border-radius:2px;border:1px solid var(--border);background-size:cover;background-position:center;flex-shrink:0;}
 .mb-colors{display:flex;gap:6px;margin-top:8px;}
 .mb-colors input{width:40px;height:34px;padding:2px;border:1px solid var(--border);border-radius:2px;cursor:pointer;}
+
+.up-box{display:flex;gap:12px;align-items:flex-start;margin-top:2px;}
+.up-thumb{width:92px;height:68px;object-fit:cover;border-radius:2px;border:1px solid var(--border);background:var(--cream);flex-shrink:0;}
+.up-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;align-items:flex-start;}
+.up-main input[type=text]{width:100%;}
+.up-btn{display:inline-flex;align-items:center;gap:6px;cursor:pointer;}
+.up-state{font-size:13px;color:var(--teal);font-weight:600;min-height:4px;}
+.up-links{display:flex;gap:14px;}
+.up-link,.up-del{background:none;border:none;padding:0;font-family:'Readex Pro',sans-serif;font-size:12px;color:var(--mid);text-decoration:underline;cursor:pointer;}
+.up-del{color:var(--orange);}
 </style>
 </head>
 <body>
@@ -669,7 +679,11 @@ input[type=color]{border-radius:2px;}
           <div class="two">
             <div class="fg"><label>رقم العدد</label><input type="text" id="ar-num" placeholder="الخامس"></div>
             <div class="fg"><label>الشهر والسنة</label><input type="text" id="ar-date" placeholder="أغسطس ٢٠٢٥"></div>
-            <div class="fg"><label>ملف PDF <span class="sub">(رابط كامل، أو مسار ملف رفعتِه في المستودع مثل issues/waraq-5.pdf)</span></label><input type="text" id="ar-pdf" placeholder="issues/waraq-5.pdf" style="direction:ltr;text-align:left;"></div>
+            <div class="fg"><label>ملف PDF للعدد</label>
+              <label class="btn o up-btn">📄 اختيار ملف PDF من جهازي<input type="file" accept="application/pdf,.pdf" hidden onchange="arPdfUpload(this)"></label>
+              <div class="up-state" id="ar-pdf-state"></div>
+              <button type="button" class="up-link" onclick="var i=document.getElementById('ar-pdf');i.dataset.link='1';i.style.display='';i.focus();">أو استخدمي رابطاً</button>
+              <input type="text" id="ar-pdf" placeholder="https://..." style="direction:ltr;text-align:left;display:none;margin-top:6px;"></div>
             <div class="fg"><label>لون الغلاف</label><select id="ar-color"><option value="#4E151C">عنابي جلدي</option><option value="#22305E">كحلي</option><option value="#2E6B64">زمردي</option><option value="#6B4A2B">بني جلدي</option><option value="#B8893B">ذهبي مذهّب</option><option value="#1A7A7A">فيروزي</option><option value="#C94B1E">برتقالي</option><option value="#412402">بني</option><option value="#26215C">بنفسجي</option><option value="#633806">ذهبي</option><option value="#085041">أخضر</option><option value="#0E0E0E">أسود</option></select></div>
           </div>
           <div style="display:flex;gap:8px;margin-top:8px;"><button class="btn p" onclick="addArchive()">إضافة</button><button class="btn o" onclick="archFormReset();toggleIF('add-arch')">إلغاء</button></div>
@@ -950,6 +964,28 @@ input[type=color]{border-radius:2px;}
             <div style="display:flex;gap:8px;margin-top:10px;"><button class="btn p" onclick="saveCover()">حفظ</button></div>
           </div>
         </div>
+        <!-- HEADER EXTRA BUTTON -->
+        <div class="card" id="hb-card">
+          <div class="card-hd"><span class="card-title">زر إضافي في الهيدر <span class="sub">(في الجهة المقابلة لزر الاشتراك)</span></span><button class="btn p sm" onclick="saveHeaderBtn()">حفظ</button></div>
+          <div class="card-body">
+            <label class="switch-row"><input type="checkbox" id="hb-on">إظهار الزر</label>
+            <div class="two">
+              <div class="fg"><label>اسم الزر</label><input type="text" id="hb-label" placeholder="مثال: من نحن"></div>
+              <div class="fg"><label>شكل الزر</label><select id="hb-style"><option value="outline">بإطار</option><option value="filled">ممتلئ بلون الأزرار</option><option value="text">نص فقط</option></select></div>
+            </div>
+            <div class="fg"><label>الزر يفتح</label><select id="hb-type" onchange="hbUI()"><option value="page">صفحة من صفحاتي</option><option value="view">صفحة أو قسم من الموقع</option><option value="url">رابط خارجي</option></select></div>
+            <div class="fg" id="hb-page-fg"><label>اختاري الصفحة</label><select id="hb-page"></select><div class="sub" style="margin-top:4px;">تنشئين الصفحات من تبويب «الصفحات».</div></div>
+            <div class="fg" id="hb-view-fg"><label>اختاري المكان</label><select id="hb-view">
+              <option value="books">صفحة الكتب</option><option value="articles">صفحة المقالات</option><option value="news">صفحة الأخبار</option>
+              <option value="archive">أرشيف الأعداد</option><option value="issue">العدد الحالي</option><option value="writers">صفحة الكتّاب</option>
+              <option value="section:newsletter">قسم الاشتراك في الرئيسية</option><option value="section:monthpick">توصية الشهر في الرئيسية</option><option value="section:mostread">الأكثر قراءة في الرئيسية</option><option value="section:archive">الأرشيف في الرئيسية</option>
+            </select></div>
+            <div id="hb-url-fg"><div class="fg"><label>الرابط</label><input type="text" id="hb-url" placeholder="https://..." style="direction:ltr;text-align:left;"></div>
+              <label class="switch-row" style="margin-top:0;"><input type="checkbox" id="hb-newtab" checked>يفتح في نافذة جديدة</label></div>
+            <div style="display:flex;gap:8px;"><button class="btn p" onclick="saveHeaderBtn()">حفظ</button></div>
+          </div>
+        </div>
+
         <!-- CUSTOM BLOCKS -->
         <div class="card" id="blocks-card">
           <div class="card-hd"><span class="card-title">أضيفي أي شيء للصفحة الرئيسية</span><button class="btn p sm" onclick="saveBlocks()">حفظ الأقسام المخصصة</button></div>
@@ -1064,7 +1100,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261111223946';
+var WARAQ_BUILD = '20261112160024';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -2328,16 +2364,65 @@ async function compressImage(file, max){
 }
 function attachUpload(id, max){
   var inp=document.getElementById(id); if(!inp || inp.dataset.up) return; inp.dataset.up='1';
-  if (inp.type==='url') inp.type='text';
-  var lab=document.createElement('label'); lab.className='cb-upload'; lab.innerHTML='⬆ رفع صورة من جهازي<input type="file" accept="image/*">';
-  inp.insertAdjacentElement('afterend', lab);
-  lab.querySelector('input').addEventListener('change', async function(){
+  inp.type='text'; inp.style.direction='ltr'; inp.style.textAlign='left';
+  var box=document.createElement('div'); box.className='up-box';
+  box.innerHTML='<img class="up-thumb" alt=""><div class="up-main"><label class="btn o up-btn">📷 اختيار صورة من جهازي<input type="file" accept="image/*" hidden></label><div class="up-state"></div><div class="up-links"><button type="button" class="up-link">أو استخدمي رابط صورة</button><button type="button" class="up-del">إزالة الصورة</button></div></div>';
+  inp.parentNode.insertBefore(box, inp.nextSibling); box.querySelector('.up-main').appendChild(inp);
+  var last=null;
+  function sync(){
+    var val=inp.value.trim(); if(val===last && !box.dataset.force) return; last=val; delete box.dataset.force;
+    var th=box.querySelector('.up-thumb'); if(val){ th.src=val; th.style.visibility='visible'; } else { th.removeAttribute('src'); th.style.visibility='hidden'; }
+    var dev=val.indexOf('data:')===0;
+    inp.style.display=(box.dataset.link==='1' && !dev) || (val && !dev) ? '' : 'none';
+    box.querySelector('.up-state').textContent = dev ? '✓ صورة من جهازك' : (val ? '' : 'لا توجد صورة');
+    box.querySelector('.up-del').style.display = val ? '' : 'none';
+    box.querySelector('.up-link').style.display = (val && !dev) || box.dataset.link==='1' ? 'none' : '';
+  }
+  box.querySelector('.up-link').onclick=function(){ box.dataset.link='1'; if(inp.value.indexOf('data:')===0) inp.value=''; box.dataset.force='1'; sync(); inp.style.display=''; inp.focus(); };
+  box.querySelector('.up-del').onclick=function(){ inp.value=''; inp.dispatchEvent(new Event('input',{bubbles:true})); box.dataset.force='1'; sync(); };
+  box.querySelector('input[type=file]').addEventListener('change', async function(){
     toast('جاري تجهيز الصورة...');
-    var d=await compressImage(this.files&&this.files[0], max||1200); if(!d)return;
-    inp.value=d; inp.dispatchEvent(new Event('input',{bubbles:true}));
+    var d=await compressImage(this.files&&this.files[0], max||1200); this.value=''; if(!d)return;
+    inp.value=d; inp.dispatchEvent(new Event('input',{bubbles:true})); box.dataset.link=''; box.dataset.force='1'; sync();
     toast('تمت إضافة الصورة ✓ — لا تنسي الحفظ');
   });
+  inp.addEventListener('input', sync); setInterval(sync, 600); sync();
 }
+
+// ── رفع ملفات PDF من الجهاز (تُقسَّم وتُحفظ في قاعدة البيانات) ──
+function bytesToB64(u8){ var s='', step=0x8000; for(var i=0;i<u8.length;i+=step){ s+=String.fromCharCode.apply(null, u8.subarray(i,i+step)); } return btoa(s); }
+async function uploadPdfFile(file, onProgress){
+  if(!file || !(/pdf/i.test(file.type) || /\.pdf$/i.test(file.name))){ toast('اختاري ملف PDF'); return null; }
+  if(file.size > 45*1024*1024){ toast('الملف أكبر من 45 ميجا — صغّريه أولاً'); return null; }
+  var buf=new Uint8Array(await file.arrayBuffer()), CH=700*1024, parts=Math.ceil(buf.length/CH), id='f'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  for(var i=0;i<parts;i++){
+    var r=await sb.from('files').upsert({id:id+'_'+i, file:id, i:i, data:bytesToB64(buf.subarray(i*CH,(i+1)*CH))});
+    if(r.error){ toast('تعذر رفع الملف — تأكدي من نشر قواعد الحماية الجديدة ('+r.error.message+')'); return null; }
+    if(onProgress) onProgress(i+1, parts);
+  }
+  var m=await sb.from('files').upsert({id:id, name:file.name, size:file.size, parts:parts, type:'application/pdf', created_at:new Date().toISOString()});
+  if(m.error){ toast('تعذر حفظ الملف'); return null; }
+  return 'file:'+id;
+}
+async function arPdfUpload(input){
+  var f=input.files&&input.files[0]; input.value=''; if(!f) return;
+  var st=document.getElementById('ar-pdf-state'); if(st) st.textContent='جاري الرفع... ٠٪';
+  var ref=await uploadPdfFile(f, function(i,n){ if(st) st.textContent='جاري الرفع... '+Math.round(i*100/n).toLocaleString('ar-EG')+'٪'; });
+  if(!ref){ if(st) st.textContent=''; return; }
+  sv('ar-pdf', ref); arPdfSync();
+  if(st) st.textContent='✓ تم رفع «'+f.name+'» ('+(f.size/1048576).toFixed(1)+' ميجا) — اضغطي «إضافة» أو «حفظ التعديل»';
+  toast('تم رفع الملف ✓');
+}
+function arPdfSync(){
+  var val=v('ar-pdf'), inp=document.getElementById('ar-pdf'), st=document.getElementById('ar-pdf-state');
+  if(!inp) return;
+  var up=val.indexOf('file:')===0;
+  inp.style.display = up || (!val && !inp.dataset.link) ? 'none' : '';
+  if(st && up && !/✓|جاري/.test(st.textContent)) st.textContent='✓ ملف مرفوع من جهازك';
+  if(st && !val && !/جاري/.test(st.textContent)) st.textContent='';
+}
+setInterval(arPdfSync, 700);
+
 function attachAllUploads(){
   [['aa-img',1200],['ea-img',1200],['nb-img',900],['eb-img',900],['mp-img',900],['s-logo-url',600],['s-masthead-url',900],['s-footer-logo-url',600],['s-banner-url',1600]].forEach(function(x){ attachUpload(x[0],x[1]); });
 }
@@ -2533,6 +2618,7 @@ async function buildDraft(){
   try{ var cd=v('cv-nlbg'); if(cd && draft.design){ draft.design.nl_bg=cd; draft.design.nl_bg_image=v('cv-nlimg').trim()||window._nlBgImage||''; var mb=mbGet(); draft.design.marble_mode=mb.mode; draft.design.marble_colors=mb.colors; } }catch(e){}
   try{ if(_layout){ layRead(); draft.layout=JSON.parse(JSON.stringify(_layout)); } }catch(e){}
   try{ BE_home.read(); draft.blocks=cbClean(BE_home.items); }catch(e){}
+  try{ if(document.getElementById('hb-type')) draft.header_btn=hbGet(); }catch(e){}
   try{ var labels={},hide=[]; document.querySelectorAll('#ui-labels [data-ui]').forEach(function(f){ if(f.value.trim()) labels[f.getAttribute('data-ui')]=f.value.trim(); }); document.querySelectorAll('#ui-hide [data-hide]').forEach(function(f){ if(!f.checked) hide.push(f.getAttribute('data-hide')); }); if(document.getElementById('ui-labels') && document.getElementById('ui-labels').childElementCount) draft.ui={labels:labels,hide:hide}; }catch(e){}
   try{ var g=Object.assign({}, window._curGeneral||{}); if(document.getElementById('cv-left')){ g.mh_left=v('cv-left'); g.mh_right=v('cv-right'); } draft.general=g; }catch(e){}
   Object.keys(_media).forEach(function(id){ draft['media_'+id]=_media[id]; });
@@ -2576,6 +2662,42 @@ function initLivePreview(){
       var lr = e.target.closest && e.target.closest('#layout-list .lay-row'); if (lr) pushPreview(lr.getAttribute('data-k'));
     });
   }
+}
+
+
+// ── الزر الإضافي في الهيدر ──
+async function hbLoad(s){
+  var h = s.header_btn || {}, pages = Array.isArray(s.pages) ? s.pages : [];
+  var ps = document.getElementById('hb-page'); if (!ps) return;
+  ps.innerHTML = pages.length ? pages.map(function(p){ return '<option value="p-'+escH(p.id)+'">'+escH(p.title||'(بدون عنوان)')+(p.hidden?' — مخفية':'')+'</option>'; }).join('') : '<option value="">لا توجد صفحات بعد</option>';
+  document.getElementById('hb-on').checked = !!h.enabled;
+  sv('hb-label', h.label || ''); sv('hb-style', h.style || 'outline');
+  var t = String(h.target || '');
+  sv('hb-type', h.type || (t.indexOf('p-')===0 ? 'page' : t ? 'view' : 'page'));
+  if (t.indexOf('p-')===0) sv('hb-page', t); else if (t) sv('hb-view', t);
+  sv('hb-url', h.url || ''); document.getElementById('hb-newtab').checked = h.new_tab !== false;
+  hbUI();
+}
+function hbUI(){
+  var t = v('hb-type');
+  document.getElementById('hb-page-fg').style.display = t==='page' ? '' : 'none';
+  document.getElementById('hb-view-fg').style.display = t==='view' ? '' : 'none';
+  document.getElementById('hb-url-fg').style.display = t==='url' ? '' : 'none';
+}
+function hbGet(){
+  var t = v('hb-type');
+  return { enabled: document.getElementById('hb-on').checked, label: v('hb-label').trim(), style: v('hb-style'), type: t,
+           target: t==='page' ? v('hb-page') : t==='view' ? v('hb-view') : '', url: t==='url' ? v('hb-url').trim() : '',
+           new_tab: document.getElementById('hb-newtab').checked };
+}
+async function saveHeaderBtn(){
+  var h = hbGet();
+  if (h.enabled && !h.label) { toast('اكتبي اسم الزر'); return; }
+  if (h.enabled && h.type==='url' && !/^(https?:|mailto:|tel:)/i.test(h.url)) { toast('اكتبي رابطاً يبدأ بـ https://'); return; }
+  if (h.enabled && h.type==='page' && !h.target) { toast('أنشئي صفحة أولاً من تبويب «الصفحات»'); return; }
+  var res = await sb.from('settings').upsert({key:'header_btn', value:h});
+  if (res.error) { toast('خطأ في الحفظ'); return; }
+  _settingsCache = null; toast('تم حفظ الزر ✓');
 }
 
 async function loadHomepageSettings() {
@@ -2626,7 +2748,7 @@ async function loadHomepageSettings() {
     }
   }
   window._curDesign = s.design || {}; window._curGeneral = s.general || {};
-  idRenderThemes(); idFill(s.design); layExtra(s.blocks); layLoad(s); cbLoad(s); uiLoad(s); coverLoad(s); cbPlaceSelect(); initLivePreview();
+  idRenderThemes(); idFill(s.design); layExtra(s.blocks); layLoad(s); cbLoad(s); uiLoad(s); coverLoad(s); hbLoad(s); cbPlaceSelect(); initLivePreview();
   if (s.design) {
     if(s.design.teal){sv('hp-c-teal',s.design.teal);sv('hp-ct-teal',s.design.teal);}
     if(s.design.orange){sv('hp-c-orange',s.design.orange);sv('hp-ct-orange',s.design.orange);}
