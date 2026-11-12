@@ -451,6 +451,12 @@ body.no-marble .arch-mini-cover,body.no-marble .arch-pg-cover{background-image:v
 .cb-narrow .cb-in{max-width:780px;}
 .cb-center .cb-body{text-align:center;}
 .cb-center .cb-text{margin-left:auto;margin-right:auto;}
+.cb-end .cb-body,.cb-imagetext.cb-end .cb-body{text-align:end;}
+.cb-end .cb-text{margin-inline-start:auto;}
+.cb-start .cb-q{text-align:start;}
+.cb-end .cb-q{text-align:end;}
+.cb-start .cb-q blockquote{background-position:right top;}
+.cb-end .cb-q blockquote{background-position:left top;}
 .cb-paper{background:var(--paper);}
 .cb-leaf{background:var(--leaf);}
 .cb-leather{background:var(--grain),var(--leather);color:#F0E2C8;}
@@ -496,10 +502,28 @@ body.no-hero-side .hero-grid::after{display:none;}
 .cblock.cb-has-mw .cb-text{max-width:none;}
 .page-blocks .cblock.cb-has-pad,.cblock.cb-has-pad{padding-top:var(--cb-pad);padding-bottom:var(--cb-pad);}
 .cb-flow{display:flex;flex-direction:column;align-items:stretch;}
+.cblock.cb-has-wt .cb-title{font-weight:var(--cb-wt);}
+.cblock.cb-has-lh .cb-text,.cblock.cb-has-lh .cb-q blockquote{line-height:var(--cb-lh);}
+.cblock.cb-has-rad .cb-img,.cblock.cb-has-rad .cb-gallery img,.cblock.cb-has-rad .cb-video,.cblock.cb-has-rad .wc-av,.cblock.cb-has-rad .cb-dyn img{border-radius:var(--cb-rad);overflow:hidden;}
+.cblock.cb-has-bb .cb-btn{background:var(--cb-bb);}
+.cblock.cb-has-bc .cb-btn{color:var(--cb-bc);}
+.cblock.cb-has-tc .cb-title,.cblock.cb-has-tc .cb-q figcaption{color:var(--cb-tc);}
+.cb-authors .cb-in{max-width:1200px;}
+.cb-dyn.writers-grid{margin-top:28px;text-align:start;}
+.cb-dyn .writer-card .wc-bio{font-size:14px;line-height:1.9;color:var(--mid);margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.cb-dyn .writer-card .wc-go{display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:var(--teal);}
+.cb-dyn.writers-grid.wg-one{grid-template-columns:1fr;max-width:760px;margin-inline:auto;}
+.cb-dyn.writers-grid.wg-one .writer-card{padding:28px;gap:24px;align-items:center;}
+.cb-dyn.writers-grid.wg-one .wc-av{flex-basis:120px;height:120px;}
+.cb-dyn.writers-grid.wg-one .wc-av span{font-size:44px;}
+.cb-dyn.writers-grid.wg-one .wc-name{font-size:28px;}
+.cb-dyn.writers-grid.wg-one .wc-bio{-webkit-line-clamp:6;font-size:16px;}
+@media(max-width:600px){.cb-dyn[style*="grid-template-columns"]{grid-template-columns:1fr 1fr !important;}.cb-dyn.writers-grid[style*="grid-template-columns"]{grid-template-columns:1fr !important;}.cb-dyn.writers-grid.wg-one .writer-card{flex-direction:column;text-align:center;}}
 .cb-flow>.cb-media,.cb-flow>.cb-gallery,.cb-flow>.cb-video,.cb-flow>.cb-dyn,.cb-flow>.ed-noimg{width:100%;}
 .cb-flow>.cb-gallery{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
 .cb-flow>.cb-btn{align-self:flex-start;}
 .cb-center .cb-flow>.cb-btn{align-self:center;}
+.cb-end .cb-flow>.cb-btn{align-self:flex-end;}
 .cb-flow>.cb-media+*,.cb-flow>.cb-gallery+*,.cb-flow>.cb-video+*,.cb-flow>.cb-dyn+*,.cb-flow>.ed-noimg+*{margin-top:28px;}
 .cb-flow>*+.cb-media,.cb-flow>*+.ed-noimg{margin-top:28px;}
 .cb-flow>.cb-title+.cb-btn,.cb-flow>.cb-text+.cb-btn{margin-top:28px;}
@@ -1067,7 +1091,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112171047';
+var WARAQ_BUILD = '20261112174038';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1340,15 +1364,21 @@ function openBook(id) {
 }
 
 function doSub() {
-  if (window._brevoUrl) { window.open(window._brevoUrl, '_blank'); return; }
   var input = document.getElementById('nl-input');
   var val = input ? input.value.trim() : '';
   if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { if (input) { input.focus(); input.setAttribute('aria-invalid', 'true'); } return; }
   if (input) input.removeAttribute('aria-invalid');
-  waraqSubscribe(val);
-  input.value = '';
   var btn = document.getElementById('nl-btn');
-  if (btn) { btn.textContent = 'شكراً! ✓'; setTimeout(function() { btn.textContent = window._nlBtnLabel || 'اشترك الآن'; }, 3000); }
+  if (btn) { btn.disabled = true; btn.textContent = 'جاري التسجيل...'; }
+  // البريد يُحفظ في قاعدة البيانات فيظهر في لوحة التحكم ← «المشتركون»
+  waraqSubscribe(val).then(function(r) {
+    if (r !== 'error') input.value = '';
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = r === 'ok' ? 'شكراً! ✓' : r === 'exists' ? 'أنت مشترك بالفعل ✓' : 'تعذر الاشتراك — حاول لاحقاً';
+      setTimeout(function() { btn.textContent = window._nlBtnLabel || 'اشترك الآن'; }, 3500);
+    }
+  });
 }
 
 function renderBooks(books) {
@@ -1520,7 +1550,7 @@ function waraqBlockEl(b, s, key) {
   var img = waraqMedia(b.image, s);
   var url = /^(https?:|mailto:|tel:|#)/i.test(String(b.btn_url || '')) ? b.btn_url : '';
   var el = document.createElement('section');
-  el.className = 'cblock cb-' + (b.style || 'paper') + ' cb-' + (type === 'gallery' || type === 'video' ? 'type-' + type : type) + (b.align === 'start' ? ' cb-start' : ' cb-center') + (b.width === 'wide' ? ' cb-wide' : ' cb-narrow') + (b.image_side === 'end' ? ' cb-flip' : '');
+  el.className = 'cblock cb-' + (b.style || 'paper') + ' cb-' + (type === 'gallery' || type === 'video' ? 'type-' + type : type) + (b.align === 'start' ? ' cb-start' : b.align === 'end' ? ' cb-end' : ' cb-center') + (b.width === 'wide' ? ' cb-wide' : ' cb-narrow') + (b.image_side === 'end' ? ' cb-flip' : '');
   if (key) el.setAttribute('data-section', key);
   var title = b.title ? '<h2 class="cb-title">' + escHtml(b.title) + '</h2>' : '';
   var text = b.text ? '<div class="cb-text">' + waraqText(b.text) + '</div>' : '';
@@ -1536,8 +1566,8 @@ function waraqBlockEl(b, s, key) {
   } else if (type === 'gallery') {
     var imgs = String(b.images || '').split(/\n+/).map(function(x) { return waraqMedia(x.trim(), s); }).filter(Boolean);
     inner = (title || text ? '<div class="cb-body">' + title + text + '</div>' : '') + '<div class="cb-gallery">' + imgs.map(function(src) { return '<a href="' + escHtml(src) + '" target="_blank" rel="noopener"><img src="' + escHtml(src) + '" alt="" loading="lazy"></a>'; }).join('') + '</div>' + (btn ? '<div class="cb-body">' + btn + '</div>' : '');
-  } else if (type === 'books' || type === 'articles') {
-    inner = (title || text ? '<div class="cb-body">' + title + text + '</div>' : '') + '<div class="cb-dyn" data-dyn="' + type + '" data-filter="' + escHtml(b.filter || '') + '" data-count="' + (parseInt(b.count, 10) || 4) + '"></div>' + (btn ? '<div class="cb-body">' + btn + '</div>' : '');
+  } else if (type === 'books' || type === 'articles' || type === 'authors') {
+    inner = (title || text ? '<div class="cb-body">' + title + text + '</div>' : '') + '<div class="cb-dyn" data-dyn="' + type + '" data-filter="' + escHtml(b.filter || '') + '" data-count="' + (parseInt(b.count, 10) || 4) + '" data-ids="' + escHtml(String(b.ids || '')) + '" data-cols="' + (parseInt(b.cols, 10) || '') + '"></div>' + (btn ? '<div class="cb-body">' + btn + '</div>' : '');
   } else {
     var media = (img && type !== 'text' && type !== 'cta') ? '<div class="cb-media"><img class="cb-img" src="' + escHtml(img) + '" alt="' + escHtml(b.image_alt || b.title || '') + '" loading="lazy"></div>' : '';
     var body = title + text + btn;
@@ -1601,7 +1631,7 @@ function waraqLoadFont(f) {
   l.href = 'https://fonts.googleapis.com/css2?family=' + WARAQ_FONTS[f] + '&display=swap';
   document.head.appendChild(l);
 }
-var WARAQ_BSTYLE = { font_t: 'ft', font_b: 'fb', size_t: 'ts', size_b: 'bs', color: 'c', bg: 'bg', maxw: 'mw', pad: 'pad', img_h: 'ih' };
+var WARAQ_BSTYLE = { font_t: 'ft', font_b: 'fb', size_t: 'ts', size_b: 'bs', color: 'c', bg: 'bg', maxw: 'mw', pad: 'pad', img_h: 'ih', wt: 'wt', lh: 'lh', rad: 'rad', btn_bg: 'bb', btn_c: 'bc', tcolor: 'tc' };
 function waraqBlockStyle(el, b) {
   Object.keys(WARAQ_BSTYLE).forEach(function(k) { el.classList.remove('cb-has-' + WARAQ_BSTYLE[k]); el.style.removeProperty('--cb-' + WARAQ_BSTYLE[k]); });
   function set(c, v) { if (v == null) return; el.classList.add('cb-has-' + c); el.style.setProperty('--cb-' + c, v); }
@@ -1612,24 +1642,54 @@ function waraqBlockStyle(el, b) {
   set('ts', num(b.size_t, 12, 140)); set('bs', num(b.size_b, 10, 64));
   set('c', col(b.color)); set('bg', col(b.bg));
   set('mw', num(b.maxw, 200, 1800)); set('pad', num(b.pad, 0, 400)); set('ih', num(b.img_h, 60, 1400));
+  var wt = parseInt(b.wt, 10); if (wt >= 100 && wt <= 900) set('wt', String(wt));
+  var lh = parseFloat(b.lh); if (lh >= 1 && lh <= 3.5) set('lh', String(lh));
+  set('rad', num(b.rad, 0, 400)); set('bb', col(b.btn_bg)); set('bc', col(b.btn_c)); set('tc', col(b.tcolor));
 }
 function fillDynBlocks() {
   document.querySelectorAll('.cb-dyn').forEach(function(box) {
     var kind = box.getAttribute('data-dyn'), f = box.getAttribute('data-filter') || '', n = parseInt(box.getAttribute('data-count'), 10) || 4;
+    var ids = String(box.getAttribute('data-ids') || '').split(/\n+/).map(function(x) { return x.trim(); }).filter(Boolean);
+    var cols = parseInt(box.getAttribute('data-cols'), 10);
+    function pick(all, key) { if (!ids.length) return null; var m = {}; all.forEach(function(x) { m[String(x[key])] = x; }); return ids.map(function(i) { return m[i]; }).filter(Boolean); }
+    function setCols() { if (cols >= 1 && cols <= 6) { box.style.display = 'grid'; box.style.gridTemplateColumns = 'repeat(' + cols + ',minmax(0,1fr))'; box.style.gap = kind === 'articles' ? '0 32px' : ''; } }
+    if (kind === 'authors') {
+      var ws = waraqWriters(), wm = {}; ws.forEach(function(w) { wm[w.name] = w; });
+      var people = ids.length ? ids.map(function(nm) { return wm[nm] || { name: nm, books: [], arts: 0 }; }) : ws.slice(0, n);
+      box.className = 'cb-dyn writers-grid' + (people.length === 1 ? ' wg-one' : '');
+      box.innerHTML = '';
+      people.forEach(function(w) {
+        var info = (WARAQ_S.authors || {})[w.name] || {}, img = waraqMedia(info.image, WARAQ_S);
+        var c = document.createElement('div'); c.className = 'writer-card';
+        c.innerHTML = '<div class="wc-av">' + (img ? '<img src="' + escHtml(img) + '" alt="">' : '<span>' + escHtml(w.name.charAt(0)) + '</span>') + '</div>'
+          + '<div class="wc-body"><div class="wc-name">' + escHtml(w.name) + '</div>'
+          + '<div class="wc-meta">' + (w.books.length ? w.books.length + ' ' + (w.books.length === 1 ? 'كتاب' : 'كتب') : '') + (w.books.length && w.arts ? ' · ' : '') + (w.arts ? w.arts + ' ' + (w.arts === 1 ? 'مقالة' : 'مقالات') : '') + '</div>'
+          + (info.bio ? '<div class="wc-bio">' + escHtml(info.bio) + '</div>' : '') + '<span class="wc-go">صفحة الكاتب ←</span></div>';
+        c.addEventListener('click', function() { openAuthor(w.name); });
+        box.appendChild(c);
+      });
+      if (!people.length) box.innerHTML = '<div class="page-empty">لا يوجد كتّاب بعد.</div>';
+      setCols();
+      return;
+    }
     if (kind === 'books') {
-      var bks = Object.keys(lB).map(function(k) { return lB[k]; }).filter(function(b) { return b.archived !== true && (!f || b.genre === f); }).slice(0, n);
+      var allB = Object.keys(lB).map(function(k) { return lB[k]; }).filter(function(b) { return b.archived !== true; });
+      var bks = pick(allB, 'id') || allB.filter(function(b) { return !f || b.genre === f; }).slice(0, n);
       box.className = 'cb-dyn books-grid';
       box.innerHTML = bks.map(function(b) {
         var cover = (b.image && String(b.image).trim()) ? '<img src="' + escHtml(b.image) + '" alt="" loading="lazy">' : '<div class="book-card-strip" style="background:' + escHtml(b.color || '#4E151C') + ';"><span>' + escHtml(b.title) + '</span></div>';
         return '<div class="book-card" data-bid="' + escHtml(String(b.id)) + '">' + cover + '<div class="book-card-body"><div class="book-genre">' + escHtml(b.genre || '') + '</div><div class="book-title">' + escHtml(b.title) + '</div><div class="book-author">' + escHtml(b.author || '') + '</div></div></div>';
       }).join('') || '<div class="page-empty">لا توجد كتب بعد.</div>';
       box.querySelectorAll('.book-card').forEach(function(c) { c.addEventListener('click', function() { openBook(c.getAttribute('data-bid')); }); });
+      setCols();
     } else {
-      var arts = Object.keys(lA).map(function(k) { return lA[k]; }).filter(function(a) { return a.status !== 'draft' && waraqVisible(a) && (!f || a.category === f); })
+      var allA = Object.keys(lA).map(function(k) { return lA[k]; }).filter(function(a) { return a.status !== 'draft' && waraqVisible(a); });
+      var arts = pick(allA, 'id') || allA.filter(function(a) { return !f || a.category === f; })
         .sort(function(a, b) { return String(b.published_at || '').localeCompare(String(a.published_at || '')); }).slice(0, n);
       box.className = 'cb-dyn arts-grid';
       box.innerHTML = arts.map(function(a) { return '<div class="news-card" data-aid="' + escHtml(String(a.id)) + '"><div class="news-card-body"><span class="news-badge">' + escHtml(a.category || '') + '</span><div class="news-title">' + escHtml(a.title) + '</div><div class="news-excerpt">' + escHtml(a.excerpt || '') + '</div><div class="news-meta">' + escHtml(a.author_name || '') + '</div></div></div>'; }).join('') || '<div class="page-empty">لا توجد مقالات بعد.</div>';
       box.querySelectorAll('.news-card').forEach(function(c) { c.addEventListener('click', function() { openArt(c.getAttribute('data-aid')); }); });
+      setCols();
     }
   });
 }
@@ -1723,9 +1783,11 @@ function waraqVisible(a) { return !a.published_at || isNaN(Date.parse(a.publishe
 
 // ── الاشتراك: يُحفظ في قاعدة البيانات ──
 async function waraqSubscribe(email) {
-  if (!sb) return false;
+  if (!sb) return 'error';
   var r = await sb.from('subscribers').insert({ id: email.toLowerCase(), email: email.toLowerCase(), source: 'site' });
-  return !r.error;
+  if (!r.error) return 'ok';
+  // البريد موجود مسبقاً: قواعد الحماية ترفض تعديله
+  return /permission|insufficient/i.test(String(r.error.message || r.error.code || '')) ? 'exists' : 'error';
 }
 
 // ── عدّاد القراءات ──
@@ -1916,7 +1978,7 @@ if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add(
 /* ══ المحرر المرئي للصفحات (داخل لوحة التحكم فقط) ══ */
 var WARAQ_EDIT = WARAQ_IS_PREVIEW && /[?&]edit=1/.test(location.search);
 var ED = { page: null, media: {}, sel: null, hist: [], fut: [] };
-var ED_TYPES = { text: 'نص', image: 'صورة', imagetext: 'صورة مع نص', cta: 'دعوة بزر', quote: 'اقتباس', video: 'فيديو', gallery: 'معرض صور', books: 'رف كتب', articles: 'قائمة مقالات', spacer: 'فاصل' };
+var ED_TYPES = { text: 'نص', image: 'صورة', imagetext: 'صورة مع نص', cta: 'دعوة بزر', quote: 'اقتباس', video: 'فيديو', gallery: 'معرض صور', books: 'كتب مختارة', articles: 'مقالات مختارة', authors: 'كاتب / كتّاب', spacer: 'فاصل' };
 function edPost(t, extra) { try { parent.postMessage(Object.assign({ type: t }, extra || {}), location.origin); } catch (e) {} }
 function edBlocks() { return ED.page.blocks || (ED.page.blocks = []); }
 function edFind(id) { var bl = edBlocks(); for (var i = 0; i < bl.length; i++) if (bl[i].id === id) return i; return -1; }
@@ -1974,6 +2036,12 @@ function edOp(d) {
     ED.fut.push(JSON.stringify(ED.page)); ED.page = JSON.parse(ED.hist.pop()); edChanged('op');
   } else if (d.op === 'redo' && ED.fut.length) {
     ED.hist.push(JSON.stringify(ED.page)); ED.page = JSON.parse(ED.fut.pop()); edChanged('op');
+  } else if (d.op === 'palign' && b) {
+    var pel = document.querySelector('.ed-block[data-blk="' + b.id + '"]'), pinn = pel && pel.querySelector('.cb-in'); if (!pinn) return;
+    var pmap = {}; waraqLay(b).forEach(function(x) { pmap[x.k] = x; });
+    var plist = waraqParts(pinn).map(function(x) { return { k: x.k, al: (pmap[x.k] || {}).al || '', w: (pmap[x.k] || {}).w || 0 }; });
+    plist.forEach(function(x) { if (x.k === d.part) x.al = d.al || ''; });
+    edSnap(); b.lay = waraqLayStr(plist); edChanged('op');
   } else if (d.op === 'select') {
     edSelect(d.id);
     var se = d.id && document.querySelector('.ed-block[data-blk="' + d.id + '"]'); if (se) se.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -2291,13 +2359,13 @@ if (WARAQ_EDIT) {
     'body.ed-on .ph-title.ed-ph:empty,body.ed-on .ph-sub.ed-ph:empty{display:block;}',
     '.ed-noimg{display:flex;align-items:center;justify-content:center;min-height:220px;border:2px dashed color-mix(in srgb,var(--ink) 25%,transparent);border-radius:4px;color:var(--mid);font:600 15px "Readex Pro",sans-serif;cursor:pointer;background:color-mix(in srgb,var(--paper) 70%,#fff);grid-column:1/-1;}',
     '.ed-noimg:hover{border-color:var(--teal);color:var(--teal);}',
-    'body.ed-on .cb-btn,body.ed-on .book-card,body.ed-on .news-card{cursor:default;}'
+    'body.ed-on .cb-btn,body.ed-on .book-card,body.ed-on .news-card,body.ed-on .writer-card{cursor:default;}'
   ].join('\n');
   document.head.appendChild(edCss);
   document.addEventListener('click', function(e) {
     if (!document.body.classList.contains('ed-on')) return;
     if (e.target.closest('.ed-bar,.ed-add,.ed-menu,.ed-noimg')) return;
-    var a = e.target.closest('a,.book-card,.news-card,button,.nav-a');
+    var a = e.target.closest('a,.book-card,.news-card,.writer-card,button,.nav-a');
     if (a) { e.preventDefault(); if (!e.target.closest('[contenteditable]')) e.stopPropagation(); }
     if (!e.target.closest('.ed-block') && !e.target.closest('[contenteditable]') && ED.sel) edSelect(null);
   }, true);

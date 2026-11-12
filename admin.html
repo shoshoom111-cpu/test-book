@@ -427,6 +427,23 @@ input[type=color]{border-radius:2px;}
 .ve-back{background:none;border:0;color:var(--teal);font:600 12.5px 'Readex Pro',sans-serif;cursor:pointer;padding:0;margin-bottom:8px;}
 #toast{z-index:3000;}
 @media(max-width:820px){.ve-main{flex-direction:column-reverse;}.ve-panel{width:auto;height:42vh;border-left:0;border-top:1px solid #000;}.ve-dev{display:none;}}
+
+.ve-picked{border:1px solid var(--border);border-radius:3px;background:#fff;margin-bottom:6px;max-height:260px;overflow:auto;}
+.ve-pi{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid var(--border);font-size:12.5px;}
+.ve-pi:last-child{border-bottom:0;}
+.ve-pi .n{width:20px;height:20px;border-radius:50%;background:var(--teal);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ve-pi .t{flex:1;min-width:0;font-weight:600;}
+.ve-pi small,.ve-plist small{display:block;font-weight:400;color:var(--mid);font-size:11px;}
+.ve-pi button{background:none;border:0;cursor:pointer;color:var(--mid);font-size:12px;padding:2px 4px;}
+.ve-pi button[data-prm]{color:var(--orange);}
+.ve-pi button:disabled{opacity:.25;cursor:default;}
+.ve-psearch{width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:3px;font:13px 'Readex Pro',sans-serif;margin-bottom:4px;}
+.ve-plist{max-height:240px;overflow:auto;border:1px solid var(--border);border-radius:3px;background:#fff;margin-bottom:10px;}
+.ve-plist button{display:flex;width:100%;align-items:center;gap:8px;text-align:start;background:none;border:0;border-bottom:1px solid var(--border);padding:7px 8px;cursor:pointer;font:600 12.5px 'Readex Pro',sans-serif;color:#2a2421;}
+.ve-plist button:hover{background:var(--tl);}
+.ve-plist button span{flex:1;min-width:0;}
+.ve-plist button b{color:var(--teal);}
+.ve-plist img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
 </style>
 </head>
 <body>
@@ -838,6 +855,7 @@ input[type=color]{border-radius:2px;}
               <button type="button" class="btn o" onclick="BE_page.add('gallery')">＋ معرض صور</button>
               <button type="button" class="btn o" onclick="BE_page.add('books')">＋ رف كتب</button>
               <button type="button" class="btn o" onclick="BE_page.add('articles')">＋ قائمة مقالات</button>
+              <button type="button" class="btn o" onclick="BE_page.add('authors')">＋ كاتب</button>
               <button type="button" class="btn o" onclick="BE_page.add('spacer')">＋ فاصل</button>
             </div>
             <div id="page-blocks-list"></div>
@@ -1162,7 +1180,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112171047';
+var WARAQ_BUILD = '20261112174038';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -2019,11 +2037,11 @@ async function moveArchive(idx, dir){
 
 
 // ══ محرر الكتل (للصفحة الرئيسية وللصفحات) ══
-var CB_TYPES = {text:'نص', image:'صورة', imagetext:'صورة مع نص', cta:'دعوة بزر', quote:'اقتباس', video:'فيديو', gallery:'معرض صور', books:'رف كتب', articles:'قائمة مقالات', spacer:'فاصل مزخرف'};
+var CB_TYPES = {text:'نص', image:'صورة', imagetext:'صورة مع نص', cta:'دعوة بزر', quote:'اقتباس', video:'فيديو', gallery:'معرض صور', books:'كتب مختارة', articles:'مقالات مختارة', authors:'كاتب / كتّاب', spacer:'فاصل مزخرف'};
 var _media = {};
 function cbId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 function cbSrc(v){ if(!v) return ''; v=String(v); if(v.indexOf('media:')===0) return _media[v.slice(6)]||''; return v; }
-function cbClean(arr){ return (arr||[]).map(function(b){ var o={}; ['id','type','title','text','image','btn_label','btn_url','style','align','width','image_side','video_url','images','filter','count','font_t','font_b','size_t','size_b','color','bg','maxw','pad','img_h','lay'].forEach(function(k){ if(b[k]!==undefined&&b[k]!==null) o[k]=String(b[k]); }); return o; }); }
+function cbClean(arr){ return (arr||[]).map(function(b){ var o={}; ['id','type','title','text','image','btn_label','btn_url','style','align','width','image_side','video_url','images','filter','count','font_t','font_b','size_t','size_b','color','bg','maxw','pad','img_h','lay','ids','cols','wt','lh','rad','btn_bg','btn_c','tcolor'].forEach(function(k){ if(b[k]!==undefined&&b[k]!==null) o[k]=String(b[k]); }); return o; }); }
 function cbMediaFrom(s){ Object.keys(s).forEach(function(k){ if (k.indexOf('media_')===0) _media[k.slice(6)] = s[k]; }); }
 async function cbUploadFile(file){
   if (!file || !/^image\//.test(file.type)) { toast('اختاري ملف صورة'); return null; }
@@ -2046,7 +2064,7 @@ async function cbUploadFile(file){
 var CB_FIELDS = {
   text:['title','text','btn','look'], image:['image','title','text','btn','look'], imagetext:['image','image_side','title','text','btn','look'],
   cta:['title','text','btn','look'], quote:['quote','by','style'], video:['video','title','text','btn','look'],
-  gallery:['images','title','text','look'], books:['bfilter','count','title','text','btn','style'], articles:['afilter','count','title','text','btn','style'], spacer:['style']
+  gallery:['images','title','text','look'], books:['bfilter','count','title','text','btn','style'], articles:['afilter','count','title','text','btn','style'], authors:['count','title','text','btn','style'], spacer:['style']
 };
 var _cbOpts = {genres:[], cats:[]};
 async function cbLoadOpts(){
@@ -2287,8 +2305,25 @@ function veCurrentPage(){
   c.blocks = JSON.parse(JSON.stringify(BE_page.items));
   return c;
 }
+var _veData = null;
+async function veLoadData(){
+  try{
+    var [ar, bk, st] = await Promise.all([sb.from('articles').select('*'), sb.from('books').select('*'), sb.from('settings').select('*')]);
+    var arts = (ar.data||[]).filter(function(x){ return x.status === 'published'; }).sort(function(x,y){ return String(y.published_at||'').localeCompare(String(x.published_at||'')); });
+    var books = (bk.data||[]).filter(function(x){ return x.archived !== true; });
+    var names = {}; arts.forEach(function(x){ var n = String(x.author_name||'').trim(); if (n) names[n] = (names[n]||0) + 1; }); books.forEach(function(x){ var n = String(x.author||'').trim(); if (n) names[n] = (names[n]||0) + 1; });
+    var auth = {}; (st.data||[]).forEach(function(r){ if (r.key === 'authors') auth = r.value || {}; });
+    _veData = {
+      articles: arts.map(function(x){ return {id:String(x.id), label:x.title||'(بدون عنوان)', sub:[x.author_name, x.category].filter(Boolean).join(' · ')}; }),
+      books: books.map(function(x){ return {id:String(x.id), label:x.title||'(بدون عنوان)', sub:[x.author, x.genre].filter(Boolean).join(' · ')}; }),
+      authors: Object.keys(names).sort(function(x,y){ return names[y]-names[x]; }).map(function(n){ return {id:n, label:n, sub:names[n] + ' عمل', img: cbSrc((auth[n]||{}).image)}; })
+    };
+  }catch(e){ _veData = {articles:[], books:[], authors:[]}; }
+  if (_ve.open) vePanel();
+}
 function veOpen(){
   if (_pgCur < 0 || !_pages[_pgCur]) { toast('افتحي صفحة أولاً'); return; }
+  veLoadData();
   veInit(); _ve.page = veCurrentPage(); _ve.sel = null; _ve.open = true;
   document.getElementById('ve').hidden = false; document.body.style.overflow = 'hidden';
   document.getElementById('ve-name').textContent = 'التحرير المرئي — ' + (_ve.page.title || 'صفحة');
@@ -2357,9 +2392,21 @@ document.getElementById('ve-file').addEventListener('change', async function(){
   else veOp({op:'set', id:b.id, snap:true, patch:{image: refs[0]}});
 });
 }
-function veRange(k, label, min, max, val, unit){
-  var has = val !== undefined && val !== null && String(val) !== '';
-  return '<div class="ve-f"><label>' + label + (has ? ' <button type="button" class="ve-clr" data-clr="' + k + '">↺ افتراضي</button>' : '') + '</label><div class="ve-rng"><input type="range" min="' + min + '" max="' + max + '" data-k="' + k + '" value="' + (has ? escH(String(val)) : Math.round((min + max) / 2)) + '"' + (has ? '' : ' style="opacity:.45"') + '><input type="number" min="' + min + '" max="' + max + '" data-k="' + k + '" value="' + (has ? escH(String(val)) : '') + '" placeholder="تلقائي"><span>' + (unit || 'px') + '</span></div></div>';
+function veRange(k, label, min, max, val, unit, step){
+  var has = val !== undefined && val !== null && String(val) !== '', st = step ? ' step="' + step + '"' : '';
+  var mid = step && step < 1 ? ((min + max) / 2).toFixed(2) : Math.round((min + max) / 2);
+  return '<div class="ve-f"><label>' + label + (has ? ' <button type="button" class="ve-clr" data-clr="' + k + '">↺ افتراضي</button>' : '') + '</label><div class="ve-rng"><input type="range" min="' + min + '" max="' + max + '"' + st + ' data-k="' + k + '" value="' + (has ? escH(String(val)) : mid) + '"' + (has ? '' : ' style="opacity:.45"') + '><input type="number" min="' + min + '" max="' + max + '"' + st + ' data-k="' + k + '" value="' + (has ? escH(String(val)) : '') + '" placeholder="تلقائي"><span>' + (unit || 'px') + '</span></div></div>';
+}
+function vePicker(b, kind, noun){
+  var ids = String(b.ids||'').split(/\n+/).map(function(x){ return x.trim(); }).filter(Boolean);
+  var all = (_veData && _veData[kind]) || [], byId = {}; all.forEach(function(x){ byId[x.id] = x; });
+  var h = '<div class="ve-f"><label>' + noun + ' المعروضة</label>' + '<div class="ve-seg" data-pmode="1"><button type="button" data-v="all"' + (ids.length ? '' : ' class="on"') + '>' + (kind === 'authors' ? 'الأكثر نشاطاً' : 'تلقائي (الأحدث)') + '</button><button type="button" data-v="pick"' + (ids.length || _ve.pickOn === b.id ? ' class="on"' : '') + '>أختار بنفسي</button></div></div>';
+  if (!ids.length && _ve.pickOn !== b.id) return h;
+  if (!_veData) return h + '<div class="hint">جاري تحميل القائمة...</div>';
+  h += '<div class="ve-picked">' + (ids.length ? ids.map(function(id, i){ var it = byId[id] || {label: kind === 'authors' ? id : '(محذوف)', sub:''}; return '<div class="ve-pi"><span class="n">' + (i+1) + '</span><div class="t">' + escH(it.label) + (it.sub ? '<small>' + escH(it.sub) + '</small>' : '') + '</div><button type="button" data-pup="' + i + '"' + (i ? '' : ' disabled') + ' title="لأعلى">▲</button><button type="button" data-prm="' + i + '" title="إزالة">✕</button></div>'; }).join('') : '<div class="hint" style="padding:8px;">اختاري من القائمة تحت ↓</div>') + '</div>';
+  h += '<input type="text" class="ve-psearch" placeholder="🔍 ابحثي عن ' + (kind === 'authors' ? 'كاتب' : kind === 'books' ? 'كتاب أو كاتب' : 'مقالة أو كاتب') + '...">';
+  h += '<div class="ve-plist" data-pkind="' + kind + '">' + all.filter(function(x){ return ids.indexOf(x.id) < 0; }).map(function(x){ return '<button type="button" data-padd="' + escH(x.id) + '" data-q="' + escH((x.label + ' ' + x.sub).toLowerCase()) + '">' + (x.img ? '<img src="' + escH(x.img) + '" alt="">' : '') + '<span>' + escH(x.label) + (x.sub ? '<small>' + escH(x.sub) + '</small>' : '') + '</span><b>＋</b></button>'; }).join('') + '</div>';
+  return h;
 }
 function veColor(k, label, val){
   var has = /^#[0-9a-f]{6}$/i.test(String(val || ''));
@@ -2395,17 +2442,32 @@ function vePanel(){
         + veRange('size_t', t === 'quote' ? 'حجم اسم القائل' : 'حجم العنوان', 14, 120, b.size_t)
         + veSel('font_b', t === 'quote' ? 'خط الاقتباس' : 'خط النص', fonts, b.font_b || '')
         + veRange('size_b', t === 'quote' ? 'حجم الاقتباس' : 'حجم النص', 11, 60, b.size_b)
+        + veSel('wt', 'سماكة العنوان', [['','افتراضي'],['300','رفيع'],['400','عادي'],['600','متوسط'],['700','عريض'],['900','عريض جداً']], b.wt || '')
+        + veRange('lh', 'تباعد الأسطر', 1, 3.5, b.lh, '×', 0.05)
+        + veColor('tcolor', t === 'quote' ? 'لون اسم القائل' : 'لون العنوان', b.tcolor)
         + veColor('color', 'لون الكتابة', b.color) + '</div>';
+      if (t !== 'quote') {
+        var LAY = {}; String(b.lay||'').split(',').forEach(function(x){ var q = x.split(':'); if (q[0]) LAY[q[0]] = q[1] || ''; });
+        var partsHere = [['title','العنوان'],['text','النص']];
+        if (b.btn_label) partsHere.push(['btn','الزر']);
+        if (/^(image|imagetext|gallery|video|books|articles|authors)$/.test(t)) partsHere.push(['media', t === 'books' ? 'الكتب' : t === 'articles' ? 'المقالات' : t === 'authors' ? 'بطاقات الكتّاب' : t === 'video' ? 'الفيديو' : 'الصورة']);
+        h += '<div class="ve-sec"><div class="ve-st">مكان كل عنصر (يمين / وسط / يسار)</div>' + partsHere.map(function(pp){
+          if (t === 'imagetext' && pp[0] === 'media') return '';
+          return '<div class="ve-f"><label>' + pp[1] + '</label><div class="ve-seg" data-palign="' + pp[0] + '">' + [['start','يمين'],['center','وسط'],['end','يسار'],['','تلقائي']].map(function(o){ return '<button type="button" data-v="' + o[0] + '"' + ((LAY[pp[0]]||'') === o[0] ? ' class="on"' : '') + '>' + o[1] + '</button>'; }).join('') + '</div></div>';
+        }).join('') + '</div>';
+      }
     }
     h += '<div class="ve-sec"><div class="ve-st">الخلفية</div>'
       + veSel('style', 'خلفية جاهزة', [['paper','ورق أبيض'],['leaf','رمادي فاتح'],['leather','جلد (لون الغلاف)'],['marble','ورق مجزّع']], b.style || 'paper')
       + veColor('bg', 'أو لون خلفية مخصص', b.bg) + '</div>';
     h += '<div class="ve-sec"><div class="ve-st">المقاس والمكان</div>'
-      + (hasText && t !== 'quote' ? veSeg('align', 'محاذاة النص', [['center','في الوسط'],['start','يمين']], b.align || 'center') : '')
+      + (hasText ? veSeg('align', 'محاذاة القسم كله', [['start','يمين'],['center','الوسط'],['end','يسار']], b.align || 'center') : '')
       + veSeg('width', 'العرض الجاهز', [['narrow','ضيق'],['wide','عريض']], b.width || 'narrow')
       + veRange('maxw', 'العرض بالضبط', 240, 1600, b.maxw)
       + veRange('pad', 'المسافة فوق وتحت', 0, 320, b.pad)
       + (img || t === 'gallery' ? veRange('img_h', 'ارتفاع الصورة', 80, 1000, b.img_h) : '')
+      + (img || t === 'gallery' || t === 'video' || t === 'authors' || t === 'books' ? veRange('rad', 'استدارة الزوايا', 0, 200, b.rad) : '')
+      + (/^(books|articles|authors)$/.test(t) ? veRange('cols', 'عدد الأعمدة', 1, 6, b.cols, 'عمود', 1) : '')
       + (b.lay ? '<div class="ve-f"><button type="button" class="btn o sm" data-clr="lay">↺ رجّعي ترتيب وأماكن العناصر للأصل</button></div>' : '<div class="hint" style="font-size:12px;margin-bottom:8px;">💡 مرّري الماوس على أي عنصر داخل القسم واسحبي زر <b style="color:var(--orange)">✥ اسحبي</b> لترتيبه أو نقله يمين/وسط/يسار.</div>')
       + (t === 'imagetext' ? veSeg('image_side', 'مكان الصورة', [['start','يمين النص'],['end','يسار النص']], b.image_side || 'start') : '')
       + '</div>';
@@ -2418,9 +2480,11 @@ function vePanel(){
     if (t === 'quote') h += veArea('text', 'نص الاقتباس', b.text) + veTxt('title', 'القائل أو المصدر', b.title);
     else if (hasText) h += veTxt('title', 'العنوان', b.title) + veArea('text', 'النص (سطر فارغ بين الفقرات)', b.text);
     if (t === 'video') h += veTxt('video_url', 'رابط الفيديو (YouTube / Vimeo / mp4)', b.video_url, true);
-    if (t === 'books') h += veSel('filter', 'الكتب المعروضة', [['', 'كل الكتب']].concat(_cbOpts.genres.map(function(g){ return [g, 'تصنيف: ' + g]; })), b.filter || '') + veRange('count', 'عدد الكتب', 1, 12, b.count, 'كتاب');
-    if (t === 'articles') h += veSel('filter', 'المقالات المعروضة', [['', 'أحدث المقالات']].concat(_cbOpts.cats.map(function(g){ return [g, 'تصنيف: ' + g]; })), b.filter || '') + veRange('count', 'عدد المقالات', 1, 12, b.count, 'مقالة');
-    if (/^(text|image|imagetext|cta|video|books|articles)$/.test(t)) h += '<div class="ve-2">' + veTxt('btn_label', 'نص الزر', b.btn_label) + veTxt('btn_url', 'رابط الزر', b.btn_url, true) + '</div>';
+    if (t === 'books') h += vePicker(b, 'books', 'الكتب') + (b.ids ? '' : veSel('filter', 'أو اعرضي تلقائياً من تصنيف', [['', 'كل الكتب']].concat(_cbOpts.genres.map(function(g){ return [g, 'تصنيف: ' + g]; })), b.filter || '') + veRange('count', 'عدد الكتب', 1, 12, b.count, 'كتاب', 1));
+    if (t === 'articles') h += vePicker(b, 'articles', 'المقالات') + (b.ids ? '' : veSel('filter', 'أو اعرضي تلقائياً من تصنيف', [['', 'أحدث المقالات']].concat(_cbOpts.cats.map(function(g){ return [g, 'تصنيف: ' + g]; })), b.filter || '') + veRange('count', 'عدد المقالات', 1, 12, b.count, 'مقالة', 1));
+    if (t === 'authors') h += vePicker(b, 'authors', 'الكتّاب') + (b.ids ? '' : veRange('count', 'عدد الكتّاب (الأكثر نشاطاً)', 1, 12, b.count, 'كاتب', 1));
+    if (/^(text|image|imagetext|cta|video|books|articles|authors|gallery)$/.test(t)) h += '<div class="ve-2">' + veTxt('btn_label', 'نص الزر', b.btn_label) + veTxt('btn_url', 'رابط الزر', b.btn_url, true) + '</div>'
+      + (b.btn_label ? '<div class="ve-2">' + veColor('btn_bg', 'لون الزر', b.btn_bg) + veColor('btn_c', 'لون كتابة الزر', b.btn_c) + '</div>' : '');
     h += '</div>';
   }
   P.innerHTML = h;
@@ -2458,6 +2522,21 @@ function veBind(P, b){
     if (op === 'del' && !confirm('حذف هذا القسم؟ (يمكن التراجع)')) return;
     if (op === 'up' || op === 'down') veOp({op:'move', id:b.id, dir: op === 'up' ? -1 : 1}); else veOp({op:op, id:b.id});
   }); });
+  P.querySelectorAll('[data-palign]').forEach(function(g){
+    g.addEventListener('click', function(e){ var bt = e.target.closest('button'); if (!bt) return; _ve.rebuild = true; veOp({op:'palign', id:b.id, part:g.getAttribute('data-palign'), al:bt.getAttribute('data-v')}); });
+  });
+  function idsOf(){ return String(b.ids||'').split(/\n+/).map(function(x){ return x.trim(); }).filter(Boolean); }
+  function setIds(list){ _ve.rebuild = true; veOp({op:'set', id:b.id, patch:{ids: list.join('\n')}, snap:true}); }
+  P.querySelectorAll('[data-pmode]').forEach(function(g){
+    g.addEventListener('click', function(e){ var bt = e.target.closest('button'); if (!bt) return;
+      if (bt.getAttribute('data-v') === 'all') { _ve.pickOn = null; setIds([]); } else { _ve.pickOn = b.id; vePanel(); }
+    });
+  });
+  P.querySelectorAll('[data-padd]').forEach(function(x){ x.addEventListener('click', function(){ var l = idsOf(); l.push(x.getAttribute('data-padd')); _ve.pickOn = b.id; setIds(l); }); });
+  P.querySelectorAll('[data-prm]').forEach(function(x){ x.addEventListener('click', function(){ var l = idsOf(); l.splice(+x.getAttribute('data-prm'), 1); setIds(l); }); });
+  P.querySelectorAll('[data-pup]').forEach(function(x){ x.addEventListener('click', function(){ var l = idsOf(), i = +x.getAttribute('data-pup'); var t = l[i]; l[i] = l[i-1]; l[i-1] = t; setIds(l); }); });
+  var ps = P.querySelector('.ve-psearch');
+  if (ps) { ps.value = _ve.pq || ''; var flt = function(){ _ve.pq = ps.value; var q = ps.value.trim().toLowerCase(); P.querySelectorAll('[data-padd]').forEach(function(x){ x.style.display = !q || x.getAttribute('data-q').indexOf(q) > -1 ? '' : 'none'; }); }; ps.addEventListener('input', flt); flt(); }
   P.querySelectorAll('[data-pickimg]').forEach(function(a){ a.addEventListener('click', function(){ vePick(b.id, a.getAttribute('data-pickimg')); }); });
   P.querySelectorAll('[data-rmimg]').forEach(function(a){ a.addEventListener('click', function(){
     var lines = String(b.images || '').split(/\n+/).map(function(x){ return x.trim(); }).filter(Boolean); lines.splice(+a.getAttribute('data-rmimg'), 1);
@@ -2652,11 +2731,19 @@ async function uploadPdfFile(file, onProgress){
   if(!file || !(/pdf/i.test(file.type) || /\.pdf$/i.test(file.name))){ toast('اختاري ملف PDF'); return null; }
   if(file.size > 45*1024*1024){ toast('الملف أكبر من 45 ميجا — صغّريه أولاً'); return null; }
   var buf=new Uint8Array(await file.arrayBuffer()), CH=700*1024, parts=Math.ceil(buf.length/CH), id='f'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-  for(var i=0;i<parts;i++){
-    var r=await sb.from('files').upsert({id:id+'_'+i, file:id, i:i, data:bytesToB64(buf.subarray(i*CH,(i+1)*CH))});
-    if(r.error){ toast('تعذر رفع الملف — تأكدي من نشر قواعد الحماية الجديدة ('+r.error.message+')'); return null; }
-    if(onProgress) onProgress(i+1, parts);
+  // رفع عدة أجزاء في نفس الوقت بدل جزء جزء (أسرع بكثير)
+  var next=0, done=0, failed=null, WORKERS=Math.min(6, parts);
+  async function worker(){
+    while(!failed && next<parts){
+      var i=next++, tries=0, r;
+      do { r=await sb.from('files').upsert({id:id+'_'+i, file:id, i:i, data:bytesToB64(buf.subarray(i*CH,(i+1)*CH))}); tries++; } while(r.error && tries<3 && !/permission|insufficient/i.test(r.error.message||''));
+      if(r.error){ failed=r.error; return; }
+      done++; if(onProgress) onProgress(done, parts);
+    }
   }
+  var pool=[]; for(var w=0;w<WORKERS;w++) pool.push(worker());
+  await Promise.all(pool);
+  if(failed){ toast('تعذر رفع الملف — تأكدي من نشر قواعد الحماية الجديدة ('+failed.message+')'); return null; }
   var m=await sb.from('files').upsert({id:id, name:file.name, size:file.size, parts:parts, type:'application/pdf', created_at:new Date().toISOString()});
   if(m.error){ toast('تعذر حفظ الملف'); return null; }
   return 'file:'+id;
