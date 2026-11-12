@@ -13,10 +13,76 @@
     return;
   }
   var app = firebase.apps.length ? firebase.app() : firebase.initializeApp(FIREBASE_CONFIG);
-  var db = app.firestore();
-  // اتصال بديل تلقائي عند حجب الاتصال العادي (موانع الإعلانات، الشبكات المقيّدة، أخطاء QUIC)
-  try { db.settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
   var auth = app.auth();
+
+  // ── Firestore عبر REST ──
+  // موانع الإعلانات تحجب قناة Firestore المباشرة (Listen/Write channel) فتفشل القراءة والحفظ.
+  // واجهة REST العادية لا تُحجب، وتطبّق نفس قواعد الحماية.
+  var PID = FIREBASE_CONFIG.projectId, KEY = FIREBASE_CONFIG.apiKey;
+  var ROOT = 'projects/' + PID + '/databases/(default)/documents';
+  var API = 'https://firestore.googleapis.com/v1/';
+  function docName(t, id) { return ROOT + '/' + t + '/' + id; }
+  function docUrl(t, id) { return API + ROOT + '/' + encodeURIComponent(t) + '/' + encodeURIComponent(id); }
+  function fpath(k) { return /^[A-Za-z_][A-Za-z_0-9]*$/.test(k) ? k : '`' + String(k).replace(/\\/g, '\\\\').replace(/`/g, '\\`') + '`'; }
+  function enc(v) {
+    if (v === null || v === undefined) return { nullValue: null };
+    if (typeof v === 'boolean') return { booleanValue: v };
+    if (typeof v === 'number') return Number.isInteger(v) ? { integerValue: String(v) } : { doubleValue: v };
+    if (typeof v === 'string') return { stringValue: v };
+    if (v instanceof Date) return { timestampValue: v.toISOString() };
+    if (Array.isArray(v)) return { arrayValue: v.length ? { values: v.map(enc) } : {} };
+    if (typeof v === 'object') return { mapValue: { fields: encFields(v) } };
+    return { stringValue: String(v) };
+  }
+  function encFields(o) { var f = {}; Object.keys(o).forEach(function (k) { if (o[k] !== undefined) f[k] = enc(o[k]); }); return f; }
+  function dec(v) {
+    if (!v) return null;
+    if ('nullValue' in v) return null;
+    if ('booleanValue' in v) return v.booleanValue;
+    if ('integerValue' in v) return Number(v.integerValue);
+    if ('doubleValue' in v) return Number(v.doubleValue);
+    if ('stringValue' in v) return v.stringValue;
+    if ('timestampValue' in v) return v.timestampValue;
+    if ('arrayValue' in v) return (v.arrayValue.values || []).map(dec);
+    if ('mapValue' in v) return decFields(v.mapValue.fields || {});
+    if ('referenceValue' in v) return v.referenceValue;
+    if ('bytesValue' in v) return v.bytesValue;
+    if ('geoPointValue' in v) return v.geoPointValue;
+    return null;
+  }
+  function decFields(f) { var o = {}; Object.keys(f || {}).forEach(function (k) { o[k] = dec(f[k]); }); return o; }
+  function restErr(status, body) {
+    if (Array.isArray(body)) body = body[0];
+    var e = (body && body.error) || {}, st = String(e.status || '');
+    if (!st && status === 403) st = 'PERMISSION_DENIED';
+    var code = st === 'PERMISSION_DENIED' ? 'permission-denied' : st === 'NOT_FOUND' ? 'not-found' : st === 'UNAUTHENTICATED' ? 'unauthenticated' : (st.toLowerCase().replace(/_/g, '-') || ('http-' + status));
+    var x = new Error(e.message || ('HTTP ' + status)); x.code = code; return x;
+  }
+  function rest(method, url, body, ms) {
+    return ready.then(function () {
+      return auth.currentUser ? auth.currentUser.getIdToken() : null;
+    }).then(function (tok) {
+      var h = { 'Content-Type': 'application/json' };
+      if (tok) h.Authorization = 'Bearer ' + tok;
+      var ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      var timer = ctl ? setTimeout(function () { ctl.abort(); }, ms || 45000) : null;
+      return fetch(url + (url.indexOf('?') > -1 ? '&' : '?') + 'key=' + encodeURIComponent(KEY), {
+        method: method, headers: h, body: body ? JSON.stringify(body) : undefined, signal: ctl ? ctl.signal : undefined, cache: 'no-store'
+      }).then(function (r) {
+        if (timer) clearTimeout(timer);
+        return r.text().then(function (txt) {
+          var j = null; try { j = txt ? JSON.parse(txt) : null; } catch (e) {}
+          if (!r.ok) { if (r.status === 404 && method === 'GET') return null; throw restErr(r.status, j); }
+          return j;
+        });
+      }, function (e) {
+        if (timer) clearTimeout(timer);
+        var x = new Error(e && e.name === 'AbortError' ? 'انتهت مهلة الاتصال بقاعدة البيانات' : 'تعذر الاتصال بقاعدة البيانات'); x.code = 'unavailable'; throw x;
+      });
+    });
+  }
+  function commit(writes) { return rest('POST', API + ROOT + ':commit', { writes: writes }, 120000); }
+  function newId() { var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', o = ''; var r = (window.crypto && crypto.getRandomValues) ? crypto.getRandomValues(new Uint8Array(20)) : null; for (var i = 0; i < 20; i++) o += c[(r ? r[i] : Math.floor(Math.random() * 256)) % 62]; return o; }
 
   // primary key per table (document id)
   var PK = { settings: 'key', article_views: 'article_id', site_visits: 'visit_date' };
@@ -76,22 +142,28 @@
   };
   // fetch matching docs: equality filters go to the server (so security rules can verify them), the rest client-side
   Query.prototype._fetch = function () {
-    var self = this, pk = pkOf(this.t), ref = db.collection(this.t);
+    var self = this, pk = pkOf(this.t), t = this.t;
     var idEq = this.f.filter(function (x) { return x[0] === '==' && x[1] === pk; })[0];
     if (idEq) {
-      return ref.doc(String(idEq[2])).get().then(function (d) {
-        if (!d.exists) return [];
-        var row = d.data(); row[pk] = row[pk] !== undefined ? row[pk] : d.id;
-        return self._match(row) ? [{ ref: d.ref, row: row }] : [];
+      return rest('GET', docUrl(t, String(idEq[2]))).then(function (d) {
+        if (!d || !d.fields && !d.name) return [];
+        var row = decFields(d.fields); if (row[pk] === undefined) row[pk] = String(idEq[2]);
+        return self._match(row) ? [{ ref: d.name, row: row }] : [];
       });
     }
-    var q = ref;
-    this.f.forEach(function (x) { if (x[0] === '==') q = q.where(x[1], '==', x[2]); });
-    return q.get().then(function (snap) {
+    var filters = this.f.filter(function (x) { return x[0] === '=='; }).map(function (x) {
+      return { fieldFilter: { field: { fieldPath: fpath(x[1]) }, op: 'EQUAL', value: enc(x[2]) } };
+    });
+    var q = { from: [{ collectionId: t }] };
+    if (filters.length === 1) q.where = filters[0];
+    else if (filters.length > 1) q.where = { compositeFilter: { op: 'AND', filters: filters } };
+    return rest('POST', API + ROOT + ':runQuery', { structuredQuery: q }).then(function (res) {
       var out = [];
-      snap.forEach(function (d) {
-        var row = d.data(); if (row[pk] === undefined) row[pk] = d.id;
-        if (self._match(row)) out.push({ ref: d.ref, row: row });
+      (res || []).forEach(function (x) {
+        if (!x || !x.document) return;
+        var row = decFields(x.document.fields);
+        if (row[pk] === undefined) row[pk] = decodeURIComponent(x.document.name.split('/').pop());
+        if (self._match(row)) out.push({ ref: x.document.name, row: row });
       });
       return out;
     });
@@ -134,36 +206,32 @@
       p = this._fetch().then(function (docs) { return self._shape(docs.map(function (d) { return d.row; })); });
     } else if (this.mode === 'insert' || this.mode === 'upsert') {
       var list = Array.isArray(this.payload) ? this.payload : [this.payload];
-      var batch = db.batch(), saved = [];
+      var writes = [], saved = [];
       list.forEach(function (obj) {
         var row = clean(Object.assign({}, obj));
-        var ref;
         if (self.mode === 'insert') {
           row = Object.assign({}, DEFAULTS[t] || {}, row);
           if (row.created_at === undefined && t !== 'settings') row.created_at = nowIso();
-          ref = row[pk] !== undefined && row[pk] !== null ? db.collection(t).doc(String(row[pk])) : db.collection(t).doc();
-          if (row[pk] === undefined || row[pk] === null) row[pk] = ref.id;
-          batch.set(ref, row);
+          if (row[pk] === undefined || row[pk] === null) row[pk] = newId();
+          writes.push({ update: { name: docName(t, String(row[pk])), fields: encFields(row) } });
         } else {
           if (t === 'settings') row.updated_at = nowIso();
-          ref = db.collection(t).doc(String(row[pk]));
-          batch.set(ref, row, { mergeFields: Object.keys(row) });
+          writes.push({ update: { name: docName(t, String(row[pk])), fields: encFields(row) }, updateMask: { fieldPaths: Object.keys(row).map(fpath) } });
         }
         saved.push(row);
       });
-      p = batch.commit().then(function () { return self._shape(saved); });
+      p = commit(writes).then(function () { return self._shape(saved); });
     } else if (this.mode === 'update') {
       var patch = clean(Object.assign({}, this.payload));
       p = this._fetch().then(function (docs) {
-        var batch = db.batch();
-        docs.forEach(function (d) { batch.update(d.ref, patch); });
-        return batch.commit().then(function () { return self._shape(docs.map(function (d) { return Object.assign({}, d.row, patch); })); });
+        if (!docs.length) return self._shape([]);
+        var writes = docs.map(function (d) { return { update: { name: d.ref, fields: encFields(patch) }, updateMask: { fieldPaths: Object.keys(patch).map(fpath) }, currentDocument: { exists: true } }; });
+        return commit(writes).then(function () { return self._shape(docs.map(function (d) { return Object.assign({}, d.row, patch); })); });
       });
     } else if (this.mode === 'delete') {
       p = this._fetch().then(function (docs) {
-        var batch = db.batch();
-        docs.forEach(function (d) { batch['delete'](d.ref); });
-        return batch.commit().then(function () { return { data: docs.map(function (d) { return d.row; }), error: null }; });
+        if (!docs.length) return { data: [], error: null };
+        return commit(docs.map(function (d) { return { 'delete': d.ref }; })).then(function () { return { data: docs.map(function (d) { return d.row; }), error: null }; });
       });
     }
     return p.then(function (r) {
@@ -226,7 +294,12 @@
     auth: authApi,
     channel: function () { return { on: function () { return this; }, subscribe: function () { return this; } }; },
     removeChannel: function () {},
-    _firebase: { app: app, db: db, auth: auth }
+    // زيادة عدّاد بمقدار واحد (عدّاد القراءات)
+    increment: function (t, id, field, extra) {
+      var w = { update: { name: docName(t, String(id)), fields: encFields(extra || {}) }, updateMask: { fieldPaths: Object.keys(extra || {}).map(fpath) }, updateTransforms: [{ fieldPath: fpath(field), increment: { integerValue: '1' } }] };
+      return commit([w]);
+    },
+    _firebase: { app: app, auth: auth }
   };
   window.supabase = { createClient: function () { return client; } };
   window.waraqDB = client;

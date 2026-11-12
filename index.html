@@ -1093,7 +1093,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112191226';
+var WARAQ_BUILD = '20261112192940';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1109,7 +1109,6 @@ var WARAQ_BUILD = '20261112191226';
 <script src="data.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
 <script src="supabase-firebase.js"></script>
 <script>
@@ -1795,8 +1794,8 @@ async function waraqSubscribe(email) {
 // ── عدّاد القراءات ──
 function waraqCount(kind, id) {
   try {
-    var fb = window.waraqDB && waraqDB._firebase; if (!fb || !id || WARAQ_IS_PREVIEW) return;
-    return fb.db.collection('view_counts').doc(kind + '_' + id).set({ views: firebase.firestore.FieldValue.increment(1), kind: kind, ref: String(id) }, { merge: true }).catch(function() {});
+    var c = window.waraqDB; if (!c || !c.increment || !id || WARAQ_IS_PREVIEW) return;
+    return c.increment('view_counts', kind + '_' + id, 'views', { kind: kind, ref: String(id) }).catch(function() {});
   } catch (e) {}
 }
 var _viewCounts = null;
