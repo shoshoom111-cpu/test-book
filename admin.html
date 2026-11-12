@@ -1162,7 +1162,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112165135';
+var WARAQ_BUILD = '20261112171047';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -2023,7 +2023,7 @@ var CB_TYPES = {text:'نص', image:'صورة', imagetext:'صورة مع نص', c
 var _media = {};
 function cbId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 function cbSrc(v){ if(!v) return ''; v=String(v); if(v.indexOf('media:')===0) return _media[v.slice(6)]||''; return v; }
-function cbClean(arr){ return (arr||[]).map(function(b){ var o={}; ['id','type','title','text','image','btn_label','btn_url','style','align','width','image_side','video_url','images','filter','count','font_t','font_b','size_t','size_b','color','bg','maxw','pad','img_h'].forEach(function(k){ if(b[k]!==undefined&&b[k]!==null) o[k]=String(b[k]); }); return o; }); }
+function cbClean(arr){ return (arr||[]).map(function(b){ var o={}; ['id','type','title','text','image','btn_label','btn_url','style','align','width','image_side','video_url','images','filter','count','font_t','font_b','size_t','size_b','color','bg','maxw','pad','img_h','lay'].forEach(function(k){ if(b[k]!==undefined&&b[k]!==null) o[k]=String(b[k]); }); return o; }); }
 function cbMediaFrom(s){ Object.keys(s).forEach(function(k){ if (k.indexOf('media_')===0) _media[k.slice(6)] = s[k]; }); }
 async function cbUploadFile(file){
   if (!file || !/^image\//.test(file.type)) { toast('اختاري ملف صورة'); return null; }
@@ -2406,6 +2406,7 @@ function vePanel(){
       + veRange('maxw', 'العرض بالضبط', 240, 1600, b.maxw)
       + veRange('pad', 'المسافة فوق وتحت', 0, 320, b.pad)
       + (img || t === 'gallery' ? veRange('img_h', 'ارتفاع الصورة', 80, 1000, b.img_h) : '')
+      + (b.lay ? '<div class="ve-f"><button type="button" class="btn o sm" data-clr="lay">↺ رجّعي ترتيب وأماكن العناصر للأصل</button></div>' : '<div class="hint" style="font-size:12px;margin-bottom:8px;">💡 مرّري الماوس على أي عنصر داخل القسم واسحبي زر <b style="color:var(--orange)">✥ اسحبي</b> لترتيبه أو نقله يمين/وسط/يسار.</div>')
       + (t === 'imagetext' ? veSeg('image_side', 'مكان الصورة', [['start','يمين النص'],['end','يسار النص']], b.image_side || 'start') : '')
       + '</div>';
     h += '<div class="ve-sec"><div class="ve-st">المحتوى</div>';
