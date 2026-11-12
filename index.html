@@ -453,6 +453,8 @@ body.no-marble .arch-mini-cover,body.no-marble .arch-pg-cover{background-image:v
 .cb-center .cb-text{margin-left:auto;margin-right:auto;}
 .cb-end .cb-body,.cb-imagetext.cb-end .cb-body{text-align:end;}
 .cb-end .cb-text{margin-inline-start:auto;}
+.cb-pos-start .cb-in{margin-inline:0 auto;}
+.cb-pos-end .cb-in{margin-inline:auto 0;}
 .cb-start .cb-q{text-align:start;}
 .cb-end .cb-q{text-align:end;}
 .cb-start .cb-q blockquote{background-position:right top;}
@@ -1091,7 +1093,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112174038';
+var WARAQ_BUILD = '20261112181226';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1550,7 +1552,7 @@ function waraqBlockEl(b, s, key) {
   var img = waraqMedia(b.image, s);
   var url = /^(https?:|mailto:|tel:|#)/i.test(String(b.btn_url || '')) ? b.btn_url : '';
   var el = document.createElement('section');
-  el.className = 'cblock cb-' + (b.style || 'paper') + ' cb-' + (type === 'gallery' || type === 'video' ? 'type-' + type : type) + (b.align === 'start' ? ' cb-start' : b.align === 'end' ? ' cb-end' : ' cb-center') + (b.width === 'wide' ? ' cb-wide' : ' cb-narrow') + (b.image_side === 'end' ? ' cb-flip' : '');
+  el.className = 'cblock cb-' + (b.style || 'paper') + ' cb-' + (type === 'gallery' || type === 'video' || type === 'text' ? 'type-' + type : type) + (b.align === 'start' ? ' cb-start' : b.align === 'end' ? ' cb-end' : ' cb-center') + (b.pos === 'start' || b.pos === 'end' ? ' cb-pos-' + b.pos : '') + (b.width === 'wide' ? ' cb-wide' : ' cb-narrow') + (b.image_side === 'end' ? ' cb-flip' : '');
   if (key) el.setAttribute('data-section', key);
   var title = b.title ? '<h2 class="cb-title">' + escHtml(b.title) + '</h2>' : '';
   var text = b.text ? '<div class="cb-text">' + waraqText(b.text) + '</div>' : '';
@@ -1978,7 +1980,7 @@ if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add(
 /* ══ المحرر المرئي للصفحات (داخل لوحة التحكم فقط) ══ */
 var WARAQ_EDIT = WARAQ_IS_PREVIEW && /[?&]edit=1/.test(location.search);
 var ED = { page: null, media: {}, sel: null, hist: [], fut: [] };
-var ED_TYPES = { text: 'نص', image: 'صورة', imagetext: 'صورة مع نص', cta: 'دعوة بزر', quote: 'اقتباس', video: 'فيديو', gallery: 'معرض صور', books: 'كتب مختارة', articles: 'مقالات مختارة', authors: 'كاتب / كتّاب', spacer: 'فاصل' };
+var ED_TYPES = { text: 'نص', image: 'صورة', imagetext: 'صورة مع نص', cta: 'دعوة بزر', quote: 'اقتباس', video: 'فيديو', gallery: 'معرض صور', books: 'كُتب (أختارها)', articles: 'مقالات (أختارها)', authors: 'بطاقة كاتِب', spacer: 'فاصل' };
 function edPost(t, extra) { try { parent.postMessage(Object.assign({ type: t }, extra || {}), location.origin); } catch (e) {} }
 function edBlocks() { return ED.page.blocks || (ED.page.blocks = []); }
 function edFind(id) { var bl = edBlocks(); for (var i = 0; i < bl.length; i++) if (bl[i].id === id) return i; return -1; }
