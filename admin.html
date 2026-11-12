@@ -1182,7 +1182,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112181226';
+var WARAQ_BUILD = '20261112191226';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1574,8 +1574,14 @@ async function createUser(){
   if(pass.length<8){toast('كلمة المرور يجب أن تكون ٨ أحرف على الأقل');return;}
   var {data:sd,error}=await sb.auth.signUp({email,password:pass});
   if(error){
-    if(error.message&&(error.message.indexOf('already')>-1||error.message.indexOf('registered')>-1)){
-      toast('البريد الإلكتروني مستخدم بالفعل');
+    if(/already|registered|exists|in use|EMAIL_EXISTS/i.test(error.message||'')){
+      // الحساب محذوف من القائمة لكنه ما زال في نظام الدخول: نعيد تفعيله بنفس البريد
+      var mail=String(email).trim().toLowerCase();
+      var inv=await sb.from('invites').upsert({id:mail, email:mail, name:name||'', role:role||'writer', created_at:new Date().toISOString()});
+      if(inv.error){ toast('البريد مسجل سابقاً، وتعذر إعادة تفعيله — تأكدي من نشر قواعد الحماية الجديدة'); return; }
+      alert(['هذا البريد كان مسجلاً من قبل، وتمت إعادة تفعيله ✓', '', 'صاحب الحساب يدخل بكلمة المرور القديمة نفسها، وسيُفعَّل حسابه تلقائياً عند أول دخول.', 'إذا نسيها: يضغط «نسيت كلمة المرور» في صفحة الدخول.', '', '(كلمة المرور الجديدة التي كتبتِها لا تُستخدم في هذه الحالة)'].join(String.fromCharCode(10)));
+      loadUsers();toggleIF('add-user');
+      ['nu-n','nu-e','nu-p'].forEach(id=>{var e=document.getElementById(id);if(e)e.value='';});
     } else { toast('خطأ: '+error.message); }
     return;
   }
@@ -1606,7 +1612,7 @@ async function toggleRole(id,cur){
 }
 async function delUser(id){
   if(!await isAdmin()){toast('غير مصرح');return;}
-  if(!confirm('حذف هذا المستخدم نهائياً؟'))return;
+  if(!confirm('حذف هذا المستخدم؟ لن يستطيع الدخول للوحة التحكم أو صفحة الكاتب. (يمكنك إعادته لاحقاً بنفس البريد)'))return;
   await sb.from('profiles').delete().eq('id',id);
   toast('تم الحذف');loadUsers();
 }

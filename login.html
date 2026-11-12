@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; frame-src https://test-book-2eb74.firebaseapp.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://test-book-2eb74.firebaseapp.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; frame-src https://test-book-2eb74.firebaseapp.com; connect-src 'self' https://www.gstatic.com https://*.googleapis.com https://*.firebaseio.com https://test-book-2eb74.firebaseapp.com;">
 <title>وَرَق | الدخول</title>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Readex+Pro:wght@300..700&display=swap" rel="stylesheet">
 <style>
@@ -60,6 +60,13 @@ input[aria-invalid="true"]{border-color:#7A1F2B;}
   <!-- LOGIN FORM -->
   <div id="login-form">
     <div class="card-title">تسجيل الدخول</div>
+    <div id="signed-in" style="display:none;background:#EEF3F1;border:1px solid #B8893B;border-radius:2px;padding:14px;margin-bottom:16px;font-size:13px;line-height:1.8;color:#1F1A17;text-align:center;">
+      أنتِ مسجلة دخول بحساب<br><b id="signed-in-mail" style="direction:ltr;display:inline-block;"></b>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button type="button" class="btn" id="si-go" style="flex:1;">متابعة ←</button>
+        <button type="button" class="btn" id="si-out" style="flex:1;background:#fff;color:#7A1F2B;border:1px solid #7A1F2B;">تسجيل خروج</button>
+      </div>
+    </div>
     <div class="error" id="err" role="alert" aria-live="polite">
       <span>⚠</span><span id="err-text"></span>
     </div>
@@ -148,8 +155,14 @@ var COOLDOWN_MS = 60000; // 1 minute
 // Check existing session
 if (sb && !window._configMissing) {
   sb.auth.getSession().then(function(res) {
+    // لا ننقل الزائر فجأة: نعرض له أنه مسجل دخول ونترك له الاختيار
     if (res && res.data && res.data.session) {
-      redirect(res.data.session.user);
+      var u = res.data.session.user, box = document.getElementById('signed-in');
+      if (!box) return;
+      document.getElementById('signed-in-mail').textContent = u.email || '';
+      box.style.display = 'block';
+      document.getElementById('si-go').onclick = function() { this.disabled = true; redirect(u); };
+      document.getElementById('si-out').onclick = async function() { try { await sb.auth.signOut(); } catch (e) {} box.style.display = 'none'; };
     }
   }).catch(function() {
     // Silent fail - user just needs to login
@@ -218,7 +231,23 @@ async function doLogin() {
 async function redirect(user) {
   try {
     if (!sb) { showErr('خطأ في الاتصال'); return; }
-    var res = await sb.from('profiles').select('role').eq('id', user.id).single();
+    var res = await sb.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    if (res.error) {
+      // لا نوجّه المدير لصفحة الكاتب إذا تعذر الاتصال بقاعدة البيانات
+      setLoading(false);
+      showErr('تعذر الاتصال بقاعدة البيانات — أوقفي مانع الإعلانات (AdBlock) لهذا الموقع أو جربي متصفحاً آخر، ثم حاولي مرة أخرى');
+      return;
+    }
+    if (!res.data) {
+      // حساب أُعيدت إضافته من لوحة التحكم بنفس البريد: نفعّله من الدعوة
+      var mail = String(user.email || '').toLowerCase();
+      var inv = mail ? await sb.from('invites').select('*').eq('id', mail).maybeSingle() : { data: null };
+      if (inv.data && inv.data.role) {
+        var mk = await sb.from('profiles').insert({ id: user.id, email: mail, name: inv.data.name || '', role: inv.data.role });
+        if (!mk.error) { await sb.from('invites').delete().eq('id', mail); res = { data: { role: inv.data.role } }; }
+      }
+      if (!res.data) { setLoading(false); showErr('هذا الحساب غير مفعّل — اطلبي من المدير إضافته من لوحة التحكم'); try { await sb.auth.signOut(); } catch (e) {} return; }
+    }
     // Only navigate to known safe pages
     var ALLOWED = { 'admin': 'admin.html', 'editor': 'admin.html', 'writer': 'writer.html' };
     var role = res.data && res.data.role ? res.data.role : 'writer';

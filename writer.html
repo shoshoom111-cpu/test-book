@@ -218,8 +218,8 @@ function renderList(arts, id) {
     var d = document.createElement('div');
     d.className = 'art-row';
     var rejHTML = (a.status === 'rejected' && a.reject_reason) ? '<div class="art-reject">سبب الرفض: ' + a.reject_reason + '</div>' : '';
-    var editBtn = a.status !== 'published' ? '<button class="btn-sm t" onclick="edit('' + a.id + '')">تعديل</button>' : '';
-    d.innerHTML = '<span class="status-pill ' + (sc[a.status] || '') + '">' + (sl[a.status] || a.status) + '</span><div class="art-info"><div class="art-name">' + a.title + '</div><div class="art-sub">' + (a.author_name || '') + ' &middot; ' + new Date(a.created_at).toLocaleDateString('ar-SA') + '</div>' + rejHTML + '</div><div class="art-btns">' + editBtn + '<button class="btn-sm r" onclick="del('' + a.id + '')">حذف</button></div>';
+    var editBtn = a.status !== 'published' ? '<button class="btn-sm t" onclick="edit(&quot;' + a.id + '&quot;)">تعديل</button>' : '';
+    d.innerHTML = '<span class="status-pill ' + (sc[a.status] || '') + '">' + (sl[a.status] || a.status) + '</span><div class="art-info"><div class="art-name">' + a.title + '</div><div class="art-sub">' + (a.author_name || '') + ' &middot; ' + new Date(a.created_at).toLocaleDateString('ar-SA') + '</div>' + rejHTML + '</div><div class="art-btns">' + editBtn + '<button class="btn-sm r" onclick="del(&quot;' + a.id + '&quot;)">حذف</button></div>';
     el.appendChild(d);
   });
 }
