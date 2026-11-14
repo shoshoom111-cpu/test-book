@@ -2,6 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' blob: data: https://*.googleapis.com https://www.gstatic.com https://cdnjs.cloudflare.com https://test-book-2eb74.firebaseapp.com; frame-src 'self' https://test-book-2eb74.firebaseapp.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<style id="anti-frame">html{display:none!important}</style>
+<script>(function(){var ok=false;try{ok=(window.top===window.self)||(window.top.location.origin===location.origin);}catch(e){ok=false;}if(ok){var s=document.getElementById("anti-frame");if(s)s.parentNode.removeChild(s);}else{try{window.top.location=location.href;}catch(e){}}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>وَرَق | لوحة الكاتب</title>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Readex+Pro:wght@300..700&display=swap" rel="stylesheet">
@@ -167,6 +171,7 @@ textarea{resize:vertical;min-height:200px;line-height:1.75;}
 <script src="config.js"></script>
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+function escW(t) { var d = document.createElement('div'); d.textContent = String(t == null ? '' : t); return d.innerHTML; }
 let me = null;
 
 async function init() {
@@ -218,7 +223,7 @@ function renderList(arts, id) {
     d.className = 'art-row';
     var rejHTML = (a.status === 'rejected' && a.reject_reason) ? '<div class="art-reject">سبب الرفض: ' + a.reject_reason + '</div>' : '';
     var editBtn = a.status !== 'published' ? '<button class="btn-sm t" onclick="edit(&quot;' + a.id + '&quot;)">تعديل</button>' : '';
-    d.innerHTML = '<span class="status-pill ' + (sc[a.status] || '') + '">' + (sl[a.status] || a.status) + '</span><div class="art-info"><div class="art-name">' + a.title + '</div><div class="art-sub">' + (a.author_name || '') + ' &middot; ' + new Date(a.created_at).toLocaleDateString('ar-SA') + '</div>' + rejHTML + '</div><div class="art-btns">' + editBtn + '<button class="btn-sm r" onclick="del(&quot;' + a.id + '&quot;)">حذف</button></div>';
+    d.innerHTML = '<span class="status-pill ' + (sc[a.status] || '') + '">' + (sl[a.status] || a.status) + '</span><div class="art-info"><div class="art-name">' + escW(a.title) + '</div><div class="art-sub">' + escW(a.author_name || '') + ' &middot; ' + new Date(a.created_at).toLocaleDateString('ar-SA') + '</div>' + rejHTML + '</div><div class="art-btns">' + editBtn + '<button class="btn-sm r" onclick="del(&quot;' + a.id + '&quot;)">حذف</button></div>';
     el.appendChild(d);
   });
 }

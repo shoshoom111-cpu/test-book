@@ -2,6 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com https://cdn.quilljs.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.quilljs.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' blob: data: https://*.googleapis.com https://www.gstatic.com https://cdnjs.cloudflare.com https://test-book-2eb74.firebaseapp.com; frame-src 'self' https://test-book-2eb74.firebaseapp.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<style id="anti-frame">html{display:none!important}</style>
+<script>(function(){var ok=false;try{ok=(window.top===window.self)||(window.top.location.origin===location.origin);}catch(e){ok=false;}if(ok){var s=document.getElementById("anti-frame");if(s)s.parentNode.removeChild(s);}else{try{window.top.location=location.href;}catch(e){}}})();</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.6/purify.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>وَرَق | لوحة التحكم</title>
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
@@ -446,6 +451,12 @@ input[type=color]{border-radius:2px;}
 .ve-plist img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
 .ve-pick-sec{background:var(--tl);margin:12px -16px 0;padding:12px 16px;border-top:2px solid var(--teal);}
 .ve-pick-sec .ve-st{color:var(--td);font-size:13px;}
+
+.list-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.list-tools input[type=search]{width:190px;padding:5px 10px;font-size:12px;border-radius:6px;}
+.list-tools select{width:auto;padding:5px 10px;font-size:12px;border-radius:6px;}
+.soc-row{border:1px solid var(--border);border-radius:4px;padding:10px 12px;margin-bottom:8px;background:var(--paper);}
+.soc-top{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
 </style>
 </head>
 <body>
@@ -635,10 +646,14 @@ input[type=color]{border-radius:2px;}
         <div class="card">
           <div class="card-hd"><span class="card-title">روابط التواصل</span><button class="btn p sm" onclick="saveSocial()">حفظ</button></div>
           <div class="card-body">
+            <div class="hint">هذه الحسابات تظهر في <b>الشريط العلوي</b> وفي عمود <b>«تواصل معنا»</b> وفي <b>الأزرار أسفل الفوتر</b> — اختاري لكل حساب أين يظهر.</div>
+            <div id="soc-list"></div>
+            <div style="display:flex;gap:8px;align-items:center;margin:10px 0 18px;flex-wrap:wrap;">
+              <select id="soc-add-type" style="width:auto;"></select>
+              <button type="button" class="btn o sm" onclick="socAdd()">＋ إضافة حساب</button>
+            </div>
             <div class="two">
-              <div class="fg"><label>Instagram</label><input type="url" id="s-ig" value="https://www.instagram.com/servicesbook1"></div>
-              <div class="fg"><label>TikTok</label><input type="url" id="s-tt" value="https://www.tiktok.com/@adab_book"></div>
-              <div class="fg"><label>المتجر الإلكتروني</label><input type="url" id="s-store" value="https://adab-book.com/"></div>
+              <input type="hidden" id="s-ig"><input type="hidden" id="s-tt"><input type="hidden" id="s-store">
               <div class="fg"><label>WhatsApp</label><input type="url" id="s-wa" placeholder="https://wa.me/966..."></div>
               <div class="fg"><label>البريد الإلكتروني</label><input type="email" id="s-email" placeholder="waraq@arablit.com"></div>
               <div class="fg"><label>رابط فورم Brevo للاشتراك</label><input type="url" id="s-brevo" placeholder="https://sibforms.com/..."></div>
@@ -705,9 +720,13 @@ input[type=color]{border-radius:2px;}
         <div class="card">
           <div class="card-hd">
             <span class="card-title">كل المقالات</span>
+            <div class="list-tools">
+            <input type="search" id="art-q" placeholder="🔍 بحث بالعنوان أو الكاتب" oninput="renderArtsSorted()">
+            <select id="art-sort" onchange="renderArtsSorted()"><option value="new">الأحدث أولاً</option><option value="old">الأقدم أولاً</option><option value="title">العنوان (أ-ي)</option><option value="author">الكاتب (أ-ي)</option><option value="views">الأكثر قراءة</option><option value="cat">التصنيف</option></select>
             <select id="art-flt" onchange="loadArts()" style="width:auto;padding:5px 10px;font-size:12px;border-radius:6px;">
               <option value="">الكل</option><option value="published">منشورة</option><option value="pending">قيد المراجعة</option><option value="rejected">مرفوضة</option><option value="archived">مؤرشفة</option><option value="draft">مسودة</option>
             </select>
+          </div>
           </div>
           <div class="card-body" id="arts-list"><div class="empty">جاري التحميل...</div></div>
         </div>
@@ -718,8 +737,13 @@ input[type=color]{border-radius:2px;}
         <div class="pg-title">إدارة الكتب</div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
           <button class="btn p" onclick="toggleIF('add-book')">إضافة كتاب جديد +</button>
-          <label style="font-size:11px;color:var(--mid);display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="show-archived-books" onchange="loadBooks()" style="accent-color:var(--teal);"> عرض المؤرشفة</label>
+          <div class="list-tools">
+            <input type="search" id="bk-q" placeholder="🔍 بحث بالعنوان أو الكاتب" oninput="renderBooksSorted()">
+            <select id="bk-sort" onchange="renderBooksSorted()"><option value="site">ترتيب العرض في الموقع</option><option value="new">الأحدث أولاً</option><option value="old">الأقدم أولاً</option><option value="title">العنوان (أ-ي)</option><option value="author">الكاتب (أ-ي)</option><option value="genre">التصنيف</option></select>
+            <label style="font-size:11px;color:var(--mid);display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="show-archived-books" onchange="loadBooks()" style="accent-color:var(--teal);"> عرض المؤرشفة</label>
+          </div>
         </div>
+        <div class="hint" id="bk-order-hint" style="margin-bottom:10px;">في «ترتيب العرض في الموقع» استخدمي ▲ ▼ لتحديد ترتيب ظهور الكتب للزوار.</div>
         <div class="iform" id="add-book">
           <div class="iform-title">📚 كتاب جديد</div>
           <div class="two">
@@ -818,7 +842,8 @@ input[type=color]{border-radius:2px;}
         </div>
         <div class="card">
           <div class="card-hd"><span class="card-title">سجل تعديلات الإعدادات</span><button class="btn o sm" onclick="loadHistory()">تحديث</button></div>
-          <div class="card-body"><div class="hint">قبل كل حفظ في الإعدادات تُحفظ النسخة السابقة هنا. اضغطي «استرجاع» للرجوع لها.</div><div id="history-list"><div class="empty">جاري التحميل...</div></div></div>
+          <div class="card-body"><div class="hint">قبل كل حفظ في الإعدادات، وقبل تعديل أو حذف أي مقالة أو كتاب، تُحفظ النسخة السابقة هنا. اضغطي «استرجاع» للرجوع لها.</div><div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;"><span style="font-size:13px;color:var(--mid);">عرض:</span><select id="hist-flt" onchange="loadHistory()" style="width:auto;"><option value="all">الكل</option><option value="articles">المقالات (تعديل وحذف)</option><option value="books">الكتب (تعديل وحذف)</option><option value="settings">إعدادات الموقع</option></select></div>
+<div id="history-list"><div class="empty">جاري التحميل...</div></div></div>
         </div>
       </div>
 
@@ -878,6 +903,8 @@ input[type=color]{border-radius:2px;}
           <div class="card-hd">
             <span class="card-title">التعليقات</span>
             <div style="display:flex;gap:8px;align-items:center;">
+              <input type="search" id="cmt-q" placeholder="🔍 بحث في التعليقات" oninput="renderCommentsSorted()" style="width:170px;padding:5px 10px;font-size:12px;">
+              <select id="cmt-sort" onchange="renderCommentsSorted()" style="width:auto;padding:5px 10px;font-size:12px;border-radius:6px;"><option value="new">الأحدث أولاً</option><option value="old">الأقدم أولاً</option><option value="item">حسب المقالة / الكتاب</option><option value="name">حسب اسم المعلّق</option></select>
               <select id="cmt-flt" onchange="loadComments()" style="width:auto;padding:5px 10px;font-size:12px;border-radius:6px;">
                 <option value="pending">قيد المراجعة</option>
                 <option value="approved">معتمدة</option>
@@ -1182,7 +1209,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261112193529';
+var WARAQ_BUILD = '20261114214343';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1328,6 +1355,7 @@ async function loadSettings(){
   heroLinkFill(s.issue||{}); rotLoad(s.hero_rotation||{}); authorsSettings = s.authors || {};
   if(s.issue){sv('s-htitle',s.issue.hero_title);sv('s-hbody',s.issue.hero_body);sv('s-hbadge',s.issue.hero_badge);sv('s-hby',s.issue.hero_by);sv('s-quote',s.issue.quote);sv('s-inum',s.issue.num);sv('s-idate',s.issue.date);syncPv();syncHero();}
   if(s.general){sv('s-name',s.general.name);sv('s-tag',s.general.tagline);sv('s-topbar',s.general.topbar);sv('s-nltitle',s.general.nl_title);sv('s-nldesc',s.general.nl_desc);sv('s-ftag',s.general.footer_tag);sv('s-fcopy',s.general.copyright);syncPv();}
+  socLoad(s);
   if(s.social){sv('s-ig',s.social.ig);sv('s-tt',s.social.tt);sv('s-store',s.social.store);if(s.social.wa)sv('s-wa',s.social.wa);if(s.social.email)sv('s-email',s.social.email);if(s.social.brevo)sv('s-brevo',s.social.brevo);}
   if(s.side_items&&Array.isArray(s.side_items)&&s.side_items.length){
     var el=document.getElementById('side-list');
@@ -1369,11 +1397,31 @@ async function loadArts(){
   var q=sb.from('articles').select('*').order('created_at',{ascending:false});
   if(f)q=q.eq('status',f);
   var {data}=await q;
-  renderArtRows(data||[],'arts-list',true);
+  _artsAll=data||[]; renderArtsSorted();
   var {data:pend}=await sb.from('articles').select('*').eq('status','pending').order('created_at',{ascending:false});
   renderArtRows(pend||[],'pend-list',true);
 }
 
+var _artsAll=[];
+function waraqSortBy(list, mode, map){
+  var ar=function(x){ return String(x||''); }, col=function(a,b){ return ar(a).localeCompare(ar(b),'ar'); };
+  var L=list.slice();
+  if(mode==='old') L.sort(function(a,b){ return ar(a.created_at).localeCompare(ar(b.created_at)); });
+  else if(mode==='new') L.sort(function(a,b){ return ar(b.created_at).localeCompare(ar(a.created_at)); });
+  else if(map[mode]) L.sort(map[mode]);
+  return L;
+}
+function renderArtsSorted(){
+  var q=(v('art-q')||'').trim().toLowerCase(), mode=v('art-sort')||'new', V=window._artViews||{};
+  var L=_artsAll.filter(function(a){ return !q || (String(a.title||'')+' '+String(a.author_name||'')+' '+String(a.category||'')).toLowerCase().indexOf(q)>-1; });
+  L=waraqSortBy(L, mode, {
+    title:function(a,b){ return String(a.title||'').localeCompare(String(b.title||''),'ar'); },
+    author:function(a,b){ return String(a.author_name||'').localeCompare(String(b.author_name||''),'ar'); },
+    cat:function(a,b){ return String(a.category||'').localeCompare(String(b.category||''),'ar'); },
+    views:function(a,b){ return (V[b.id]||0)-(V[a.id]||0); }
+  });
+  renderArtRows(L,'arts-list',true);
+}
 function renderArtRows(arts,cid,isAdmin){
   var el=document.getElementById(cid);if(!el)return;
   if(!arts.length){el.innerHTML='<div class="empty">لا توجد مقالات</div>';return;}
@@ -1503,13 +1551,36 @@ async function loadBooks(){
   var q=sb.from('books').select('*').order('created_at',{ascending:false});
   if(!showArch) q=q.neq('archived',true);
   var {data}=await q;
+  _booksAll=data||[]; renderBooksSorted();
+}
+var _booksAll=[];
+function bookSiteOrder(L){ return L.slice().sort(function(a,b){ var x=(typeof a.sort==='number')?a.sort:1e9, y=(typeof b.sort==='number')?b.sort:1e9; if(x!==y) return x-y; return String(b.created_at||'').localeCompare(String(a.created_at||'')); }); }
+async function bookMove(id, dir){
+  var L=bookSiteOrder(_booksAll.filter(function(b){ return !b.archived; })), i=L.findIndex(function(b){ return String(b.id)===String(id); }), j=i+dir;
+  if(i<0||j<0||j>=L.length) return;
+  var t=L[i]; L[i]=L[j]; L[j]=t;
+  L.forEach(function(b,k){ b.sort=k*10; });
+  toast('جاري حفظ الترتيب...');
+  for(var k=0;k<L.length;k++){ await sb.from('books').update({sort:L[k].sort}).eq('id',L[k].id); }
+  invalidateCache(); toast('تم حفظ ترتيب الكتب ✓'); renderBooksSorted();
+}
+function renderBooksSorted(){
+  var q=(v('bk-q')||'').trim().toLowerCase(), mode=v('bk-sort')||'site';
+  var data=_booksAll.filter(function(b){ return !q || (String(b.title||'')+' '+String(b.author||'')+' '+String(b.genre||'')).toLowerCase().indexOf(q)>-1; });
+  data = mode==='site' ? bookSiteOrder(data) : waraqSortBy(data, mode, {
+    title:function(a,b){ return String(a.title||'').localeCompare(String(b.title||''),'ar'); },
+    author:function(a,b){ return String(a.author||'').localeCompare(String(b.author||''),'ar'); },
+    genre:function(a,b){ return String(a.genre||'').localeCompare(String(b.genre||''),'ar'); }
+  });
+  var hint=document.getElementById('bk-order-hint'); if(hint) hint.style.display = mode==='site' && !q ? '' : 'none';
   var el=document.getElementById('books-list');
   if(!(data && data.length)){el.innerHTML='<div class="empty">لا توجد كتب — أضيفي كتاباً</div>';return;}
   el.innerHTML='';data.forEach(function(b){var d=document.createElement('div');d.className='irow';
     var archBtn=b.archived
       ?'<button class="bsm t" onclick="unarchiveBook(\''+b.id+'\')">إعادة عرض</button>'
       :'<button class="bsm" style="background:#888" onclick="archiveBook(\''+b.id+'\')">أرشفة</button>';
-    d.innerHTML='<div class="icolor" style="background:'+(b.color||'#1A7A7A')+';">'+escH((b.genre||'').slice(0,4))+'</div><div class="iinfo"><div class="ititle">'+escH(b.title)+(b.archived?' <span style="font-size:10px;color:#888;">(مؤرشف)</span>':'')+'</div><div class="imeta">'+escH(b.author||'')+' · '+escH(b.genre||'')+'</div></div><div class="iacts"><button class="bsm" style="background:var(--teal);color:#fff;" onclick="editBook(\''+b.id+'\')">تعديل</button>'+archBtn+'<button class="bsm r" onclick="delBook(\''+b.id+'\')">حذف</button></div>';
+    var mv=(v('bk-sort')||'site')==='site' && !v('bk-q') && !b.archived ? '<button class="bsm g" onclick="bookMove(\''+b.id+'\',-1)" title="أعلى">▲</button><button class="bsm g" onclick="bookMove(\''+b.id+'\',1)" title="أسفل">▼</button>' : '';
+    d.innerHTML='<div class="icolor" style="background:'+(b.color||'#1A7A7A')+';">'+escH((b.genre||'').slice(0,4))+'</div><div class="iinfo"><div class="ititle">'+escH(b.title)+(b.archived?' <span style="font-size:10px;color:#888;">(مؤرشف)</span>':'')+'</div><div class="imeta">'+escH(b.author||'')+' · '+escH(b.genre||'')+'</div></div><div class="iacts">'+mv+'<button class="bsm" style="background:var(--teal);color:#fff;" onclick="editBook(\''+b.id+'\')">تعديل</button>'+archBtn+'<button class="bsm r" onclick="delBook(\''+b.id+'\')">حذف</button></div>';
     el.appendChild(d);});
 }
 async function addBook(){
@@ -1658,7 +1729,10 @@ async function saveDesign(){
   toast('تم حفظ التصميم!');
 }
 async function saveSocial(){
-  await sb.from('settings').upsert({key:'social',value:{ig:v('s-ig'),tt:v('s-tt'),store:v('s-store'),wa:v('s-wa'),email:v('s-email'),brevo:v('s-brevo')}});
+  socRead();
+  var pick=function(t){ var x=_soc.filter(function(y){return y.type===t && y.url;})[0]; return x?x.url:''; };
+  await sb.from('settings').upsert({key:'social_links',value:_soc.filter(function(x){return x.url;})});
+  await sb.from('settings').upsert({key:'social',value:{ig:pick('instagram'),tt:pick('tiktok'),store:pick('store'),wa:v('s-wa'),email:v('s-email'),brevo:v('s-brevo')}});
   _settingsCache=null;
   toast('تم حفظ الروابط!');
 }
@@ -1723,6 +1797,19 @@ async function loadComments(){
   var AT = {}, BT = {};
   (ra.data||[]).forEach(function(x){ AT[String(x.id)] = x; });
   (rb.data||[]).forEach(function(x){ BT[String(x.id)] = x; });
+  _cmtAll=data; _cmtAT=AT; _cmtBT=BT; renderCommentsSorted();
+}
+var _cmtAll=[], _cmtAT={}, _cmtBT={};
+function renderCommentsSorted(){
+  var el=document.getElementById('comments-list'); if(!el) return;
+  var AT=_cmtAT, BT=_cmtBT, q=(v('cmt-q')||'').trim().toLowerCase(), mode=v('cmt-sort')||'new';
+  var itemTitle=function(c){ var r=String(c.article_id||''); var it=r.indexOf('book_')===0?BT[r.slice(5)]:AT[r]; return it?String(it.title||''):''; };
+  var data=_cmtAll.filter(function(c){ return !q || (String(c.name||'')+' '+String(c.body||'')+' '+itemTitle(c)).toLowerCase().indexOf(q)>-1; });
+  data=waraqSortBy(data, mode, {
+    item:function(a,b){ return itemTitle(a).localeCompare(itemTitle(b),'ar') || String(b.created_at||'').localeCompare(String(a.created_at||'')); },
+    name:function(a,b){ return String(a.name||'').localeCompare(String(b.name||''),'ar'); }
+  });
+  if(!data.length){ el.innerHTML='<div class="empty">لا توجد تعليقات مطابقة</div>'; return; }
   el.innerHTML='';
   data.forEach(function(c){
     var d=document.createElement('div');
@@ -2245,6 +2332,41 @@ async function layDelete(k){
   layRender(); await saveLayout();
 }
 
+
+// ══ حسابات التواصل (الشريط العلوي + الفوتر) ══
+var SOC_TYPES={instagram:'Instagram',tiktok:'TikTok',x:'X (تويتر)',snapchat:'Snapchat',youtube:'YouTube',whatsapp:'WhatsApp',telegram:'Telegram',linkedin:'LinkedIn',facebook:'Facebook',threads:'Threads',store:'المتجر',website:'موقع إلكتروني',custom:'رابط آخر'};
+var SOC_LABEL={instagram:'Instagram',tiktok:'TikTok',x:'X',snapchat:'Snapchat',youtube:'YouTube',whatsapp:'WhatsApp',telegram:'Telegram',linkedin:'LinkedIn',facebook:'Facebook',threads:'Threads',store:'المتجر',website:'الموقع',custom:''};
+var _soc=[];
+function socLoad(s){
+  if(Array.isArray(s.social_links)) _soc=JSON.parse(JSON.stringify(s.social_links));
+  else { var so=s.social||{}; _soc=[]; if(so.ig)_soc.push({type:'instagram',label:'Instagram',url:so.ig}); if(so.tt)_soc.push({type:'tiktok',label:'TikTok',url:so.tt}); if(so.store)_soc.push({type:'store',label:'المتجر',url:so.store}); }
+  var sel=document.getElementById('soc-add-type'); if(sel && !sel.options.length) sel.innerHTML=Object.keys(SOC_TYPES).map(function(k){return '<option value="'+k+'">'+SOC_TYPES[k]+'</option>';}).join('');
+  socRender();
+}
+function socRead(){
+  document.querySelectorAll('#soc-list [data-si]').forEach(function(f){ var x=_soc[+f.getAttribute('data-si')]; if(!x)return; var k=f.getAttribute('data-sk'); x[k]= f.type==='checkbox' ? f.checked : f.value.trim(); });
+}
+function socRender(){
+  var el=document.getElementById('soc-list'); if(!el)return;
+  if(!_soc.length){ el.innerHTML='<div class="empty" style="padding:16px;">لا توجد حسابات — أضيفي من الأسفل</div>'; return; }
+  el.innerHTML=_soc.map(function(x,i){
+    var chk=function(k,l){ return '<label style="display:flex;gap:4px;align-items:center;font-size:12px;cursor:pointer;"><input type="checkbox" data-si="'+i+'" data-sk="'+k+'"'+(x[k]!==false?' checked':'')+'>'+l+'</label>'; };
+    return '<div class="soc-row"><div class="soc-top"><select data-si="'+i+'" data-sk="type" style="width:auto;">'+Object.keys(SOC_TYPES).map(function(k){return '<option value="'+k+'"'+(x.type===k?' selected':'')+'>'+SOC_TYPES[k]+'</option>';}).join('')+'</select>'
+      +'<input type="text" data-si="'+i+'" data-sk="label" value="'+escH(x.label||'')+'" placeholder="الاسم الظاهر" style="flex:1;min-width:110px;">'
+      +'<button type="button" class="bsm g" data-sa="up"'+(i?'':' disabled')+'>▲</button><button type="button" class="bsm g" data-sa="down"'+(i<_soc.length-1?'':' disabled')+'>▼</button><button type="button" class="bsm r" data-sa="del">حذف</button></div>'
+      +'<input type="url" data-si="'+i+'" data-sk="url" value="'+escH(x.url||'')+'" placeholder="https://..." style="direction:ltr;text-align:left;margin:6px 0;">'
+      +'<div style="display:flex;gap:14px;flex-wrap:wrap;color:var(--mid);">يظهر في: '+chk('top','الشريط العلوي')+chk('footer','«تواصل معنا»')+chk('bottom','أزرار أسفل الفوتر')+'</div></div>';
+  }).join('');
+  el.querySelectorAll('.soc-row').forEach(function(r,i){
+    r.querySelector('select[data-sk=type]').addEventListener('change',function(){ socRead(); var x=_soc[i], old=SOC_LABEL[x._t||'']; if(!x.label || x.label===old || Object.keys(SOC_LABEL).some(function(k){return SOC_LABEL[k]===x.label;})) x.label=SOC_LABEL[this.value]||x.label; x._t=this.value; socRender(); });
+    r.querySelectorAll('[data-sa]').forEach(function(b){ b.addEventListener('click',function(){ socRead(); var a=b.getAttribute('data-sa');
+      if(a==='del'){ if(!confirm('حذف هذا الحساب؟'))return; _soc.splice(i,1); }
+      else { var j=a==='up'?i-1:i+1; var t=_soc[i]; _soc[i]=_soc[j]; _soc[j]=t; }
+      socRender(); }); });
+  });
+}
+function socAdd(){ socRead(); var t=v('soc-add-type')||'custom'; _soc.push({type:t,label:SOC_LABEL[t]||'',url:'',top:true,footer:true,bottom:true}); socRender(); var ins=document.querySelectorAll('#soc-list input[data-sk=url]'); if(ins.length) ins[ins.length-1].focus(); toast('أُضيف — اكتبي الرابط ثم «حفظ»'); }
+
 // ══ الصفحات ══
 var _pages = [], _pgCur = -1;
 async function pgLoad(){
@@ -2746,10 +2868,16 @@ function attachUpload(id, max){
 
 // ── رفع ملفات PDF من الجهاز (تُقسَّم وتُحفظ في قاعدة البيانات) ──
 function bytesToB64(u8){ var s='', step=0x8000; for(var i=0;i<u8.length;i+=step){ s+=String.fromCharCode.apply(null, u8.subarray(i,i+step)); } return btoa(s); }
+function waraqClean(html){
+  if (typeof DOMPurify !== 'undefined') return DOMPurify.sanitize(String(html||''), { FORBID_TAGS:['style','form','input','button'] });
+  var d=document.createElement('div'); d.textContent=String(html||'').replace(/<[^>]*>/g,' '); return d.innerHTML;
+}
 async function uploadPdfFile(file, onProgress){
   if(!file || !(/pdf/i.test(file.type) || /\.pdf$/i.test(file.name))){ toast('اختاري ملف PDF'); return null; }
   if(file.size > 45*1024*1024){ toast('الملف أكبر من 45 ميجا — صغّريه أولاً'); return null; }
-  var buf=new Uint8Array(await file.arrayBuffer()), CH=700*1024, parts=Math.ceil(buf.length/CH), id='f'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  var buf=new Uint8Array(await file.arrayBuffer());
+  if(!(buf[0]===0x25&&buf[1]===0x50&&buf[2]===0x44&&buf[3]===0x46)){ toast('هذا الملف ليس PDF حقيقياً'); return null; }
+  var CH=700*1024, parts=Math.ceil(buf.length/CH), id='f'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
   // رفع عدة أجزاء في نفس الوقت بدل جزء جزء (أسرع بكثير)
   var next=0, done=0, failed=null, WORKERS=Math.min(6, parts);
   async function worker(){
@@ -2888,7 +3016,23 @@ async function mediaUpload(input){ var ref=await cbUploadFile(input.files&&input
 function wrapHistory(client){
   var orig=client.from.bind(client);
   client.from=function(t){
-    var q=orig(t); if(t!=='settings') return q;
+    var q=orig(t);
+    if(t==='articles' || t==='books'){
+      // قبل تعديل أو حذف مقالة/كتاب: تُحفظ نسخته السابقة في السجل لاسترجاعها
+      var then0=q.then.bind(q);
+      q.then=function(res, rej){
+        if(q.mode!=='update' && q.mode!=='delete') return then0(res, rej);
+        var snap=orig(t).select('*'); snap.f=(q.f||[]).slice();
+        return Promise.resolve(snap).then(function(r){
+          var rows=(r&&r.data)||[];
+          return Promise.all(rows.map(function(row){
+            return Promise.resolve(orig('history').insert({key:t+':'+row.id, kind:t, action:q.mode, item_id:String(row.id), title:String(row.title||''), value:row, at:new Date().toISOString(), by:(me&&me.email)||''})).catch(function(){});
+          }));
+        }).catch(function(){}).then(function(){ return then0(res, rej); });
+      };
+      return q;
+    }
+    if(t!=='settings') return q;
     var up=q.upsert.bind(q);
     q.upsert=function(row){
       var key=row&&row.key;
@@ -2904,16 +3048,45 @@ function wrapHistory(client){
     return q;
   };
 }
-var HIST_NAMES={design:'الألوان والخطوط',layout:'أقسام الصفحة الرئيسية',ui:'الأزرار والقائمة',blocks:'الأقسام المخصصة',pages:'الصفحات',general:'معلومات المجلة',issue:'الخبر الرئيسي',ticker:'شريط الأخبار',side_items:'جديد المركز',social:'روابط التواصل',banner:'البانر',month_pick:'توصية الشهر',archive:'الأرشيف',hero_rotation:'تبديل الغلاف',authors:'الكتّاب',sections_order:'ترتيب الأقسام (قديم)'};
+var HIST_NAMES={social_links:'حسابات التواصل',social:'روابط التواصل',design:'الألوان والخطوط',layout:'أقسام الصفحة الرئيسية',ui:'الأزرار والقائمة',blocks:'الأقسام المخصصة',pages:'الصفحات',general:'معلومات المجلة',issue:'الخبر الرئيسي',ticker:'شريط الأخبار',side_items:'جديد المركز',social:'روابط التواصل',banner:'البانر',month_pick:'توصية الشهر',archive:'الأرشيف',hero_rotation:'تبديل الغلاف',authors:'الكتّاب',sections_order:'ترتيب الأقسام (قديم)'};
 async function loadHistory(){
   var el=document.getElementById('history-list'); if(!el)return;
   el.innerHTML='<div class="empty">جاري التحميل...</div>';
-  var r=await sb.from('history').select('*').order('at',{ascending:false}).limit(100);
+  var r=await sb.from('history').select('*').order('at',{ascending:false}).limit(300);
   if(r.error){ el.innerHTML='<div class="empty">تعذر التحميل — تأكدي من نشر قواعد الحماية الجديدة.</div>'; return; }
   var rows=r.data||[];
   if(!rows.length){ el.innerHTML='<div class="empty">لا توجد تعديلات مسجلة بعد — يبدأ التسجيل من أول حفظ.</div>'; return; }
   el.innerHTML='';
-  rows.forEach(function(h){ var d=document.createElement('div'); d.className='irow'; d.innerHTML='<div class="iinfo"><div class="ititle">'+escH(HIST_NAMES[h.key]||h.key)+'</div><div class="imeta">النسخة قبل تعديل '+new Date(h.at).toLocaleString('ar-SA')+(h.by?' · '+escH(h.by):'')+'</div></div><div class="iacts"><button class="bsm t">استرجاع</button></div>'; d.querySelector('button').onclick=async function(){ if(!confirm('استرجاع «'+(HIST_NAMES[h.key]||h.key)+'» كما كان قبل '+new Date(h.at).toLocaleString('ar-SA')+'؟\nالنسخة الحالية تُحفظ في السجل أيضاً.'))return; var rr=await sb.from('settings').upsert({key:h.key, value:h.value}); if(rr.error){toast('خطأ في الاسترجاع');return;} invalidateCache(); toast('تم الاسترجاع ✓'); loadHistory(); }; el.appendChild(d); });
+  var hf=v('hist-flt')||'all';
+  rows=rows.filter(function(h){ return hf==='all' || (hf==='settings' ? !h.kind : h.kind===hf); });
+  if(!rows.length){ el.innerHTML='<div class="empty">لا توجد عناصر في هذا القسم</div>'; return; }
+  rows.forEach(function(h){
+    var d=document.createElement('div'); d.className='irow';
+    var when=new Date(h.at).toLocaleString('ar-SA'), name, sub, tag='';
+    if(h.kind==='articles' || h.kind==='books'){
+      var noun=h.kind==='articles'?'مقالة':'كتاب', icon=h.kind==='articles'?'📰':'📚';
+      name=icon+' '+(h.action==='delete'?'حذف '+noun:'تعديل '+noun)+': «'+escH(h.title||'')+'»';
+      sub=(h.action==='delete'?'النسخة المحذوفة':'النسخة قبل التعديل')+' · '+when+(h.by?' · '+escH(h.by):'');
+      tag='<span class="spill '+(h.action==='delete'?'sp-rej':'sp-pend')+'">'+(h.action==='delete'?'محذوف':'معدّل')+'</span>';
+    } else {
+      name=escH(HIST_NAMES[h.key]||h.key); sub='النسخة قبل تعديل '+when+(h.by?' · '+escH(h.by):'');
+    }
+    d.innerHTML=tag+'<div class="iinfo"><div class="ititle">'+name+'</div><div class="imeta">'+sub+'</div></div><div class="iacts"><button class="bsm t">استرجاع</button></div>';
+    d.querySelector('button').onclick=async function(){
+      if(h.kind==='articles' || h.kind==='books'){
+        if(!confirm('استرجاع «'+(h.title||'')+'» كما كان في '+when+'؟'+(h.action==='delete'?'\n(سيعود للموقع بنفس بياناته)':'\nالنسخة الحالية تُحفظ في السجل أيضاً.')))return;
+        var cur=await sb.from(h.kind).select('*').eq('id',h.item_id).maybeSingle();
+        if(cur.data){ await sb.from('history').insert({key:h.kind+':'+h.item_id, kind:h.kind, action:'update', item_id:h.item_id, title:String(cur.data.title||''), value:cur.data, at:new Date().toISOString(), by:(me&&me.email)||''}); }
+        var rr=await sb.from(h.kind).upsert(h.value);
+        if(rr.error){toast('خطأ في الاسترجاع: '+rr.error.message);return;}
+        invalidateCache(); toast('تم الاسترجاع ✓'); loadHistory(); if(h.kind==='articles'){ loadArts(); loadDash(); } else loadBooks();
+        return;
+      }
+      if(!confirm('استرجاع «'+(HIST_NAMES[h.key]||h.key)+'» كما كان قبل '+when+'؟\nالنسخة الحالية تُحفظ في السجل أيضاً.'))return;
+      var r2=await sb.from('settings').upsert({key:h.key, value:h.value}); if(r2.error){toast('خطأ في الاسترجاع');return;} invalidateCache(); toast('تم الاسترجاع ✓'); loadHistory();
+    };
+    el.appendChild(d);
+  });
 }
 
 // ── النسخ الاحتياطي ──
@@ -3189,7 +3362,7 @@ function initQuillEdit(){
 var _origGoSecQ=goSec;
 goSec=function(name,el){_origGoSecQ(name,el);if(name==='add-art')setTimeout(initQuillAdd,150);};
 var _origEditArtQ=editArt;
-editArt=async function(id){await _origEditArtQ(id);setTimeout(function(){initQuillEdit();var ta=document.getElementById('ea-body');if(_quillEdit&&ta)_quillEdit.root.innerHTML=ta.value||'';},250);};
+editArt=async function(id){await _origEditArtQ(id);setTimeout(function(){initQuillEdit();var ta=document.getElementById('ea-body');if(_quillEdit&&ta)_quillEdit.root.innerHTML=waraqClean(ta.value||'');},250);};
 var _origClearQ=clearArtForm;
 clearArtForm=function(){_origClearQ();if(_quillAdd)_quillAdd.setText('');};
 

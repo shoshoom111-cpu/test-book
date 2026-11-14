@@ -1,2 +1,3 @@
-const SUPABASE_URL = 'https://pmtraqaflqxmznfoszps.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdHJhcWFmbHF4bXpuZm9zenBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MDkwNDIsImV4cCI6MjA5MjI4NTA0Mn0.5zG79jgtZcYAwDYGe7qzF6evgiPQrf-FMhK1u-YIPS4';
+// الموقع يعمل الآن على Firebase (انظري firebase-config.js). هذه القيم لم تعد تُستخدم لأي اتصال.
+const SUPABASE_URL = 'firebase';
+const SUPABASE_KEY = 'firebase';
