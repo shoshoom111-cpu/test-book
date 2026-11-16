@@ -59,7 +59,7 @@ function articleHTML(a) {
 ${httpImg(a.image) ? `<meta property="og:image" content="${esc(a.image)}">
 <meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">'}
 <link rel="canonical" href="https://waraq-adab.com/articles/${slug(a.title)}/">
-${jsonLd({ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.excerpt || '', author: { '@type': 'Person', name: a.author_name || 'وَرَق' }, datePublished: a.published_at || undefined, image: httpImg(a.image) || undefined, publisher: { '@type': 'Organization', name: 'مركز الأدب العربي' }, inLanguage: 'ar', mainEntityOfPage: `https://waraq-adab.com/articles/${slug(a.title)}/` })}
+${jsonLd({ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.excerpt || '', author: { '@type': 'Person', name: a.author_name || 'وَرَق' }, datePublished: a.published_at || undefined, image: httpImg(a.image) || undefined, publisher: { '@type': 'Organization', name: 'مجلة وَرَق' }, inLanguage: 'ar', mainEntityOfPage: `https://waraq-adab.com/articles/${slug(a.title)}/` })}
 <meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#art/${a.id}">
 <style>
 body{font-family:Cairo,sans-serif;direction:rtl;max-width:800px;margin:40px auto;padding:0 20px;color:#111;}
@@ -92,7 +92,7 @@ function bookHTML(b) {
 <meta property="og:url" content="https://waraq-adab.com/books/${slug(b.title)}/">
 <meta property="og:type" content="book">
 ${httpImg(b.image) ? `<meta property="og:image" content="${esc(b.image)}">` : ''}
-${jsonLd({ '@context': 'https://schema.org', '@type': 'Book', name: b.title, author: { '@type': 'Person', name: b.author || '' }, genre: b.genre || undefined, description: b.description || b.desc || '', image: httpImg(b.image) || undefined, publisher: { '@type': 'Organization', name: 'مركز الأدب العربي' }, inLanguage: 'ar', url: b.url || undefined })}
+${jsonLd({ '@context': 'https://schema.org', '@type': 'Book', name: b.title, author: { '@type': 'Person', name: b.author || '' }, genre: b.genre || undefined, description: b.description || b.desc || '', image: httpImg(b.image) || undefined, publisher: { '@type': 'Organization', name: 'مجلة وَرَق' }, inLanguage: 'ar', url: b.url || undefined })}
 <link rel="canonical" href="https://waraq-adab.com/books/${slug(b.title)}/">
 <meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#book/${b.id}">
 <style>
