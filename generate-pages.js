@@ -114,8 +114,7 @@ a{color:#1A7A7A;}
 
 async function generate() {
   const urls = ['<url><loc>https://waraq-adab.com/</loc></url>'];
-  // remove old generated pages so hidden/archived/deleted items disappear from the site and the sitemap
-  ['articles', 'books', 'pages'].forEach((d) => { if (fs.existsSync(d)) fs.rmSync(d, { recursive: true, force: true }); });
+  // existing pages are kept: nothing is deleted, pages are only created or updated
 
   // مقالات
   const now = new Date();
