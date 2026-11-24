@@ -71,9 +71,10 @@ window.WARAQ_DATA = {
    "title": "الإيجـــــابية الســــــامـة!",
    "author_name": "حلا عمر",
    "category": "مقالات أدبية",
-   "published_at": "2026-07-14T23:08:51.469+00:00",
+   "published_at": "2026-07-14T23:08:00.000Z",
    "excerpt": "هل سبق لك أن تعرضت للأمل الكاذب؟",
    "body": "<p><span style=\"color: rgba(42,42,42,var(--O42jJQ,1));\">هل سبق لك أن تعرضت للأمل الكاذب؟</span></p><p><span style=\"color: rgba(42,42,42,var(--O42jJQ,1));\">عندما تعصف بك الحياة نحو مشاكل وصعوبات، وتجد أمامك على مواقع التواصل الاجتماعي مثلاً \" عبارات التحفيز\"، تكتشف أنها ليست عبارات طبيعية عن الأمل والتفاؤل والتشجيع بأن كل شيء سوف يتخذ مجراه الطبيعي لاحقا بدون شك. هذا هو الأمل الكاذب لإنسان يعيش داخل قوقعة من الطاقة السلبية يجد تلك العبارات مثل \" كن متفائلاً\"\" كن قوياً\"\" الحياة سوف تستمر\". لا يعلم أحد عن الشعور القاسي الذي يجتاح الشخص الذي يتعرض بشكل متكرر إلى هذا النوع من الأمل الكاذب؛ إنه يريد الواقعية، لا يريد أملاً مزيفاً ومؤقتاً، بل يحتاج أن تخبره بالحقيقة، لا يحتاج مواساة، يحتاج أن يتكلم ويعبر، لا أن تختم المحادثة بأن \" كل شيء سوف يكون على ما يرام في وقت ما\"، إنها ليست مواساة لقلب متعب، وجسد منهك. إنه وهم… أنت تبيع الوهم! كم منا ظهرت له تلك الحسابات التي تقول ذلك الكلام الفارغ \" إنه إشارة\"، يتخذون من أي شيء عشوائي \" إشارة كونية\"، ويقنعونك بتلك الأوهام التي لا تنتج أيّ شيء سوى التأمل الفارغ ثم الأسى الذي يصاحبه. أرجوك يا إنسان… فكر وتفكر قبل أن تتخذ من هذه الحسابات والعبارات جزءاً من عملك. وأنت أيها الإنسان الآخر المنهك… قم بحذف كل ما يوصلك إلى تلك الحسابات التي تبيع لك\" الإيجابية السامة\".</span></p>",
+   "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuLSuqj3J1l9nFJ55p2pbplId1PgHp5YJ5TFrHHX9psQdA39H3Eej3wK4H&s=10",
    "status": "published"
   },
   {
@@ -395,7 +396,7 @@ window.WARAQ_DATA = {
   {
    "id": "c0fb2f20-54ae-4e1c-85d6-22d7eae04863",
    "title": "ديوان الشيخ ناصر بن سالم الضبّي القريني",
-   "author": "#f5c842",
+   "author": "ناصر بن سالم الضبّي القريني",
    "genre": "شعر",
    "stars": "★★★★★",
    "description": "ليس ديوانًا تقليديًا، بل عمل استثنائي صيغ بحكمة الشاعر ودقة الباحث، يجمع بين القصائد المتنوعة والملاحم الوطنية مع البحث التاريخي المعمّق في نسب قبيلة بني ضبّة مستندًا إلى أمهات كتب الأنساب لكبار المؤرخين ومن أبرزهم ابن حزم وحمد الجاسر، ",
@@ -448,7 +449,7 @@ window.WARAQ_DATA = {
    "id": "8e906762-1d02-4338-81e1-4cb8a04d781f",
    "title": "قيد التحقيق",
    "author": "خالد السبيعي",
-   "genre": "رواية",
+   "genre": "تحقيق",
    "stars": "★★★★★",
    "description": "رواية تدور أحداثها في كواليس مهنة المحاماة، حيث يمثل كل فصل ”قضية شائكة” يخوض المحامي غمارها. الرواية لا تكتفي بسرد الوقائع، بل تغوص في الجانب النفسي والإنساني",
    "quote": "‏لم تكن مهمتي يومًا مجرد وقوف خلف منصات القضاء، بل كانت رحلة في أعماق النفس البشرية حيث تتلاطم أمواج الظلم بشواطئ الأمل.",
@@ -463,35 +464,35 @@ window.WARAQ_DATA = {
    "key": "archive",
    "value": [
     {
-     "num": "الخامس",
-     "pdf": "https://pmtraqaflqxmznfoszps.supabase.co/storage/v1/object/public/issues/waraq-issue-5.pdf",
      "date": "سبتمبر ٢٠٢٦",
+     "num": "الخامس",
+     "pdf": "file:fmwdn7m8wzh0",
      "color": "#26215C"
     },
     {
-     "num": "الرابع",
-     "pdf": "https://pmtraqaflqxmznfoszps.supabase.co/storage/v1/object/public/issues/waraq-issue-4.pdf",
+     "pdf": "file:fmwfa8ipubxe",
      "date": "أغسطس ٢٠٢٦",
-     "color": "#633806"
+     "color": "#633806",
+     "num": "الرابع"
     },
     {
-     "num": "الثالث",
-     "pdf": "https://pmtraqaflqxmznfoszps.supabase.co/storage/v1/object/public/issues/waraq-issue-3.pdf",
      "date": "يوليو ٢٠٢٦",
-     "color": "#C94B1E",
-     "publish_at": null
+     "pdf": "file:fmwfabmob16l",
+     "publish_at": null,
+     "num": "الثالث",
+     "color": "#C94B1E"
     },
     {
-     "num": "الثاني",
-     "pdf": "https://pmtraqaflqxmznfoszps.supabase.co/storage/v1/object/public/issues/waraq-issue-2.pdf",
+     "pdf": "file:fmwfavfb9f2d",
      "date": "يونيو ٢٠٢٦",
-     "color": "#26215C"
+     "color": "#26215C",
+     "num": "الثاني"
     },
     {
      "num": "الأول",
-     "pdf": "https://pmtraqaflqxmznfoszps.supabase.co/storage/v1/object/public/issues/waraq-issues.pdf",
      "date": "مايو ٢٠٢٦",
-     "color": "#1A7A7A"
+     "color": "#1A7A7A",
+     "pdf": "file:fmwfaxjhd0wf"
     }
    ]
   },
@@ -513,21 +514,7 @@ window.WARAQ_DATA = {
   },
   {
    "key": "blocks",
-   "value": [
-    {
-     "id": "mwc86itq963v",
-     "type": "text",
-     "title": "اهلا",
-     "text": "دزذز\nزززد",
-     "image": "",
-     "btn_label": "",
-     "btn_url": "",
-     "style": "paper",
-     "align": "start",
-     "width": "wide",
-     "image_side": "start"
-    }
-   ]
+   "value": []
   },
   {
    "key": "design",
@@ -573,15 +560,49 @@ window.WARAQ_DATA = {
    }
   },
   {
+   "key": "header_btn",
+   "value": {
+    "enabled": true,
+    "label": "وكالة رحلة ورق",
+    "style": "filled",
+    "type": "url",
+    "target": "",
+    "url": "https://waraq-agency.com",
+    "new_tab": true
+   }
+  },
+  {
+   "key": "hero_rotation",
+   "value": {
+    "enabled": false,
+    "book_ids": [
+     "260866ed-9bd9-40f0-a120-45e9b436d527",
+     "2b4eeeab-27ee-48e1-84e2-f321b378581d",
+     "380ad02b-8d6a-4e54-a756-f7d8aa8f7fd4",
+     "5a86d913-a73a-42cc-9bd9-c884b8be4ad7",
+     "88b85c2b-5201-4483-abfd-240433a4b106",
+     "8e906762-1d02-4338-81e1-4cb8a04d781f",
+     "9d965168-d827-4065-a62f-4946b347539c",
+     "c0fb2f20-54ae-4e1c-85d6-22d7eae04863",
+     "c638f6b4-6fed-4541-9316-7cb2e94ecec1",
+     "e3872986-3acb-4250-8502-018f139deec5"
+    ],
+    "interval": 7,
+    "btn_label": ""
+   }
+  },
+  {
    "key": "issue",
    "value": {
     "num": "الخامس",
     "date": "سبتمبر 2026",
-    "hero_title": "فتح وكالة ورق",
+    "hero_title": "إفتتاح وكالة ورق",
     "hero_body": "اااااا",
     "hero_badge": "إعلان",
-    "hero_by": "شروق ",
-    "quote": "أن تضيء شمعة صغيرة خير لك من أن تنفق عمرك تلعن الظلام"
+    "hero_by": "شروق الجدعاني",
+    "quote": "أن تضيء شمعة صغيرة خير لك من أن تنفق عمرك تلعن الظلام",
+    "hero_btn_label": "",
+    "hero_btn_link": ""
    }
   },
   {
@@ -596,12 +617,9 @@ window.WARAQ_DATA = {
      "news",
      "archive",
      "monthpick",
-     "block-mwc86itq963v",
      "newsletter"
     ],
-    "hidden": [
-     "block-mwc86itq963v"
-    ],
+    "hidden": [],
     "titles": {
      "mostread": "الأكثر قراءة",
      "books": "أحدث الكتب العربية",
@@ -610,7 +628,7 @@ window.WARAQ_DATA = {
      "archive": "أرشيف الأعداد"
     },
     "counts": {
-     "mostread": 5,
+     "mostread": 3,
      "books": 4,
      "articles": 4,
      "news": 4,
@@ -663,9 +681,14 @@ window.WARAQ_DATA = {
    }
   },
   {
+   "key": "social_links",
+   "value": []
+  },
+  {
    "key": "ticker",
    "value": [
-    "إصدار العدد الخامس من مجلة وَرَق"
+    "موقع مجلة وَرَق بحلة جديدة",
+    "إستقلال مجلة وَرَق "
    ]
   },
   {

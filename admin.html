@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com https://cdn.quilljs.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.quilljs.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' blob: data: https://*.googleapis.com https://www.gstatic.com https://cdnjs.cloudflare.com https://test-book-2eb74.firebaseapp.com; frame-src 'self' https://test-book-2eb74.firebaseapp.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com https://cdn.quilljs.com https://cdn.jsdelivr.net https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.quilljs.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' blob: data: https://*.googleapis.com https://www.gstatic.com https://cdnjs.cloudflare.com https://test-book-2eb74.firebaseapp.com; frame-src 'self' https://test-book-2eb74.firebaseapp.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <style id="anti-frame">html{display:none!important}</style>
 <script>(function(){var ok=false;try{ok=(window.top===window.self)||(window.top.location.origin===location.origin);}catch(e){ok=false;}if(ok){var s=document.getElementById("anti-frame");if(s)s.parentNode.removeChild(s);}else{try{window.top.location=location.href;}catch(e){}}})();</script>
@@ -541,7 +542,7 @@ input[type=color]{border-radius:2px;}
           <div class="lp-body">
             <div class="lp-masthead">
               <div class="lp-meta" id="lpv-meta">العدد الأول<br>أبريل ٢٠٢٥<br>مجانية</div>
-              <div style="text-align:center;"><div class="lp-logo" id="lpv-name">وَرَق</div><div class="lp-tag" id="lpv-tag">جريدة وَرَق الشهرية</div></div>
+              <div style="text-align:center;"><div class="lp-logo" id="lpv-name">وَرَق</div><div class="lp-tag" id="lpv-tag">مجلة وَرَق الشهرية</div></div>
               <div class="lp-meta right">رقمية<br>شهرية<br>مجانية</div>
             </div>
             <div class="lp-ticker" id="lpv-ticker">◄ كتاب الشهر: خوف — أسامة المسلم &nbsp;◄ إصدارات جديدة من المركز</div>
@@ -577,7 +578,7 @@ input[type=color]{border-radius:2px;}
           <div class="card-body">
             <div class="two">
               <div class="fg"><label>اسم الجريدة</label><input type="text" id="s-name" value="وَرَق" oninput="syncPv()"></div>
-              <div class="fg"><label>الشعار التفصيلي</label><input type="text" id="s-tag" value="جريدة وَرَق الشهرية" oninput="syncPv()"></div>
+              <div class="fg"><label>الشعار التفصيلي</label><input type="text" id="s-tag" value="مجلة وَرَق الشهرية للنشر والتوزيع" oninput="syncPv()"></div>
               <div class="fg"><label>رقم العدد</label><input type="text" id="s-inum" value="الأول" oninput="syncPv()"></div>
               <div class="fg"><label>الشهر والسنة</label><input type="text" id="s-idate" value="أبريل ٢٠٢٥" oninput="syncPv()"></div>
             </div>
@@ -591,7 +592,7 @@ input[type=color]{border-radius:2px;}
           <div class="card-body">
             <div class="two">
               <div class="fg"><label>شارة الخبر</label><input type="text" id="s-hbadge" value="كتاب الشهر" oninput="syncHero()"></div>
-              <div class="fg"><label>كاتب الخبر</label><input type="text" id="s-hby" value="فريق التحرير · مجلة وَرَق"></div>
+              <div class="fg"><label>كاتب الخبر</label><input type="text" id="s-hby" value="فريق تحرير مجلة وَرَق"></div>
             </div>
             <div class="fg"><label>عنوان الخبر الرئيسي</label><input type="text" id="s-htitle" value='رواية "خوف" لأسامة المسلم تعيد رسم حدود الأدب العربي المعاصر' oninput="syncHero()"></div>
             <div class="fg"><label>نص الخبر</label><textarea id="s-hbody" rows="4" oninput="syncHero()">في روايته الجديدة يأخذنا أسامة المسلم إلى عوالم مظلمة لم يألفها القارئ العربي من قبل، ليثبت أن الأدب العربي قادر على منافسة أعتى روايات الرعب عالمياً.</textarea></div>
@@ -667,7 +668,7 @@ input[type=color]{border-radius:2px;}
           <div class="card-body">
             <div class="fg"><label>عنوان الاشتراك</label><input type="text" id="s-nltitle" value="اشترك في وَرَق مجاناً"></div>
             <div class="fg"><label>وصف الاشتراك</label><input type="text" id="s-nldesc" value="احصل على كل عدد جديد مباشرة في بريدك الإلكتروني"></div>
-            <div class="fg"><label>وصف الجريدة في الفوتر</label><input type="text" id="s-ftag" value="جريدة وَرَق — شهرية · رقمية · مجانية"></div>
+            <div class="fg"><label>وصف الجريدة في الفوتر</label><input type="text" id="s-ftag" value="مجلة وَرَق — شهرية · رقمية · مجانية"></div>
             <div class="fg"><label>نص حقوق النشر</label><input type="text" id="s-fcopy" value="© ٢٠٢٥ مجلة وَرَق — جميع الحقوق محفوظة"></div>
           </div>
         </div>
@@ -965,7 +966,7 @@ input[type=color]{border-radius:2px;}
             <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:8px;">④ الشعار النصي</div>
             <div class="two">
               <div class="fg"><label>اسم الجريدة <span style="font-weight:400;color:var(--mid);">(يظهر لو ما في صورة)</span></label><input type="text" id="s-sitename" value="وَرَق" oninput="document.getElementById('s-sitename-preview').textContent=this.value||'وَرَق'"></div>
-              <div class="fg"><label>وصف الجريدة</label><input type="text" id="s-sitetag" value="جريدة وَرَق الشهرية"></div>
+              <div class="fg"><label>وصف الجريدة</label><input type="text" id="s-sitetag" value="مجلة وَرَق الشهرية"></div>
             </div>
 
             <div style="height:1px;background:var(--border);margin:14px 0;"></div>
@@ -1209,7 +1210,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261114214343';
+var WARAQ_BUILD = '20261124131827';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){

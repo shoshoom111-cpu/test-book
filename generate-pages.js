@@ -54,13 +54,13 @@ function articleHTML(a) {
 <meta name="description" content="${(a.excerpt || a.body || '').slice(0, 160).replace(/"/g, '&quot;')}">
 <meta property="og:title" content="${a.title} | وَرَق">
 <meta property="og:description" content="${(a.excerpt || '').replace(/"/g, '&quot;')}">
-<meta property="og:url" content="https://waraq-adab.com/articles/${slug(a.title)}/">
+<meta property="og:url" content="https://waraqmagazine.com/articles/${slug(a.title)}/">
 <meta property="og:type" content="article">
 ${httpImg(a.image) ? `<meta property="og:image" content="${esc(a.image)}">
 <meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">'}
-<link rel="canonical" href="https://waraq-adab.com/articles/${slug(a.title)}/">
-${jsonLd({ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.excerpt || '', author: { '@type': 'Person', name: a.author_name || 'وَرَق' }, datePublished: a.published_at || undefined, image: httpImg(a.image) || undefined, publisher: { '@type': 'Organization', name: 'مجلة وَرَق' }, inLanguage: 'ar', mainEntityOfPage: `https://waraq-adab.com/articles/${slug(a.title)}/` })}
-<meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#art/${a.id}">
+<link rel="canonical" href="https://waraqmagazine.com/articles/${slug(a.title)}/">
+${jsonLd({ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.excerpt || '', author: { '@type': 'Person', name: a.author_name || 'وَرَق' }, datePublished: a.published_at || undefined, image: httpImg(a.image) || undefined, publisher: { '@type': 'Organization', name: 'مجلة وَرَق' }, inLanguage: 'ar', mainEntityOfPage: `https://waraqmagazine.com/articles/${slug(a.title)}/` })}
+<meta http-equiv="refresh" content="0; url=https://waraqmagazine.com/#art/${a.id}">
 <style>
 body{font-family:Cairo,sans-serif;direction:rtl;max-width:800px;margin:40px auto;padding:0 20px;color:#111;}
 h1{font-size:28px;margin-bottom:12px;}
@@ -74,7 +74,7 @@ a{color:#1A7A7A;}
 <div class="meta">${a.author_name || ''} · ${a.category || ''} · ${a.published_at ? new Date(a.published_at).toLocaleDateString('ar-SA') : ''}</div>
 <p>${(a.excerpt || '')}</p>
 <p>${(a.body || '').replace(/<[^>]*>/g, '').slice(0, 500)}...</p>
-<p><a href="https://waraq-adab.com/#art/${a.id}">اقرأ المقالة كاملة على وَرَق ←</a></p>
+<p><a href="https://waraqmagazine.com/#art/${a.id}">اقرأ المقالة كاملة على وَرَق ←</a></p>
 </body>
 </html>`;
 }
@@ -89,12 +89,12 @@ function bookHTML(b) {
 <meta name="description" content="${(b.description || b.desc || '').slice(0, 160).replace(/"/g, '&quot;')}">
 <meta property="og:title" content="${b.title} | وَرَق">
 <meta property="og:description" content="${(b.description || b.desc || '').replace(/"/g, '&quot;')}">
-<meta property="og:url" content="https://waraq-adab.com/books/${slug(b.title)}/">
+<meta property="og:url" content="https://waraqmagazine.com/books/${slug(b.title)}/">
 <meta property="og:type" content="book">
 ${httpImg(b.image) ? `<meta property="og:image" content="${esc(b.image)}">` : ''}
 ${jsonLd({ '@context': 'https://schema.org', '@type': 'Book', name: b.title, author: { '@type': 'Person', name: b.author || '' }, genre: b.genre || undefined, description: b.description || b.desc || '', image: httpImg(b.image) || undefined, publisher: { '@type': 'Organization', name: 'مجلة وَرَق' }, inLanguage: 'ar', url: b.url || undefined })}
-<link rel="canonical" href="https://waraq-adab.com/books/${slug(b.title)}/">
-<meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#book/${b.id}">
+<link rel="canonical" href="https://waraqmagazine.com/books/${slug(b.title)}/">
+<meta http-equiv="refresh" content="0; url=https://waraqmagazine.com/#book/${b.id}">
 <style>
 body{font-family:Cairo,sans-serif;direction:rtl;max-width:800px;margin:40px auto;padding:0 20px;color:#111;}
 h1{font-size:28px;margin-bottom:12px;}
@@ -107,13 +107,13 @@ a{color:#1A7A7A;}
 <h1>${b.title}</h1>
 <div class="meta">${b.author || ''} · ${b.genre || ''}</div>
 <p>${(b.description || b.desc || '')}</p>
-<p><a href="https://waraq-adab.com/#book/${b.id}">عرض الكتاب على وَرَق ←</a></p>
+<p><a href="https://waraqmagazine.com/#book/${b.id}">عرض الكتاب على وَرَق ←</a></p>
 </body>
 </html>`;
 }
 
 async function generate() {
-  const urls = ['<url><loc>https://waraq-adab.com/</loc></url>'];
+  const urls = ['<url><loc>https://waraqmagazine.com/</loc></url>'];
   // remove old generated pages so hidden/archived/deleted items disappear from the site and the sitemap
   ['articles', 'books', 'pages'].forEach((d) => { if (fs.existsSync(d)) fs.rmSync(d, { recursive: true, force: true }); });
 
@@ -128,7 +128,7 @@ async function generate() {
       const dir = path.join('articles', s);
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(path.join(dir, 'index.html'), articleHTML(a));
-      urls.push(`<url><loc>https://waraq-adab.com/articles/${s}/</loc><lastmod>${new Date().toISOString().slice(0,10)}</lastmod></url>`);
+      urls.push(`<url><loc>https://waraqmagazine.com/articles/${s}/</loc><lastmod>${new Date().toISOString().slice(0,10)}</lastmod></url>`);
     }
     console.log(`✓ ${arts.length} مقالة`);
   }
@@ -143,7 +143,7 @@ async function generate() {
       const dir = path.join('books', s);
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(path.join(dir, 'index.html'), bookHTML(b));
-      urls.push(`<url><loc>https://waraq-adab.com/books/${s}/</loc><lastmod>${new Date().toISOString().slice(0,10)}</lastmod></url>`);
+      urls.push(`<url><loc>https://waraqmagazine.com/books/${s}/</loc><lastmod>${new Date().toISOString().slice(0,10)}</lastmod></url>`);
     }
     console.log(`✓ ${books.length} كتاب`);
   }
@@ -154,8 +154,8 @@ async function generate() {
     if (!pg || !pg.id || pg.hidden) continue;
     const dir = path.join('pages', String(pg.id).replace(/[^a-z0-9_-]/gi, ''));
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'index.html'), `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(pg.title)} | وَرَق</title><meta name="description" content="${esc(pg.subtitle || pg.title)}"><meta property="og:title" content="${esc(pg.title)} | وَرَق"><link rel="canonical" href="https://waraq-adab.com/pages/${pg.id}/"><meta http-equiv="refresh" content="0; url=https://waraq-adab.com/#p-${pg.id}"></head><body><h1>${esc(pg.title)}</h1><p>${esc(pg.subtitle || '')}</p><p><a href="https://waraq-adab.com/#p-${pg.id}">افتح الصفحة على وَرَق</a></p></body></html>`);
-    urls.push(`<url><loc>https://waraq-adab.com/pages/${pg.id}/</loc></url>`);
+    fs.writeFileSync(path.join(dir, 'index.html'), `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(pg.title)} | وَرَق</title><meta name="description" content="${esc(pg.subtitle || pg.title)}"><meta property="og:title" content="${esc(pg.title)} | وَرَق"><link rel="canonical" href="https://waraqmagazine.com/pages/${pg.id}/"><meta http-equiv="refresh" content="0; url=https://waraqmagazine.com/#p-${pg.id}"></head><body><h1>${esc(pg.title)}</h1><p>${esc(pg.subtitle || '')}</p><p><a href="https://waraqmagazine.com/#p-${pg.id}">افتح الصفحة على وَرَق</a></p></body></html>`);
+    urls.push(`<url><loc>https://waraqmagazine.com/pages/${pg.id}/</loc></url>`);
   }
   if (pages.length) console.log(`✓ ${pages.length} صفحة مخصصة`);
 
