@@ -1140,7 +1140,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261124134131';
+var WARAQ_BUILD = '20261124134816';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1276,6 +1276,8 @@ function trackView(page, itemId) {
     sb.from('page_views').insert(row);
   } catch(e) {}
 }
+/* أول صفحة يفتحها الزائر (الرئيسية بدون رابط داخلي) تنحسب زيارة، حتى لو ما ضغط شي */
+(function(){ var n=0; (function first(){ if (location.hash.replace('#','')) return; if (!sb) { if (++n < 20) setTimeout(first, 500); return; } trackView('home', null); })(); })();
 window.addEventListener('popstate', function(e) {
   if (e.state && e.state.view) {
     if (e.state.view === 'art-single' && e.state.id) { prevView = prevView || 'home'; openArt(e.state.id); }
