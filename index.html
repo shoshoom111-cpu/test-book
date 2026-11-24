@@ -1140,7 +1140,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261124131827';
+var WARAQ_BUILD = '20261124134131';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1253,11 +1253,27 @@ function goView(name) {
   } else if (!prevView) { prevView = 'home'; }
 }
 
+/* زيارات حقيقية: معرّف مجهول لكل متصفح، والصفحة تنحسب مرة وحدة في الجلسة، ومصدر الزائر (قوقل، انستقرام، مباشر…).
+   ما ننحسب: برامج البحث ومعاينات الروابط، وأجهزة فريق المجلة (أي جهاز فتح لوحة التحكم). */
+var _wqBot = /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|twitterbot|preview|lighthouse|headless|pingdom|monitor/i.test(navigator.userAgent || '') || !!navigator.webdriver;
+function _wqGet(k) { try { return localStorage.getItem(k); } catch(e) { return null; } }
+var _wqVid = (function() { var v = _wqGet('wq-vid'); if (!v) { v = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); try { localStorage.setItem('wq-vid', v); } catch(e) { v = ''; } } return v; })();
+var _wqSrc = (function() {
+  var u = (location.search.match(/[?&]utm_source=([^&#]+)/) || [])[1], r = '';
+  try { r = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : ''; } catch(e) {}
+  if (r === location.hostname.replace(/^www\./, '')) r = '';
+  try { u = u ? decodeURIComponent(u) : ''; } catch(e) { u = ''; }
+  return String(u || r || 'direct').toLowerCase().slice(0, 60);
+})();
 function trackView(page, itemId) {
-  if (!sb || /[?&]preview=1/.test(location.search)) return;
+  if (!sb || /[?&]preview=1/.test(location.search) || _wqBot || _wqGet('wq-staff') === '1') return;
+  var key = 'wq-seen:' + page + ':' + (itemId || '');
+  try { if (sessionStorage.getItem(key)) return; sessionStorage.setItem(key, '1'); } catch(e) {}
   try {
     var device = window.innerWidth < 1024 ? 'mobile' : 'desktop';
-    sb.from('page_views').insert({ page: page, item_id: itemId || null, device: device });
+    var row = { page: page, item_id: itemId || null, device: device, src: _wqSrc };
+    if (_wqVid) row.visitor = _wqVid;
+    sb.from('page_views').insert(row);
   } catch(e) {}
 }
 window.addEventListener('popstate', function(e) {

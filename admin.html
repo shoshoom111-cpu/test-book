@@ -1210,7 +1210,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261124131827';
+var WARAQ_BUILD = '20261124134131';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1286,6 +1286,7 @@ async function init(){
   var {data:p}=await sb.from('profiles').select('*').eq('id',me.id).single();
   if(!p || (p.role!=='admin' && p.role!=='editor')){location.href='writer.html';return;}
   window._myRoleName = p.role; if(p.role==='editor') applyEditorMode();
+  try{ localStorage.setItem('wq-staff','1'); }catch(e){}
   document.getElementById('admin-name').textContent=(p && p.name ? p.name : me.email);
   document.getElementById('aa-author').value=(p && p.name ? p.name : '');
   Promise.all([
@@ -2699,29 +2700,41 @@ async function loadVisits(){
   var T = {}; (ar.data||[]).forEach(function(a){ T['article:'+a.id]=a.title; }); (bk.data||[]).forEach(function(b){ T['book:'+b.id]=b.title; });
   var pages = ((st.data||[]).find(function(r){ return r.key==='pages'; })||{}).value || [];
   pages.forEach(function(p){ VIEW_NAMES['p-'+p.id] = 'صفحة: ' + (p.title||''); });
+  /* «زائر» = متصفح واحد (معرّف مجهول)، ينحسب مرة وحدة مهما فتح صفحات. الزيارات القديمة (قبل هذا التحديث) ما فيها معرّف، فتنحسب مشاهدات بس */
   var now = new Date(), today = vDay(now), d7 = new Date(now - 6*864e5), d30 = new Date(now - 29*864e5);
-  var cnt = {today:0, w:0, m:0}, byDay = {}, byPage = {}, byDev = {}, byItem = {};
+  var U = {today:{}, w:{}, m:{}}, views30 = 0, dayU = {}, byPage = {}, byDev = {}, byItem = {}, bySrc = {}, devSeen = {}, srcSeen = {}, first = {}, tracked = 0;
   rows.forEach(function(r){
-    var t = new Date(r.created_at||0); if (isNaN(t)) return; var day = vDay(t);
-    if (day===today) cnt.today++; if (t>=d7) cnt.w++; if (t>=d30) { cnt.m++; byDay[day]=(byDay[day]||0)+1; }
+    var t = new Date(r.created_at||0); if (isNaN(t)) return; var day = vDay(t), v = r.visitor || '';
+    if (v) { tracked++; if (!first[v] || t < first[v]) first[v] = t; }
+    if (t < d30) return;
+    views30++;
+    var who = v || ('row:' + r.id);
+    if (day===today) U.today[who]=1; if (t>=d7) U.w[who]=1; U.m[who]=1;
+    (dayU[day] = dayU[day] || {})[who] = 1;
     byPage[r.page||'?'] = (byPage[r.page||'?']||0)+1;
-    byDev[r.device||'?'] = (byDev[r.device||'?']||0)+1;
+    if (!devSeen[who]) { devSeen[who]=1; byDev[r.device||'?'] = (byDev[r.device||'?']||0)+1; }
+    if (v && r.src && !srcSeen[v]) { srcSeen[v]=1; bySrc[r.src] = (bySrc[r.src]||0)+1; }
     if (r.item_id && (r.page==='book'||r.page==='article')) { var k=r.page+':'+r.item_id; byItem[k]=(byItem[k]||0)+1; }
   });
+  var size = function(o){ return Object.keys(o).length; };
+  var newV = Object.keys(U.m).filter(function(v){ return first[v] && first[v] >= d30; }).length;
   var n = function(x){ return Number(x).toLocaleString('ar-EG'); };
-  var days = []; for (var i=29;i>=0;i--){ var dd=vDay(new Date(now - i*864e5)); days.push([dd, byDay[dd]||0]); }
+  var days = []; for (var i=29;i>=0;i--){ var dd=vDay(new Date(now - i*864e5)); days.push([dd, size(dayU[dd]||{})]); }
   var maxD = Math.max.apply(null, days.map(function(x){ return x[1]; }).concat([1]));
   var sorted = function(o){ return Object.keys(o).map(function(k){ return [k,o[k]]; }).sort(function(a,b){ return b[1]-a[1]; }); };
-  var total = rows.length || 1;
-  var bars = function(list, name){ return list.map(function(x){ var pct = Math.round(x[1]*100/total); return '<div class="vbar"><div class="vbar-l">'+escH(name(x[0]))+'</div><div class="vbar-t"><i style="width:'+Math.max(2,pct)+'%"></i></div><div class="vbar-n">'+n(x[1])+'</div></div>'; }).join('') || '<div class="empty" style="padding:16px;">لا توجد بيانات بعد</div>'; };
+  var bars = function(list, name){ var tot = list.reduce(function(s,x){ return s+x[1]; }, 0) || 1; return list.map(function(x){ var pct = Math.round(x[1]*100/tot); return '<div class="vbar"><div class="vbar-l">'+escH(name(x[0]))+'</div><div class="vbar-t"><i style="width:'+Math.max(2,pct)+'%"></i></div><div class="vbar-n">'+n(x[1])+'</div></div>'; }).join('') || '<div class="empty" style="padding:16px;">لا توجد بيانات بعد</div>'; };
+  var SRC = {direct:'مباشر (رابط محفوظ أو مكتوب)', 'google.com':'قوقل', 'google.com.sa':'قوقل', 'bing.com':'بينق', 't.co':'إكس (تويتر)', 'x.com':'إكس (تويتر)', 'instagram.com':'انستقرام', 'l.instagram.com':'انستقرام', 'facebook.com':'فيسبوك', 'm.facebook.com':'فيسبوك', 'l.facebook.com':'فيسبوك', 'tiktok.com':'تيك توك', 'snapchat.com':'سناب شات', 'linkedin.com':'لينكدإن', 'youtube.com':'يوتيوب', 'waraq-agency.com':'موقع الوكالة'};
+  var stat = function(label, val, note){ return '<div class="stat"><div class="stat-label">'+label+'</div><div class="stat-val">'+n(val)+'</div>'+(note?'<div class="stat-note">'+note+'</div>':'')+'</div>'; };
   box.innerHTML =
-    '<div class="stats"><div class="stat"><div class="stat-label">اليوم</div><div class="stat-val">'+n(cnt.today)+'</div></div><div class="stat"><div class="stat-label">آخر ٧ أيام</div><div class="stat-val">'+n(cnt.w)+'</div></div><div class="stat"><div class="stat-label">آخر ٣٠ يوماً</div><div class="stat-val">'+n(cnt.m)+'</div></div><div class="stat"><div class="stat-label">كل الزيارات</div><div class="stat-val">'+n(rows.length)+'</div></div></div>'
-    + '<div class="card"><div class="card-hd"><span class="card-title">الزيارات يومياً — آخر ٣٠ يوماً</span></div><div class="card-body"><div class="vchart">'
-    + days.map(function(x){ return '<div class="vcol" title="'+x[0]+': '+x[1]+'"><i style="height:'+Math.round(x[1]*100/maxD)+'%"></i><span>'+(x[1]||'')+'</span></div>'; }).join('')
+    '<div class="stats">'+stat('زوار اليوم', size(U.today))+stat('زوار آخر ٧ أيام', size(U.w))+stat('زوار آخر ٣٠ يوماً', size(U.m), newV ? n(newV)+' منهم جدد' : '')+stat('صفحات انفتحت (٣٠ يوماً)', views30)+'</div>'
+    + '<div class="card"><div class="card-body" style="font-size:13px;color:var(--mid);line-height:1.9;">الأرقام للزوار الحقيقيين: كل متصفح ينحسب زائر واحد مهما فتح صفحات، والصفحة تنحسب مرة وحدة في الزيارة. ما ننحسب برامج البحث ومعاينات الروابط (واتساب وتويتر…)، ولا أجهزة فريق المجلة اللي فتحت لوحة التحكم.'+(tracked < rows.length ? ' الزيارات القديمة قبل هذا التحديث ما فيها هذا التمييز، فكل فتح صفحة فيها محسوب زائر.' : '')+'</div></div>'
+    + '<div class="card"><div class="card-hd"><span class="card-title">الزوار يومياً — آخر ٣٠ يوماً</span></div><div class="card-body"><div class="vchart">'
+    + days.map(function(x){ return '<div class="vcol" title="'+x[0]+': '+x[1]+' زائر"><i style="height:'+Math.round(x[1]*100/maxD)+'%"></i><span>'+(x[1]||'')+'</span></div>'; }).join('')
     + '</div><div class="vaxis"><span>'+days[0][0]+'</span><span>اليوم</span></div></div></div>'
+    + '<div class="two"><div class="card"><div class="card-hd"><span class="card-title">من وين جوا الزوار</span></div><div class="card-body">'+bars(sorted(bySrc).slice(0,10), function(k){ return SRC[k] || (/google\./.test(k) ? 'قوقل' : k); })+'</div></div>'
+    + '<div class="card"><div class="card-hd"><span class="card-title">الأجهزة (زوار)</span></div><div class="card-body">'+bars(sorted(byDev), function(k){ return k==='mobile'?'جوال':k==='desktop'?'كمبيوتر':k; })+'</div></div></div>'
     + '<div class="two"><div class="card"><div class="card-hd"><span class="card-title">أكثر الصفحات زيارة</span></div><div class="card-body">'+bars(sorted(byPage).slice(0,10), function(k){ return VIEW_NAMES[k]||k; })+'</div></div>'
-    + '<div class="card"><div class="card-hd"><span class="card-title">الأجهزة</span></div><div class="card-body">'+bars(sorted(byDev), function(k){ return k==='mobile'?'جوال':k==='desktop'?'كمبيوتر':k; })+'</div></div></div>'
-    + '<div class="card"><div class="card-hd"><span class="card-title">أكثر المقالات والكتب قراءة</span></div><div class="card-body">'+bars(sorted(byItem).slice(0,10), function(k){ return (k.indexOf('book:')===0?'📚 ':'✍️ ')+(T[k]||'(محذوف)'); })+'</div></div>';
+    + '<div class="card"><div class="card-hd"><span class="card-title">أكثر المقالات والكتب قراءة</span></div><div class="card-body">'+bars(sorted(byItem).slice(0,10), function(k){ return (k.indexOf('book:')===0?'📚 ':'✍️ ')+(T[k]||'(محذوف)'); })+'</div></div></div>';
 }
 
 // ══ الغلاف والخلفيات ══
