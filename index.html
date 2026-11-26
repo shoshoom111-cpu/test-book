@@ -1140,7 +1140,7 @@ body.dark #mob-search-results{background:#17120F;border-color:#352A23;}
 </script>
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261124134816';
+var WARAQ_BUILD = '20261126093802';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -2652,7 +2652,28 @@ function applyHeaderBtn(h) {
   });
 }
 
+/* الموقع مقفل مؤقتًا من لوحة التحكم: الزوار يشوفون صفحة الإقفال، والفريق يشوف الموقع مع شريط تنبيه */
+function applyClosed(rows) {
+  if (/[?&]preview=1/.test(location.search) || window.parent !== window) return;
+  var r = (rows || []).filter(function(x) { return x.key === 'site_status'; })[0], st = r ? parseVal(r.value) : null; st = st || {};
+  var staff = _wqGet('wq-staff') === '1', page = document.getElementById('wq-closed'), bar = document.getElementById('wq-closed-bar');
+  if (st.closed && !staff) {
+    if (!page) {
+      page = document.createElement('div'); page.id = 'wq-closed'; page.setAttribute('role', 'main');
+      page.style.cssText = 'position:fixed;inset:0;z-index:99999;background:var(--paper,#FDFCFA);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:10px;';
+      page.innerHTML = '<div style="font-family:var(--display);font-size:64px;color:var(--orange,#7A1F2B);line-height:1.2">وَرَق</div><h1 style="font-family:var(--display);font-size:36px;color:var(--ink,#1F1A17)">الموقع مغلق مؤقتًا</h1><p id="wq-closed-msg" style="font-size:17px;color:var(--mid,#625A54);max-width:520px"></p>';
+      document.body.appendChild(page);
+    }
+    document.getElementById('wq-closed-msg').textContent = st.msg || 'نرجع لكم قريب إن شاء الله.';
+    document.documentElement.style.overflow = 'hidden';
+    try { document.title = 'الموقع مغلق مؤقتًا — مجلة وَرَق'; } catch(e) {}
+  } else if (page) { page.remove(); document.documentElement.style.overflow = ''; }
+  if (st.closed && staff) {
+    if (!bar) { bar = document.createElement('div'); bar.id = 'wq-closed-bar'; bar.setAttribute('role', 'status'); bar.style.cssText = 'position:sticky;top:0;z-index:9999;background:#7A1F2B;color:#fff;text-align:center;padding:8px 12px;font-size:14px;'; bar.textContent = 'الموقع مقفل للزوار الحين. تشوفينه لأنك من فريق المجلة. تفتحينه من لوحة التحكم.'; document.body.insertBefore(bar, document.body.firstChild); }
+  } else if (bar) bar.remove();
+}
 function applySettings(rows) {
+  applyClosed(rows);
   if (!rows || !rows.length) return;
   var s = {};
   rows.forEach(function(r) { s[r.key] = parseVal(r.value); });

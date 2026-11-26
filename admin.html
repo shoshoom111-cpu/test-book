@@ -524,6 +524,14 @@ input[type=color]{border-radius:2px;}
       <!-- ══ DASHBOARD ══ -->
       <div class="sec on" id="sec-dash">
         <div class="pg-title">لوحة التحكم</div>
+        <div class="card" id="close-card" style="margin-bottom:16px;">
+          <div class="card-hd"><span class="card-title">إقفال الموقع مؤقتًا</span><span id="cl-state" class="rpill" style="font-size:12px;"></span></div>
+          <div class="card-body">
+            <p style="font-size:13px;color:var(--mid);margin-bottom:10px;">لما تقفلين الموقع، الزوار يشوفون صفحة «الموقع مغلق مؤقتًا» بدل المجلة. أنتِ والفريق (أي جهاز فتح لوحة التحكم) تشوفون الموقع عادي مع شريط ينبّهكم إنه مقفل.</p>
+            <div class="fg"><label for="cl-msg">رسالة للزوار (اختياري)</label><input type="text" id="cl-msg" maxlength="300" placeholder="نرجع لكم قريب إن شاء الله."></div>
+            <button class="btn p sm" id="cl-btn" type="button" onclick="toggleClosed()">…</button>
+          </div>
+        </div>
         <div id="dash-alerts" class="dash-alerts"></div>
         <div class="stats">
           <div class="stat"><div class="stat-label">إجمالي المقالات</div><div class="stat-val" id="st-all">—</div><div class="stat-note" style="color:var(--mid);">في قاعدة البيانات</div></div>
@@ -1210,7 +1218,7 @@ input[type=color]{border-radius:2px;}
 
 <script>
 /* يتأكد أن الزائر يرى آخر نسخة مرفوعة (GitHub يحتفظ بالصفحة القديمة ١٠ دقائق) */
-var WARAQ_BUILD = '20261124134816';
+var WARAQ_BUILD = '20261126093802';
 (function(){
   if (WARAQ_BUILD === 'dev' || /[?&]preview=1/.test(location.search)) return;
   fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
@@ -1287,6 +1295,7 @@ async function init(){
   if(!p || (p.role!=='admin' && p.role!=='editor')){location.href='writer.html';return;}
   window._myRoleName = p.role; if(p.role==='editor') applyEditorMode();
   try{ localStorage.setItem('wq-staff','1'); }catch(e){}
+  loadClosed();
   document.getElementById('admin-name').textContent=(p && p.name ? p.name : me.email);
   document.getElementById('aa-author').value=(p && p.name ? p.name : '');
   Promise.all([
@@ -1870,6 +1879,31 @@ async function unarchiveArt(id){
   toast('تم إعادة النشر ✓');loadArts();
 }
 async function logout(){clearRoleCache();await sb.auth.signOut();location.href='login.html';}
+/* ══ إقفال الموقع مؤقتًا ══ */
+async function loadClosed(){
+  try{ var r=await sb.from('settings').select('value').eq('key','site_status').maybeSingle(); window._closed=(r.data&&r.data.value)||{}; }catch(e){ window._closed={}; }
+  drawClosed();
+}
+function drawClosed(){
+  var st=window._closed||{}, b=document.getElementById('cl-btn'), s=document.getElementById('cl-state'), m=document.getElementById('cl-msg'); if(!b) return;
+  b.textContent = st.closed ? 'افتحي الموقع للزوار' : 'اقفلي الموقع مؤقتًا';
+  b.className = st.closed ? 'btn p sm' : 'btn o sm';
+  s.textContent = st.closed ? 'مقفل الحين' : 'مفتوح';
+  s.style.background = st.closed ? 'var(--ol)' : 'var(--tl)'; s.style.color = st.closed ? 'var(--orange)' : 'var(--teal)';
+  if (m && !m.matches(':focus')) m.value = st.msg || '';
+}
+async function toggleClosed(){
+  if (window._myRoleName !== 'admin') { toast('الإقفال للمدير بس.'); return; }
+  var st=window._closed||{}, next=!st.closed;
+  if (next && !confirm('متأكدة تبين تقفلين الموقع؟ الزوار بيشوفون «الموقع مغلق مؤقتًا» لين تفتحينه.')) return;
+  var b=document.getElementById('cl-btn'); b.disabled=true;
+  var val={closed:next, msg:v('cl-msg').trim().slice(0,300), at:new Date().toISOString()};
+  var r=await sb.from('settings').upsert({key:'site_status', value:val});
+  b.disabled=false;
+  if (r.error) { toast('ما انحفظ: '+r.error.message); return; }
+  window._closed=val; drawClosed();
+  toast(next ? 'انقفل الموقع. الزوار يشوفون «الموقع مغلق مؤقتًا».' : 'انفتح الموقع للزوار.');
+}
 var _toastTimer=null;function toast(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('on');if(_toastTimer)clearTimeout(_toastTimer);_toastTimer=setTimeout(function(){t.classList.remove('on');_toastTimer=null;},3000);}
 
 // ── HOMEPAGE FUNCTIONS ──
